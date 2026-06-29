@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giới Thiệu | Thông Quan Logistics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: { colors: { blue: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a' } }, fontFamily: { sans: ['Inter', 'sans-serif'] } }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        .slide-content { transition: max-height 0.4s ease-in-out, opacity 0.3s ease-in-out; max-height: 0; opacity: 0; overflow: hidden; }
+        .slide-content.open { max-height: 2000px; opacity: 1; }
+        .caret-icon { transition: transform 0.3s ease; }
+        .caret-icon.open { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="font-sans text-slate-800 antialiased flex flex-col min-h-screen bg-slate-50 overflow-x-hidden">
+
+    <header class="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-xl border-b border-slate-200 shadow-sm transition-all">
+        <div class="max-w-[1500px] mx-auto px-4 md:px-6 lg:px-8 py-3 md:py-4 flex items-center justify-between gap-6">
+            <a href="/" class="flex items-center gap-3 md:gap-4 shrink-0 group">
+                <img src="logo.png" alt="Logo" class="w-16 h-16 md:w-20 md:h-20 object-contain rounded-2xl shadow-sm group-hover:scale-105 transition-transform duration-300">
+                <div class="hidden md:block">
+                    <span class="block font-black text-xl md:text-2xl text-blue-900 tracking-tight leading-none uppercase">Thông Quan</span>
+                    <span class="block font-bold text-xs text-blue-500 tracking-widest uppercase mt-1">Logistics</span>
+                </div>
+            </a>
+            <nav class="hidden lg:flex items-center gap-2 xl:gap-3 shrink-0 whitespace-nowrap">
+                <a href="/" class="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:text-blue-700 hover:bg-slate-50 transition-colors">Trang Chủ</a>
+
+                <div class="relative group">
+                    <button class="px-4 py-2 rounded-xl text-sm font-bold text-blue-700 bg-blue-50 flex items-center gap-1.5 transition-colors">
+                        Tiện Ích <i class="ph-bold ph-caret-down text-xs"></i>
+                    </button>
+                    <div class="absolute top-full left-0 mt-2 w-52 bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 overflow-hidden flex flex-col z-50">
+                        <a href="https://tracuuhscode.thongquan.com.vn/" target="_blank" class="flex items-center justify-between px-5 py-3 text-sm font-medium text-slate-600 hover:bg-blue-50 hover:text-blue-700 border-b border-slate-50 group/item">
+                            Tra cứu HS code <i class="ph-bold ph-arrow-square-out text-slate-400 group-hover/item:text-blue-500"></i>
+                        </a>
+                        <a href="gioi-thieu.html" class="text-left px-5 py-3 text-sm font-bold text-blue-700 bg-blue-50">
+                            Giới thiệu
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="flex items-center justify-end gap-2 md:gap-4 flex-1 min-w-0">
+                
+                <a href="TQC-AI.html" class="relative hidden md:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-700 to-cyan-500 text-white rounded-full text-sm font-bold shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:-translate-y-0.5 transition-all group shrink-0">
+                    <i class="ph-fill ph-sparkle text-amber-300 animate-pulse"></i> 
+                    <span>T-Logi AI</span>
+                    <span class="absolute -top-2.5 -right-2 px-1.5 py-0.5 bg-red-500 text-white text-[9px] font-black uppercase tracking-wider rounded-md shadow-sm ring-2 ring-white animate-bounce">
+                        Trợ Lý AI TQC
+                    </span>
+                </a>
+
+                <div class="flex lg:hidden items-center gap-1.5 mr-1">
+                    <a href="/" class="px-2.5 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-[10px] font-bold whitespace-nowrap transition-colors border border-blue-100 flex items-center gap-1">
+                        <i class="ph-bold ph-house"></i> Về Trang Chủ
+                    </a>
+                    <a href="https://tracuuhscode.thongquan.com.vn/" target="_blank" class="px-2.5 py-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 rounded-lg text-[10px] font-bold whitespace-nowrap transition-colors border border-slate-200 flex items-center gap-1">
+                        <i class="ph-bold ph-magnifying-glass"></i> Tra HS Code
+                    </a>
+                </div>
+
+                <div class="relative group cursor-pointer shrink-0">
+                    <div class="h-9 w-9 md:h-10 md:w-10 rounded-full border-2 border-blue-100 bg-blue-50 flex items-center justify-center text-blue-700 font-bold shadow-sm group-hover:border-blue-300 transition-colors">
+                        <i class="ph-bold ph-user text-base md:text-lg"></i>
+                    </div>
+                    <div class="absolute top-full right-0 mt-2 w-56 bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 p-2 z-50">
+                        <div class="px-4 py-3 border-b border-slate-100 mb-2">
+                            <p id="current-user-name" class="text-sm font-bold text-slate-800 truncate">Đang tải...</p>
+                            <p id="current-user-role" class="text-xs font-medium text-blue-600 capitalize">...</p>
+                        </div>
+                        <button onclick="handleLogout()" class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm font-bold text-red-600 hover:bg-red-50 rounded-xl transition-colors">
+                            <i class="ph-bold ph-sign-out text-lg"></i> Đăng xuất
+                        </button>
+                    </div>
+                </div>
+            <button onclick="toggleMobileMenu()" class="lg:hidden p-2 text-slate-600 hover:text-blue-600 transition-colors shrink-0">
+                    <i class="ph-bold ph-list text-2xl"></i>
+                </button>
+
+            </div> </div>
+    </header>
+
+    <main class="flex-1 w-full max-w-[1200px] mx-auto px-4 py-8 space-y-10 relative">
+        <div id="admin-controls" class="hidden absolute top-0 right-4 z-10">
+            <button onclick="openAdminManager()" class="flex items-center gap-2 bg-slate-800 hover:bg-slate-900 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-lg transition-all">
+                <i class="ph-bold ph-pencil-simple"></i> Quản lý Nội dung Trình chiếu
+            </button>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-3 pt-6">
+            <button onclick="changeLang('vi')" id="lang-vi" class="lang-btn px-6 py-2 rounded-full text-sm font-bold border transition-all">🇻🇳 Tiếng Việt</button>
+            <button onclick="changeLang('en')" id="lang-en" class="lang-btn px-6 py-2 rounded-full text-sm font-bold border transition-all">🇬🇧 Tiếng Anh</button>
+            <button onclick="changeLang('zh')" id="lang-zh" class="lang-btn px-6 py-2 rounded-full text-sm font-bold border transition-all">🇨🇳 Tiếng Trung (Giản thể)</button>
+            <button onclick="changeLang('zh-tw')" id="lang-zh-tw" class="lang-btn px-6 py-2 rounded-full text-sm font-bold border transition-all">🇹🇼 Tiếng Trung (Phồn thể)</button>
+        </div>
+
+        <div class="text-center space-y-4">
+            <h1 id="page-title" class="text-4xl md:text-5xl font-black text-slate-800 tracking-tight">Đang tải dữ liệu...</h1>
+        </div>
+
+        <div id="presentation-content" class="space-y-6">
+            <div class="text-center py-20 animate-pulse text-slate-400"><i class="ph-bold ph-spinner animate-spin text-4xl mb-2"></i><br>Đang kết nối hệ thống...</div>
+        </div>
+
+    </main>
+
+    <div id="admin-modal" class="fixed inset-0 z-[100] hidden opacity-0 transition-opacity flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeAdminManager()"></div>
+        <div class="bg-white rounded-3xl w-full max-w-3xl relative z-10 shadow-2xl flex flex-col max-h-[90vh]">
+            <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50 rounded-t-3xl">
+                <h3 class="text-lg font-bold text-slate-800"><i class="ph-fill ph-gear"></i> Quản lý Thư mục Trình chiếu</h3>
+                <button onclick="closeAdminManager()" class="text-slate-400 hover:text-red-500"><i class="ph-bold ph-x text-xl"></i></button>
+            </div>
+            
+            <div class="p-6 overflow-y-auto flex-1 space-y-8 bg-slate-50/50" id="admin-form-container">
+                <div class="bg-white p-5 rounded-2xl border border-blue-200 shadow-md relative">
+                    <h4 id="form-heading" class="font-bold text-sm mb-4 text-blue-600 uppercase tracking-wider flex items-center gap-2">
+                        <i class="ph-bold ph-plus-circle"></i> Thêm Khối Mới
+                    </h4>
+                    <select id="new-item-type" class="w-full mb-4 p-3 border border-slate-200 rounded-xl text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none bg-slate-50">
+                        <option value="video">🎥 KHỐI VIDEO (Sẽ luôn hiển thị ở trên cùng)</option>
+                        <option value="slide" selected>📑 KHỐI THƯ MỤC SLIDE (Có thể gập/mở gọn gàng)</option>
+                    </select>
+                    
+                    <div class="grid grid-cols-2 gap-x-4 gap-y-3 mb-4">
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-400 uppercase ml-1">Tiếng Việt 🇻🇳</label>
+                            <input type="text" id="new-title-vi" placeholder="Tiêu đề hiển thị..." class="w-full p-2.5 mb-2 border border-slate-200 rounded-lg text-sm focus:border-blue-500 outline-none">
+                            <input type="text" id="new-url-vi" placeholder="Link Embed / Nhúng..." class="w-full p-2.5 border border-slate-200 rounded-lg text-sm focus:border-blue-500 outline-none text-blue-600 bg-blue-50/30">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-400 uppercase ml-1">Tiếng Anh 🇬🇧</label>
+                            <input type="text" id="new-title-en" placeholder="Title..." class="w-full p-2.5 mb-2 border border-slate-200 rounded-lg text-sm focus:border-blue-500 outline-none">
+                            <input type="text" id="new-url-en" placeholder="Embed Link..." class="w-full p-2.5 border border-slate-200 rounded-lg text-sm focus:border-blue-500 outline-none text-blue-600 bg-blue-50/30">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-400 uppercase ml-1">Trung (Giản thể) 🇨🇳</label>
+                            <input type="text" id="new-title-zh" placeholder="标题..." class="w-full p-2.5 mb-2 border border-slate-200 rounded-lg text-sm focus:border-blue-500 outline-none">
+                            <input type="text" id="new-url-zh" placeholder="嵌入链接..." class="w-full p-2.5 border border-slate-200 rounded-lg text-sm focus:border-blue-500 outline-none text-blue-600 bg-blue-50/30">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-400 uppercase ml-1">Trung (Phồn thể) 🇹🇼</label>
+                            <input type="text" id="new-title-zhtw" placeholder="標題..." class="w-full p-2.5 mb-2 border border-slate-200 rounded-lg text-sm focus:border-blue-500 outline-none">
+                            <input type="text" id="new-url-zhtw" placeholder="嵌入連結..." class="w-full p-2.5 border border-slate-200 rounded-lg text-sm focus:border-blue-500 outline-none text-blue-600 bg-blue-50/30">
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button id="btn-cancel-edit" onclick="cancelEdit()" class="hidden px-6 py-3 bg-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-300 transition-colors">Hủy sửa</button>
+                        <button id="btn-save" onclick="savePresentationItem()" class="flex-1 py-3 bg-slate-800 text-white font-bold rounded-xl hover:bg-slate-900 transition-all shadow-md">+ Thêm mục này vào Hệ thống</button>
+                    </div>
+                </div>
+
+                <hr class="border-slate-200">
+                
+                <div>
+                    <h4 class="font-black text-sm text-slate-800 uppercase tracking-widest mb-3 flex items-center gap-2"><i class="ph-fill ph-play-circle text-red-500"></i> Các Video Đang Hiển Thị</h4>
+                    <div id="admin-list-video" class="space-y-2 mb-6"></div>
+
+                    <h4 class="font-black text-sm text-slate-800 uppercase tracking-widest mb-3 flex items-center gap-2"><i class="ph-fill ph-folder-open text-blue-500"></i> Các Thư Mục Slide Đang Hiển Thị</h4>
+                    <div id="admin-list-slide" class="space-y-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="cfg.js"></script>
+    <script src="ath.js"></script>
+    
+    <script>
+        let currentLang = 'vi';
+        let presData = []; 
+        let editingId = null; 
+
+        const pageTitles = {
+            'vi': "Giới thiệu Thông Quan Logistics",
+            'en': "About Thong Quan Logistics",
+            'zh': "关于通关物流 (Thong Quan)",
+            'zh-tw': "關於通關物流 (Thong Quan)"
+        };
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await initAuth();
+            await fetchPresentations();
+        });
+
+        async function initAuth() {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (session) {
+                const { data: profile } = await supabaseClient.from('profiles').select('*').eq('id', session.user.id).single();
+                if (profile) {
+                    document.getElementById('current-user-name').innerText = profile.full_name;
+                    document.getElementById('current-user-role').innerText = profile.role === 'admin' ? 'Quản trị viên' : 'Nhân viên';
+                    if (profile.role === 'admin') document.getElementById('admin-controls').classList.remove('hidden');
+                }
+            } else { window.location.href = 'login.html'; }
+        }
+
+        async function fetchPresentations() {
+            const { data, error } = await supabaseClient.from('presentations').select('*').order('created_at', { ascending: true });
+            if (data) {
+                presData = data;
+                changeLang(currentLang);
+            }
+        }
+
+        function changeLang(lang) {
+            currentLang = lang;
+            document.getElementById('page-title').innerText = pageTitles[lang];
+            
+            document.querySelectorAll('.lang-btn').forEach(b => b.className = "lang-btn px-6 py-2 rounded-full text-sm font-bold border transition-all bg-white text-slate-600 border-slate-200 hover:bg-slate-50");
+            document.getElementById(`lang-${lang}`).className = "lang-btn px-6 py-2 rounded-full text-sm font-bold border transition-all bg-blue-600 text-white border-blue-600 shadow-lg scale-105";
+
+            const container = document.getElementById('presentation-content');
+            if (presData.length === 0) {
+                container.innerHTML = `<div class="text-center py-10 text-slate-400">Chưa có nội dung. Đợi Admin cập nhật.</div>`;
+                return;
+            }
+
+            const videos = presData.filter(i => i.item_type === 'video');
+            const slides = presData.filter(i => i.item_type === 'slide');
+
+            let htmlRender = "";
+            let hasContent = false;
+
+            videos.forEach(item => {
+                let content = getValidContent(item, lang);
+                if(!content) return;
+                hasContent = true;
+                htmlRender += `
+                <div class="bg-white p-4 md:p-6 rounded-[2rem] shadow-xl border border-slate-100 mb-8 relative z-10">
+                    <div class="flex items-center gap-3 mb-6 px-2">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center text-2xl text-red-500 bg-red-50"><i class="ph-fill ph-play-circle"></i></div>
+                        <h2 class="text-2xl font-bold text-slate-800">${content.title}</h2>
+                    </div>
+                    <div class="w-full aspect-video bg-slate-900 rounded-2xl shadow-inner relative z-20">
+                        <iframe class="absolute top-0 left-0 w-full h-full rounded-2xl z-30" style="pointer-events: auto;" src="${content.url}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </div>
+                </div>`;
+            });
+
+            slides.forEach(item => {
+                let content = getValidContent(item, lang);
+                if(!content) return;
+                hasContent = true;
+                htmlRender += `
+                <div class="bg-white rounded-[2rem] shadow-md border border-slate-200 mb-4 transition-all hover:shadow-lg relative z-10">
+                    <button onclick="toggleSlide('${item.id}')" class="w-full flex items-center justify-between p-4 md:p-5 bg-white hover:bg-slate-50 transition-colors cursor-pointer group rounded-[2rem]">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center text-xl text-blue-600 bg-blue-50 group-hover:scale-110 transition-transform"><i class="ph-fill ph-folder-open"></i></div>
+                            <h2 class="text-lg md:text-xl font-bold text-slate-800 text-left">${content.title}</h2>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
+                            <i id="icon-${item.id}" class="ph-bold ph-caret-down text-slate-500 caret-icon"></i>
+                        </div>
+                    </button>
+                    <div id="content-${item.id}" class="slide-content bg-slate-50 border-t border-slate-100 relative z-20">
+                        <div class="p-4 md:p-6">
+                            <div class="w-full aspect-video bg-slate-200 rounded-xl shadow-inner relative z-30">
+                                <iframe class="absolute top-0 left-0 w-full h-full rounded-xl z-40" style="pointer-events: auto;" src="${content.url}" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            });
+            if(!hasContent) {
+                 htmlRender = `<div class="text-center py-20 text-slate-400 border-2 border-dashed border-slate-200 rounded-3xl"><i class="ph-thin ph-monitor-play text-4xl mb-2"></i><br>Chưa có tài liệu cho ngôn ngữ này.</div>`;
+            }
+
+            container.innerHTML = htmlRender;
+        }
+
+
+        function getValidContent(item, lang) {
+            let c = item.content_data[lang];
+            if (c && c.url && c.url.trim() !== "") {
+                return c;
+            }
+            return null;
+        }
+
+        window.toggleSlide = function(id) {
+            const content = document.getElementById(`content-${id}`);
+            const icon = document.getElementById(`icon-${id}`);
+            content.classList.toggle('open');
+            icon.classList.toggle('open');
+        }
+
+        function openAdminManager() {
+            document.getElementById('admin-modal').classList.remove('hidden');
+            setTimeout(() => document.getElementById('admin-modal').classList.remove('opacity-0'), 10);
+            renderAdminList();
+            cancelEdit(); 
+        }
+        
+        function closeAdminManager() {
+            document.getElementById('admin-modal').classList.add('opacity-0');
+            setTimeout(() => document.getElementById('admin-modal').classList.add('hidden'), 300);
+        }
+
+        function renderAdminList() {
+            const listVideo = document.getElementById('admin-list-video');
+            const listSlide = document.getElementById('admin-list-slide');
+            
+            const renderItem = (item) => {
+                let displayTitle = "Chưa có tiêu đề";
+                if (item.content_data['vi'] && item.content_data['vi'].title) displayTitle = item.content_data['vi'].title;
+                else if (item.content_data['en'] && item.content_data['en'].title) displayTitle = item.content_data['en'].title;
+
+                return `
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 flex justify-between items-center shadow-sm hover:border-blue-300 transition-colors">
+                    <p class="font-bold text-sm text-slate-700 truncate pr-4">${displayTitle}</p>
+                    <div class="flex gap-1 shrink-0">
+                        <button onclick="editItem('${item.id}')" class="text-blue-500 hover:bg-blue-50 p-2 rounded-lg" title="Sửa"><i class="ph-bold ph-pencil-simple"></i></button>
+                        <button onclick="deleteItem('${item.id}')" class="text-red-500 hover:bg-red-50 p-2 rounded-lg" title="Xóa"><i class="ph-bold ph-trash"></i></button>
+                    </div>
+                </div>`;
+            };
+
+            listVideo.innerHTML = presData.filter(i => i.item_type === 'video').map(renderItem).join('') || '<p class="text-xs text-slate-400 italic">Chưa có video nào.</p>';
+            listSlide.innerHTML = presData.filter(i => i.item_type === 'slide').map(renderItem).join('') || '<p class="text-xs text-slate-400 italic">Chưa có slide nào.</p>';
+        }
+
+        window.editItem = function(id) {
+            const item = presData.find(i => i.id === id);
+            if(!item) return;
+            
+            editingId = id; 
+            
+            document.getElementById('form-heading').innerHTML = '<i class="ph-bold ph-pencil-simple text-amber-500"></i> Đang sửa nội dung';
+            document.getElementById('new-item-type').value = item.item_type;
+            
+            ['vi', 'en', 'zh', 'zhtw'].forEach(lang => {
+                const dbLang = lang === 'zhtw' ? 'zh-tw' : lang;
+                document.getElementById(`new-title-${lang}`).value = item.content_data[dbLang]?.title || '';
+                document.getElementById(`new-url-${lang}`).value = item.content_data[dbLang]?.url || '';
+            });
+
+            document.getElementById('btn-save').innerHTML = "💾 Cập nhật Thay đổi";
+            document.getElementById('btn-save').className = "flex-1 py-3 bg-amber-500 text-white font-bold rounded-xl hover:bg-amber-600 transition-all shadow-md";
+            document.getElementById('btn-cancel-edit').classList.remove('hidden');
+        }
+
+        window.cancelEdit = function() {
+            editingId = null;
+            document.getElementById('form-heading').innerHTML = '<i class="ph-bold ph-plus-circle"></i> Thêm Khối Mới';
+            document.querySelectorAll('#admin-form-container input').forEach(inp => inp.value = '');
+            
+            document.getElementById('btn-save').innerHTML = "+ Thêm mục này vào Hệ thống";
+            document.getElementById('btn-save').className = "flex-1 py-3 bg-slate-800 text-white font-bold rounded-xl hover:bg-slate-900 transition-all shadow-md";
+            document.getElementById('btn-cancel-edit').classList.add('hidden');
+        }
+
+        async function savePresentationItem() {
+            const type = document.getElementById('new-item-type').value;
+            const payload = {
+                item_type: type,
+                content_data: {
+                    'vi': { title: document.getElementById('new-title-vi').value.trim(), url: document.getElementById('new-url-vi').value.trim() },
+                    'en': { title: document.getElementById('new-title-en').value.trim(), url: document.getElementById('new-url-en').value.trim() },
+                    'zh': { title: document.getElementById('new-title-zh').value.trim(), url: document.getElementById('new-url-zh').value.trim() },
+                    'zh-tw': { title: document.getElementById('new-title-zhtw').value.trim(), url: document.getElementById('new-url-zhtw').value.trim() }
+                }
+            };
+
+            const btn = document.getElementById('btn-save');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = "Đang xử lý..."; btn.disabled = true;
+
+            let error;
+            if (editingId) {
+                const res = await supabaseClient.from('presentations').update(payload).eq('id', editingId);
+                error = res.error;
+            } else {
+                const res = await supabaseClient.from('presentations').insert([payload]);
+                error = res.error;
+            }
+            
+            if(!error) {
+                cancelEdit(); 
+                await fetchPresentations(); 
+                renderAdminList();
+            } else { alert("Lỗi lưu dữ liệu: " + error.message); }
+            
+            btn.innerHTML = originalText; btn.disabled = false;
+        }
+
+        async function deleteItem(id) {
+            if(!confirm("Bạn có chắc chắn muốn xóa thư mục này vĩnh viễn?")) return;
+            await supabaseClient.from('presentations').delete().eq('id', id);
+            if(editingId === id) cancelEdit(); 
+            await fetchPresentations();
+            renderAdminList();
+        }
+    
+        window.toggleMobileMenu = function() {
+            const nav = document.querySelector('header nav');
+            if (nav) {
+                if (nav.classList.contains('hidden')) {
+                    nav.className = 'flex flex-col absolute top-full left-0 w-full bg-white shadow-2xl p-6 gap-4 z-[100] border-b border-slate-200 transition-all';
+                } else {
+                    nav.className = 'hidden lg:flex items-center gap-2 xl:gap-3 shrink-0 whitespace-nowrap';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>Cẩm nang Làm việc với AI — Công ty CP Thông Quan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme:only light;
+    --navy:#1B3A6B;--navy-deep:#122749;--navy-soft:#2c4f88;
+    --red:#C41E3A;--red-soft:#e0455e;
+    --paper:#F7F4ED;--paper-2:#FCFAF5;
+    --ink:#1c1d22;--ink-soft:#4a4d57;
+    --line:#dcd6c8;--line-strong:#c3bba9;--gold:#B8862F;
+    --green:#2f7d3a;
+    --shadow:rgba(18,39,73,.12);
+  }
+  *{box-sizing:border-box;}
+  html{background:#F7F4ED;}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:'Be Vietnam Pro',sans-serif;font-size:16.5px;line-height:1.72;
+    -webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(circle at 12% 6%,rgba(27,58,107,.045),transparent 42%),radial-gradient(circle at 92% 96%,rgba(196,30,58,.04),transparent 42%);
+  }
+  ::selection{background:var(--navy);color:#fff;}
+
+
+  .progress{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(27,58,107,.12);z-index:60;}
+  .progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--navy),var(--red));transition:width .4s cubic-bezier(.4,0,.2,1);}
+
+
+  .shell{display:flex;max-width:1280px;margin:0 auto;}
+  .sidebar{
+    width:286px;flex:0 0 286px;position:sticky;top:4px;height:calc(100vh - 4px);
+    overflow-y:auto;padding:30px 20px 40px 30px;border-right:1px solid var(--line);
+    background:linear-gradient(180deg,var(--paper-2),var(--paper));
+  }
+  .sidebar::-webkit-scrollbar{width:7px;}
+  .sidebar::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:4px;}
+  .brand{display:flex;align-items:center;gap:11px;margin-bottom:22px;cursor:pointer;}
+  .mark{width:40px;height:40px;flex:0 0 40px;border-radius:10px;background:var(--navy);color:#fff;display:grid;place-items:center;font-family:'Lora',serif;font-weight:700;font-size:19px;box-shadow:0 6px 16px var(--shadow);position:relative;overflow:hidden;}
+  .mark::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:5px;background:var(--red);}
+  .brand b{font-weight:700;font-size:15px;color:var(--navy);letter-spacing:.2px;}
+  .brand span{display:block;font-size:10.5px;color:var(--ink-soft);letter-spacing:.6px;text-transform:uppercase;}
+  .navgroup{font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);font-weight:600;margin:22px 0 8px;padding-left:11px;}
+  nav{counter-reset:nv -1;}
+  .navlink{counter-increment:nv;display:flex;gap:11px;align-items:baseline;text-decoration:none;color:var(--ink-soft);font-size:14px;line-height:1.4;padding:7px 11px;border-radius:9px;transition:all .16s ease;cursor:pointer;border:none;background:none;width:100%;text-align:left;font-family:inherit;}
+  .navlink::before{content:counter(nv,decimal-leading-zero);font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--navy-soft);flex:0 0 auto;padding-top:1px;}
+  .navlink:hover{background:rgba(27,58,107,.07);color:var(--navy);}
+  .navlink.active{background:var(--navy);color:#fff;font-weight:500;}
+  .navlink.active::before{color:var(--red-soft);}
+
+
+  main{flex:1 1 auto;min-width:0;padding-bottom:104px;}
+  .stagewrap{max-width:780px;margin:0 auto;padding:0 32px;}
+  .view{display:none;}
+  .view.active{display:block;animation:viewin .42s cubic-bezier(.22,.7,.25,1);}
+  @keyframes viewin{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:none;}}
+
+  .kicker{display:flex;align-items:center;gap:14px;margin:46px 0 16px;}
+  .kicker .num{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:#fff;background:var(--red);padding:4px 11px;border-radius:7px;letter-spacing:1px;}
+  .kicker .line{height:1px;background:var(--line-strong);flex:1;}
+  h1{font-family:'Lora',serif;font-weight:700;font-size:clamp(30px,5vw,46px);color:var(--navy);line-height:1.1;margin:0 0 18px;letter-spacing:-.4px;}
+  h2{font-family:'Lora',serif;font-weight:700;font-size:clamp(25px,3.5vw,33px);color:var(--navy);line-height:1.15;margin:0 0 16px;letter-spacing:-.3px;}
+  h3{font-family:'Lora',serif;font-weight:600;font-size:20px;color:var(--navy-deep);margin:32px 0 10px;line-height:1.25;}
+  p{margin:0 0 15px;}
+  .lead{font-size:18.5px;color:var(--ink-soft);line-height:1.6;}
+  strong{font-weight:600;color:var(--navy-deep);}
+  code.k{background:rgba(27,58,107,.09);color:var(--navy-deep);padding:1px 6px;border-radius:5px;font-size:.85em;font-family:'JetBrains Mono',monospace;}
+
+  ul.clean{margin:8px 0 16px;padding:0;list-style:none;}
+  ul.clean li{position:relative;padding:4px 0 4px 26px;}
+  ul.clean li::before{content:"";position:absolute;left:2px;top:13px;width:7px;height:7px;background:var(--red);border-radius:2px;transform:rotate(45deg);}
+  ol.steps{margin:8px 0 16px;padding:0;list-style:none;counter-reset:st;}
+  ol.steps li{counter-increment:st;position:relative;padding:4px 0 12px 42px;}
+  ol.steps li::before{content:counter(st);position:absolute;left:0;top:2px;width:27px;height:27px;background:var(--navy);color:#fff;border-radius:50%;display:grid;place-items:center;font-family:'JetBrains Mono',monospace;font-size:13px;}
+
+  .box{border-radius:13px;padding:18px 20px 16px;margin:20px 0;font-size:15px;line-height:1.6;}
+  .box .bx-h{display:flex;align-items:center;gap:8px;font-weight:600;font-size:12.5px;letter-spacing:.5px;text-transform:uppercase;margin-bottom:7px;}
+  .box p:last-child{margin-bottom:0;}
+  .box.tip{background:#eef3fb;border:1px solid #cfdcf0;}.box.tip .bx-h{color:var(--navy);}
+  .box.warn{background:#fdeef0;border:1px solid #f3ccd3;}.box.warn .bx-h{color:var(--red);}
+  .box.case{background:var(--paper-2);border:1px solid var(--line);border-left:4px solid var(--gold);}.box.case .bx-h{color:var(--gold);}
+  .box.law{background:#f0f2ee;border:1px solid #d4d8cc;border-left:4px solid var(--navy);}.box.law .bx-h{color:var(--navy);}
+
+  pre{background:var(--navy-deep);color:#eef2fa;border-radius:11px;padding:17px 19px;overflow-x:auto;font-size:13px;line-height:1.6;margin:16px 0;font-family:'JetBrains Mono',monospace;box-shadow:0 10px 26px var(--shadow);}
+  pre .c{color:#9fb4d6;} pre .t{color:#ffb3c0;} pre .v{color:#9ad0a4;}
+
+  .tbl{overflow-x:auto;margin:18px 0;border-radius:11px;border:1px solid var(--line);}
+  table{border-collapse:collapse;width:100%;font-size:14px;background:var(--paper-2);}
+  th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;}
+  thead th{background:var(--navy);color:#fff;font-weight:500;font-size:12.5px;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:nth-child(even){background:rgba(27,58,107,.025);}
+  td b{color:var(--navy-deep);}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:13px;margin:20px 0;}
+  .card{background:var(--paper-2);border:1px solid var(--line);border-radius:13px;padding:17px;transition:transform .2s,box-shadow .2s;}
+  .card:hover{transform:translateY(-3px);box-shadow:0 12px 26px var(--shadow);}
+  .card .cn{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--red);font-weight:500;}
+  .card h4{margin:6px 0;font-size:16px;color:var(--navy);font-family:'Lora',serif;}
+  .card p{font-size:13.5px;color:var(--ink-soft);margin:0;line-height:1.5;}
+
+
+  .anatomy{margin:20px 0;border:1px solid var(--line);border-radius:13px;overflow:hidden;background:var(--paper-2);box-shadow:0 6px 18px var(--shadow);}
+  .arow{display:flex;align-items:stretch;border-bottom:1px solid var(--line);}
+  .arow:last-child{border-bottom:none;}
+  .alabel{flex:0 0 120px;background:var(--navy);color:#fff;padding:12px 14px;font-size:12.5px;font-weight:600;display:flex;flex-direction:column;justify-content:center;}
+  .alabel small{font-weight:400;font-size:10px;color:#bcd0ef;margin-top:3px;}
+  .arow:nth-child(even) .alabel{background:var(--navy-soft);}
+  .abody{padding:11px 15px;font-size:13.8px;color:var(--ink-soft);line-height:1.5;display:flex;align-items:center;}
+  .abody i{font-style:normal;color:var(--navy-deep);font-weight:500;}
+  .abody code{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--red);}
+
+
+  .hero{background:linear-gradient(150deg,var(--navy-deep),var(--navy) 60%,var(--navy-soft));color:#fff;border-radius:20px;padding:46px 38px 40px;margin:40px 0 8px;position:relative;overflow:hidden;}
+  .hero::after{content:"";position:absolute;right:-80px;top:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(196,30,58,.4),transparent 68%);}
+  .hero-tag{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;letter-spacing:1.3px;text-transform:uppercase;color:#cfe;border:1px solid rgba(255,255,255,.28);padding:6px 13px;border-radius:30px;margin-bottom:22px;position:relative;}
+  .hero-tag b{width:7px;height:7px;border-radius:50%;background:var(--red-soft);}
+  .hero h1{color:#fff;position:relative;}
+  .hero h1 em{color:#ffd9df;font-style:italic;}
+  .hero p{color:#dde6f3;max-width:540px;position:relative;font-size:17px;}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:12.5px;color:#bcc9de;border-top:1px solid rgba(255,255,255,.16);padding-top:18px;margin-top:8px;position:relative;}
+  .hero-meta b{color:#fff;font-weight:500;}
+
+
+  .paths{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0;}
+  .pathcard{text-align:left;border:1px solid var(--line);background:var(--paper-2);border-radius:15px;padding:20px 18px;cursor:pointer;transition:all .2s;font-family:inherit;border-top:4px solid var(--navy);}
+  .pathcard:hover{transform:translateY(-4px);box-shadow:0 16px 30px var(--shadow);border-top-color:var(--red);}
+  .pathcard .pi{font-size:24px;}
+  .pathcard h4{font-family:'Lora',serif;font-size:17px;color:var(--navy);margin:8px 0 5px;}
+  .pathcard p{font-size:13px;color:var(--ink-soft);margin:0 0 10px;line-height:1.45;}
+  .pathcard .pgo{font-size:12.5px;color:var(--red);font-weight:600;}
+
+
+  .builder{border:1px solid var(--line);border-radius:16px;background:var(--paper-2);padding:6px;margin:22px 0;box-shadow:0 10px 28px var(--shadow);overflow:hidden;}
+  .builder-grid{padding:16px 16px 6px;}
+  .bfield{margin-bottom:12px;}
+  .bfield label{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--navy);margin-bottom:5px;}
+  .bfield label .tag{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--red);text-transform:none;background:rgba(196,30,58,.07);padding:1px 6px;border-radius:5px;}
+  .bfield textarea,.bfield input{width:100%;border:1px solid var(--line-strong);border-radius:9px;padding:9px 12px;font-family:inherit;font-size:14px;color:var(--ink);background:#fff;resize:vertical;line-height:1.5;transition:border-color .15s,box-shadow .15s;}
+  .bfield textarea:focus,.bfield input:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(27,58,107,.12);}
+  .builder-out{background:var(--navy-deep);border-radius:12px;margin:6px;padding:0;overflow:hidden;}
+  .builder-out .oh{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.1);}
+  .builder-out .oh span{font-size:11.5px;letter-spacing:.6px;text-transform:uppercase;color:#9fb4d6;font-weight:600;}
+  .builder-out pre{margin:0;background:none;box-shadow:none;border-radius:0;color:#eef2fa;white-space:pre-wrap;font-size:12.8px;padding:14px;min-height:60px;}
+  .copybtn{font-family:inherit;font-size:12px;font-weight:600;color:#fff;background:var(--red);border:none;border-radius:7px;padding:6px 13px;cursor:pointer;transition:background .15s,transform .1s;white-space:nowrap;}
+  .copybtn:hover{background:var(--red-soft);}
+  .copybtn:active{transform:scale(.96);}
+  .copybtn.ok{background:var(--green);}
+
+
+  .tmpl{border:1px solid var(--line);border-left:4px solid var(--navy);border-radius:11px;background:var(--paper-2);padding:15px 18px;margin:14px 0;}
+  .tmpl .th{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+  .tmpl h4{margin:0 0 2px;font-size:15.5px;color:var(--navy);font-family:'Lora',serif;}
+  .tmpl .use{font-size:12px;color:var(--ink-soft);margin-bottom:10px;}
+  .tmpl .skel{font-family:'JetBrains Mono',monospace;font-size:12.6px;line-height:1.6;background:#fff;border:1px dashed var(--line-strong);border-radius:8px;padding:11px 13px;color:var(--navy-deep);white-space:pre-wrap;overflow-x:auto;}
+  .tmpl .skel i{color:var(--red);font-style:normal;background:rgba(196,30,58,.07);padding:0 4px;border-radius:4px;}
+
+
+  .pitfall{border:1px solid var(--line);border-radius:13px;background:var(--paper-2);padding:16px 18px;margin:13px 0;}
+  .pitfall .pf-bad{display:flex;align-items:flex-start;gap:10px;}
+  .pitfall .x{flex:0 0 auto;width:24px;height:24px;border-radius:50%;background:#fdeef0;color:var(--red);display:grid;place-items:center;font-weight:700;font-size:14px;border:1px solid #f3ccd3;}
+  .pitfall .pf-bad p{margin:0;font-size:15px;}
+  .pitfall .pf-bad b{color:var(--red);}
+  .pitfall .reveal{margin-top:11px;font-family:inherit;font-size:13px;font-weight:600;color:var(--navy);background:rgba(27,58,107,.08);border:none;border-radius:8px;padding:7px 13px;cursor:pointer;transition:background .15s;}
+  .pitfall .reveal:hover{background:rgba(27,58,107,.15);}
+  .pitfall .fix{max-height:0;overflow:hidden;transition:max-height .3s ease,margin .3s ease,opacity .3s ease;opacity:0;margin-top:0;}
+  .pitfall .fix.open{max-height:200px;opacity:1;margin-top:12px;}
+  .pitfall .fix .inner{display:flex;align-items:flex-start;gap:10px;background:#edf5ee;border:1px solid #cce0cd;border-radius:10px;padding:12px 14px;}
+  .pitfall .fix .v{flex:0 0 auto;width:24px;height:24px;border-radius:50%;background:#fff;color:var(--green);display:grid;place-items:center;font-weight:700;font-size:14px;border:1px solid #cce0cd;}
+  .pitfall .fix p{margin:0;font-size:14.5px;}
+  .pitfall .fix b{color:var(--green);}
+
+
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 14px;}
+  .chip{font-family:inherit;font-size:13px;border:1px solid var(--line-strong);background:var(--paper-2);color:var(--ink-soft);border-radius:30px;padding:7px 14px;cursor:pointer;transition:all .15s;}
+  .chip:hover{border-color:var(--navy);color:var(--navy);}
+  .chip.on{background:var(--navy);color:#fff;border-color:var(--navy);}
+  .trust{border:1px solid var(--line);border-radius:13px;overflow:hidden;background:var(--paper-2);}
+  .band{display:flex;align-items:flex-start;gap:13px;padding:14px 17px;border-bottom:1px solid var(--line);transition:background .2s,box-shadow .2s;}
+  .band:last-child{border-bottom:none;}
+  .band .dot{flex:0 0 auto;width:13px;height:13px;border-radius:50%;margin-top:5px;}
+  .band.hl{background:#fff;box-shadow:inset 4px 0 0 currentColor;}
+  #band-hi{color:var(--green);} #band-mid{color:var(--gold);} #band-lo{color:var(--red);}
+  .band .tx b{color:var(--navy-deep);font-size:14.5px;}
+  .band .tx p{margin:2px 0 0;font-size:13.5px;color:var(--ink-soft);line-height:1.5;}
+
+
+  .wizard{border:1px solid var(--line);border-radius:16px;background:var(--paper-2);padding:22px;margin:22px 0;box-shadow:0 10px 28px var(--shadow);}
+  .wizard .wq{font-family:'Lora',serif;font-size:18px;color:var(--navy);margin-bottom:14px;}
+  .wiz-opts{display:flex;flex-direction:column;gap:9px;}
+  .wiz-opt{text-align:left;font-family:inherit;font-size:14.5px;color:var(--ink);background:#fff;border:1px solid var(--line-strong);border-radius:10px;padding:12px 15px;cursor:pointer;transition:all .15s;}
+  .wiz-opt:hover{border-color:var(--navy);background:#f4f7fc;}
+  .wiz-opt.sel{border-color:var(--navy);background:var(--navy);color:#fff;}
+  .wiz-res{display:none;margin-top:16px;padding:16px 18px;border-radius:12px;background:#eef3fb;border:1px solid #cfdcf0;animation:viewin .35s ease;}
+  .wiz-res.show{display:block;}
+  .wiz-res b{color:var(--navy-deep);}
+  .wiz-res .gobtn{margin-top:12px;font-family:inherit;font-size:13px;font-weight:600;color:#fff;background:var(--navy);border:none;border-radius:8px;padding:8px 15px;cursor:pointer;}
+  .wiz-res .gobtn:hover{background:var(--navy-soft);}
+
+
+  .swot{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0;}
+  .swot > div{border-radius:13px;padding:17px 18px;}
+  .swot .good{background:#edf5ee;border:1px solid #cce0cd;}
+  .swot .care{background:#fff6e8;border:1px solid #ecd8b3;}
+  .swot .sh{font-family:'Lora',serif;font-weight:600;font-size:17px;margin-bottom:10px;}
+  .swot .good .sh{color:var(--green);} .swot .care .sh{color:#9a6a14;}
+  .swot ul{list-style:none;margin:0;padding:0;}
+  .swot li{position:relative;padding:5px 0 5px 23px;font-size:13.8px;color:var(--ink-soft);line-height:1.5;}
+  .swot .good li::before{content:"✓";position:absolute;left:0;top:5px;color:var(--green);font-weight:700;}
+  .swot .care li::before{content:"!";position:absolute;left:5px;top:5px;color:#9a6a14;font-weight:700;}
+
+
+  .quizbar{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--navy);color:#fff;border-radius:12px;padding:13px 18px;margin:18px 0;}
+  .quizbar b{font-family:'Lora',serif;font-size:16px;}
+  #quizScore{font-family:'JetBrains Mono',monospace;font-size:14px;color:#ffd9df;}
+  .q{border:1px solid var(--line);border-radius:13px;background:var(--paper-2);padding:18px;margin:14px 0;}
+  .q .qq{font-weight:600;color:var(--navy-deep);margin-bottom:12px;font-size:15.5px;}
+  .q .opts{display:flex;flex-direction:column;gap:8px;}
+  .opt{text-align:left;font-family:inherit;font-size:14.5px;color:var(--ink);background:#fff;border:1px solid var(--line-strong);border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:10px;}
+  .opt::before{content:"";flex:0 0 auto;width:18px;height:18px;border-radius:50%;border:2px solid var(--line-strong);transition:all .15s;}
+  .opt:hover{border-color:var(--navy);}
+  .q.done .opt{cursor:default;}
+  .opt.right{border-color:var(--green);background:#edf5ee;color:var(--green);font-weight:500;}
+  .opt.right::before{border-color:var(--green);background:var(--green);box-shadow:inset 0 0 0 3px #edf5ee;}
+  .opt.wrong{border-color:var(--red);background:#fdeef0;color:var(--red);}
+  .opt.wrong::before{border-color:var(--red);background:var(--red);box-shadow:inset 0 0 0 3px #fdeef0;}
+  .q-exp{display:none;margin-top:12px;font-size:13.8px;color:var(--ink-soft);background:#eef3fb;border-left:3px solid var(--navy);border-radius:0 8px 8px 0;padding:10px 14px;}
+  .q-exp.show{display:block;animation:viewin .3s ease;}
+
+
+  .gsearch{width:100%;border:1px solid var(--line-strong);border-radius:10px;padding:11px 15px;font-family:inherit;font-size:15px;margin:6px 0 18px;background:#fff;}
+  .gsearch:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(27,58,107,.12);}
+  .gterm{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin-bottom:9px;}
+  .gterm b{color:var(--navy);font-size:15px;}
+  .gterm p{margin:3px 0 0;font-size:14px;color:var(--ink-soft);}
+  .gnone{color:var(--ink-soft);font-style:italic;padding:8px 2px;}
+
+  .refs{margin-top:30px;border-top:2px solid var(--navy);padding-top:18px;font-size:13px;color:var(--ink-soft);}
+  .refs h3{margin-top:0;}
+  .refs ol{padding-left:18px;}
+  .refs li{margin-bottom:5px;}
+  .pill{display:inline-block;font-size:11px;background:rgba(27,58,107,.08);color:var(--navy);padding:2px 9px;border-radius:20px;margin:0 4px 4px 0;font-weight:500;}
+
+
+  .pager{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:55;display:flex;align-items:center;gap:6px;background:var(--paper-2);border:1px solid var(--line-strong);border-radius:40px;padding:6px 8px;box-shadow:0 12px 30px rgba(18,39,73,.22);}
+  .pager button{font-family:inherit;font-size:14px;font-weight:500;color:var(--navy);background:none;border:none;border-radius:30px;padding:8px 16px;cursor:pointer;transition:background .15s;display:flex;align-items:center;gap:6px;}
+  .pager button:hover:not(:disabled){background:rgba(27,58,107,.1);}
+  .pager button:disabled{color:var(--line-strong);cursor:default;}
+  .pager .plabel{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-soft);padding:0 6px;border-left:1px solid var(--line);border-right:1px solid var(--line);}
+
+
+  .topbar{display:none;}
+  .backdrop{display:none;}
+  @media(max-width:900px){
+    .sidebar{position:fixed;left:0;top:0;height:100vh;z-index:80;transform:translateX(-105%);transition:transform .25s ease;box-shadow:0 0 40px rgba(0,0,0,.3);padding-top:24px;}
+    .sidebar.open{transform:translateX(0);}
+    .backdrop{display:block;position:fixed;inset:0;background:rgba(10,18,35,.5);z-index:70;opacity:0;pointer-events:none;transition:opacity .25s;}
+    .backdrop.show{opacity:1;pointer-events:auto;}
+    .topbar{display:flex;align-items:center;gap:12px;position:sticky;top:4px;z-index:50;background:var(--navy);color:#fff;padding:11px 15px;}
+    .topbar button{background:rgba(255,255,255,.15);border:none;color:#fff;width:40px;height:38px;border-radius:9px;font-size:18px;cursor:pointer;flex:0 0 auto;}
+    .topbar .tt{font-family:'Lora',serif;font-size:14.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    main{width:100%;padding-bottom:96px;}
+    .stagewrap{padding:0 20px;}
+    .hero{padding:34px 24px 30px;border-radius:16px;}
+    .paths{grid-template-columns:1fr;}
+    .swot{grid-template-columns:1fr;}
+    .alabel{flex-basis:92px;}
+    .tmpl .th{flex-direction:column;}
+  }
+  @media print{
+    .sidebar,.pager,.topbar,.progress,.backdrop{display:none!important;}
+    .view{display:block!important;animation:none!important;page-break-after:always;}
+    main{padding:0;}
+  }
+
+
+  .statgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:13px;margin:20px 0;}
+  .stat{background:var(--paper-2);border:1px solid var(--line);border-top:4px solid var(--red);border-radius:13px;padding:16px 17px 13px;}
+  .stat .sv{font-family:'Lora',serif;font-weight:700;font-size:25px;color:var(--navy);line-height:1.1;}
+  .stat .sl{font-size:13px;color:var(--ink-soft);margin-top:5px;line-height:1.45;}
+  .stat .ss{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--gold);margin-top:7px;letter-spacing:.3px;}
+
+
+  .cnt{font-variant-numeric:tabular-nums;}
+
+
+  .flow{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin:20px 0 6px;}
+  .fstep{font-family:inherit;font-size:13px;font-weight:500;border:1.5px solid var(--line-strong);background:var(--paper-2);color:var(--ink-soft);border-radius:30px;padding:8px 14px;cursor:pointer;transition:all .15s;}
+  .fstep.ai{border-color:rgba(196,30,58,.45);color:var(--red);}
+  .fstep:hover{transform:translateY(-2px);box-shadow:0 6px 14px var(--shadow);}
+  .fstep.on{background:var(--navy);border-color:var(--navy);color:#fff;}
+  .fstep.ai.on{background:var(--red);border-color:var(--red);}
+  .farrow{color:var(--line-strong);font-size:15px;}
+  .fdetail{border:1px solid var(--line);border-left:4px solid var(--navy);border-radius:11px;background:var(--paper-2);padding:14px 17px;margin:12px 0 4px;font-size:14.5px;color:var(--ink-soft);min-height:54px;animation:viewin .3s ease;}
+  .fdetail b{color:var(--navy-deep);}
+  .flegend{display:flex;gap:18px;font-size:12px;color:var(--ink-soft);margin-top:8px;}
+  .flegend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px;}
+
+
+  .calc{border:1px solid var(--line);border-radius:16px;background:var(--paper-2);padding:20px 20px 8px;margin:22px 0;box-shadow:0 10px 28px var(--shadow);}
+  .calc h4{font-family:'Lora',serif;font-size:18px;color:var(--navy);margin:0 0 14px;}
+  .cfield{margin-bottom:16px;}
+  .cfield .cl{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;font-weight:600;color:var(--navy);margin-bottom:5px;}
+  .cfield .cl output{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--red);font-weight:500;}
+  .cfield input[type=range]{width:100%;accent-color:var(--navy);cursor:pointer;height:26px;}
+  .cout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:11px;margin:6px 0 14px;}
+  .co{background:#fff;border:1px solid var(--line);border-top:3px solid var(--navy);border-radius:11px;padding:13px 14px 11px;}
+  .co.hot{border-top-color:var(--red);}
+  .co .ov{font-family:'Lora',serif;font-weight:700;font-size:22px;color:var(--navy);line-height:1.1;font-variant-numeric:tabular-nums;}
+  .co .ol{font-size:11.5px;color:var(--ink-soft);margin-top:4px;line-height:1.4;}
+
+
+  .tabs{display:flex;gap:8px;margin:20px 0 0;flex-wrap:wrap;}
+  .tabbtn{font-family:inherit;font-size:14px;font-weight:600;border:1.5px solid var(--line-strong);background:var(--paper-2);color:var(--ink-soft);border-radius:11px 11px 0 0;padding:11px 18px;cursor:pointer;transition:all .15s;border-bottom:none;position:relative;top:1px;}
+  .tabbtn .tb-s{display:block;font-weight:400;font-size:11px;color:inherit;opacity:.75;}
+  .tabbtn.active{background:var(--navy);border-color:var(--navy);color:#fff;}
+  .tabpanel{display:none;border:1.5px solid var(--line-strong);border-radius:0 13px 13px 13px;background:var(--paper-2);padding:18px 20px;}
+  .tabpanel.active{display:block;animation:viewin .3s ease;}
+  .phasebadge{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;border-radius:30px;padding:5px 13px;margin-top:12px;background:#fff6e8;color:#9a6a14;border:1px solid #ecd8b3;}
+  .phasebadge.ready{background:#edf5ee;color:var(--green);border-color:#cce0cd;}
+
+
+  .ck{display:flex;gap:11px;align-items:flex-start;padding:10px 13px;border:1px solid var(--line);border-radius:10px;background:#fff;margin:8px 0;cursor:pointer;transition:all .15s;font-size:14.2px;line-height:1.5;}
+  .ck:hover{border-color:var(--navy);}
+  .ck input{margin-top:3px;accent-color:var(--navy);width:16px;height:16px;flex:0 0 auto;cursor:pointer;}
+  .ck.done{background:#edf5ee;border-color:#cce0cd;color:var(--ink-soft);}
+  .ck.done span{text-decoration:line-through;text-decoration-color:rgba(47,125,58,.5);}
+
+
+  .gaugewrap{margin:16px 0 6px;}
+  .gauge{height:15px;border-radius:10px;background:rgba(27,58,107,.1);overflow:hidden;border:1px solid var(--line);}
+  .gauge i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--gold) 50%,var(--green));transition:width .5s cubic-bezier(.4,0,.2,1);}
+  .gmeta{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-soft);margin-top:6px;}
+  .gmeta b{font-family:'JetBrains Mono',monospace;color:var(--navy);}
+  .gres{margin-top:12px;padding:13px 16px;border-radius:11px;background:#eef3fb;border:1px solid #cfdcf0;font-size:14.5px;animation:viewin .3s ease;}
+  .gres b{color:var(--navy-deep);}
+
+
+  .hiddenf{display:none!important;}
+  .qresult{display:none;margin-top:16px;padding:15px 18px;border-radius:12px;background:var(--navy);color:#fff;font-size:15px;animation:viewin .35s ease;}
+  .qresult.show{display:block;}
+  .qresult b{color:#ffd9df;}
+  @media(max-width:900px){.tabbtn{flex:1 1 auto;text-align:left;}}
+
+
+  .chart{border:1px solid var(--line);border-radius:13px;background:var(--paper-2);padding:18px 20px 14px;margin:20px 0;box-shadow:0 6px 18px var(--shadow);}
+  .chart .ch-t{font-family:'Lora',serif;font-weight:600;font-size:16px;color:var(--navy);margin-bottom:4px;}
+  .chart .ch-s{font-size:12px;color:var(--ink-soft);margin-bottom:14px;}
+  .crow{display:grid;grid-template-columns:minmax(110px,190px) 1fr 76px;gap:10px;align-items:center;margin:7px 0;font-size:12.8px;color:var(--ink-soft);}
+  .crow .cl2{line-height:1.35;}
+  .crow .cl2 b{color:var(--navy-deep);font-size:13px;}
+  .ctrack{position:relative;height:18px;background:rgba(27,58,107,.07);border-radius:9px;overflow:hidden;}
+  .cfill{position:absolute;left:0;top:0;height:100%;width:0;border-radius:9px;background:var(--navy);transition:width .9s cubic-bezier(.4,0,.2,1);}
+  .cfill.alt{background:#a9bcd9;}
+  .cfill.hot{background:var(--red);}
+  .cval{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--navy);text-align:right;white-space:nowrap;font-weight:500;}
+  .chsep{height:1px;background:var(--line);margin:11px 0;}
+
+  .dtrack{position:relative;height:18px;background:rgba(27,58,107,.07);border-radius:9px;}
+  .dzero{position:absolute;left:33%;top:-3px;bottom:-3px;width:2px;background:var(--line-strong);z-index:1;}
+  .dfill{position:absolute;top:0;height:100%;width:0;transition:width .9s cubic-bezier(.4,0,.2,1);}
+  .dfill.pos{left:33%;background:var(--green);border-radius:0 9px 9px 0;}
+  .dfill.neg{right:67%;background:var(--red);border-radius:9px 0 0 9px;}
+  .cval.neg{color:var(--red);}
+
+  .bigcompare{display:flex;align-items:center;justify-content:center;gap:8px 26px;flex-wrap:wrap;border-radius:16px;background:linear-gradient(135deg,var(--navy-deep),var(--navy));color:#fff;padding:26px 22px 22px;margin:24px 0;text-align:center;box-shadow:0 12px 28px var(--shadow);}
+  .bc-i .bv{font-family:'Lora',serif;font-weight:700;font-size:clamp(26px,4.5vw,42px);line-height:1.05;}
+  .bc-i .bl{font-size:11.5px;color:#bcc9de;margin-top:7px;letter-spacing:.4px;}
+  .bc-arrow{font-size:30px;color:var(--red-soft);}
+  .bc-i.before .bv{color:#8fa5c8;position:relative;}
+  .bc-i.before .bv::after{content:"";position:absolute;left:-4%;right:-4%;top:52%;height:3px;background:var(--red-soft);transform:rotate(-6deg);border-radius:2px;}
+  .bc-cap{flex-basis:100%;font-size:12px;color:#bcc9de;margin-top:4px;}
+
+  .trail{display:flex;border-radius:12px;overflow:hidden;border:1px solid var(--line-strong);margin:18px 0 4px;box-shadow:0 8px 20px var(--shadow);}
+  .tseg{font-family:inherit;border:none;cursor:pointer;text-align:left;padding:12px 12px 10px;color:#fff;font-size:13.5px;font-weight:600;position:relative;transition:filter .15s;border-right:2px solid rgba(255,255,255,.45);}
+  .tseg:last-child{border-right:none;}
+  .tseg small{display:block;font-weight:400;font-size:10.5px;opacity:.85;margin-top:2px;}
+  .tseg:hover{filter:brightness(1.13);}
+  .tseg.t0{background:var(--navy-soft);} .tseg.t1{background:var(--navy);} .tseg.t2{background:var(--navy-deep);}
+  .tseg.cur{box-shadow:inset 0 -5px 0 var(--red-soft);}
+  .tscale{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-soft);padding:0 2px;margin-bottom:16px;}
+
+  .ladder{margin:18px 0;}
+  .rung{display:flex;gap:13px;align-items:flex-start;border:1px solid var(--line);border-left:6px solid;border-radius:11px;background:var(--paper-2);padding:13px 16px;margin:9px 0;}
+  .rung .ri{font-size:20px;flex:0 0 auto;margin-top:1px;}
+  .rung b{font-size:14.5px;}
+  .rung p{margin:3px 0 0;font-size:13px;color:var(--ink-soft);line-height:1.5;}
+  .rung .tagx{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;border-radius:20px;padding:2px 9px;margin-left:8px;vertical-align:2px;color:#fff;}
+  .rung.l0{border-left-color:var(--red);} .rung.l0 b{color:var(--red);} .rung.l0 .tagx{background:var(--red);}
+  .rung.l1{border-left-color:var(--gold);} .rung.l1 b{color:#9a6a14;} .rung.l1 .tagx{background:var(--gold);}
+  .rung.l2{border-left-color:var(--navy-soft);} .rung.l2 b{color:var(--navy);} .rung.l2 .tagx{background:var(--navy-soft);}
+  .rung.l3{border-left-color:var(--green);} .rung.l3 b{color:var(--green);} .rung.l3 .tagx{background:var(--green);}
+
+  .ltl{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px;margin:14px 0 8px;}
+  .lt-node{flex:1 1 140px;background:#fff;border:1px solid #cfdcf0;border-top:4px solid var(--navy);border-radius:10px;padding:10px 12px;font-size:12.5px;line-height:1.45;color:var(--ink-soft);}
+  .lt-node b{display:block;color:var(--navy-deep);font-size:13px;margin-bottom:2px;}
+  .lt-node.loop{border-top-color:var(--gold);}
+  .lt-gap{flex:0 0 auto;align-self:center;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--red);font-weight:600;line-height:1.2;}
+  .lt-gap span{display:block;font-size:15px;color:var(--line-strong);}
+
+  .timebar{display:flex;height:30px;border-radius:9px;overflow:hidden;border:1px solid var(--line);margin:4px 0 6px;}
+  .tb-rem{background:var(--navy);transition:width .35s ease;min-width:0;}
+  .tb-sav{background:var(--green);transition:width .35s ease;min-width:0;}
+  .tb-legend{display:flex;gap:20px;font-size:12px;color:var(--ink-soft);margin-bottom:14px;flex-wrap:wrap;}
+  .tb-legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px;}
+  .tb-legend b{font-family:'JetBrains Mono',monospace;color:var(--navy);font-weight:500;}
+
+  .cs{display:grid;grid-template-columns:122px 1fr;gap:16px;align-items:start;}
+  .cs .kstat{border-right:1px dashed var(--line-strong);padding-right:14px;}
+  .cs .kv{font-family:'Lora',serif;font-weight:700;font-size:23px;color:var(--red);line-height:1.1;letter-spacing:-.3px;}
+  .cs .kl{font-size:11px;color:var(--ink-soft);margin-top:5px;line-height:1.45;}
+  .cs .kbody p{margin:7px 0 0;}
+  @media(max-width:900px){
+    .cs{grid-template-columns:1fr;gap:8px;}
+    .cs .kstat{border-right:none;border-bottom:1px dashed var(--line-strong);padding:0 0 9px;display:flex;align-items:baseline;gap:10px;}
+    .cs .kl{margin-top:0;}
+    .crow{grid-template-columns:1fr;gap:4px;}
+    .crow .cval{text-align:left;}
+  }
+</style>
+</head>
+<body>
+<div class="progress"><i id="progressFill"></i></div>
+
+<div class="topbar">
+  <button id="menuBtn" aria-label="Mở mục lục">☰</button>
+  <div class="tt" id="topTitle">Cẩm nang AI</div>
+</div>
+<div class="backdrop" id="backdrop"></div>
+
+<div class="shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand" data-target="s0">
+      <div class="mark">TQ</div>
+      <div><b>THÔNG QUAN</b><span>Cẩm nang AI · 2026</span></div>
+    </div>
+    <nav>
+      <div class="navgroup">Bối cảnh</div>
+      <button class="navlink" data-target="s0">Tổng quan &amp; lộ trình đọc</button>
+      <button class="navlink" data-target="s1">Vì sao là bây giờ</button>
+      <button class="navlink" data-target="s2">Thị trường &amp; số hóa</button>
+      <button class="navlink" data-target="s3">Cơ hội "tiền hệ thống"</button>
+      <div class="navgroup">Chiến lược</div>
+      <button class="navlink" data-target="s4">Tăng cường, không thay thế</button>
+      <button class="navlink" data-target="s5">Con người &amp; thay đổi</button>
+      <button class="navlink" data-target="s6">Máy tính ROI &amp; KPI</button>
+      <button class="navlink" data-target="s7">Lộ trình Bò – Đi – Chạy</button>
+      <button class="navlink" data-target="s8">Mức độ sẵn sàng</button>
+      <div class="navgroup">An toàn &amp; pháp lý</div>
+      <button class="navlink" data-target="s9">Chọn hạ tầng AI</button>
+      <button class="navlink" data-target="s10">Tuân thủ pháp luật VN</button>
+      <div class="navgroup">Thực tiễn</div>
+      <button class="navlink" data-target="s11">Khám phá case study</button>
+      <button class="navlink" data-target="s12">Khuyến nghị hành động</button>
+      <button class="navlink" data-target="s13">Giới hạn dữ liệu</button>
+      <div class="navgroup">Củng cố</div>
+      <button class="navlink" data-target="s14">Tự kiểm tra</button>
+      <button class="navlink" data-target="s15">Thuật ngữ</button>
+    </nav>
+  </aside>
+
+  <main>
+    <div class="stagewrap">
+
+    <!-- 0 -->
+    <section class="view" id="s0">
+      <div class="hero">
+        <span class="hero-tag"><b></b>Khung chiến lược 2026–2030 · Bản tương tác</span>
+        <h1>Ứng dụng AI để <em>dẫn dắt</em><br>ngành giao nhận &amp; đại lý hải quan</h1>
+        <p>Cẩm nang nội bộ xây dựng từ báo cáo nghiên cứu tháng 6/2026 — nay kèm máy tính ROI, bảng tự đánh giá mức độ sẵn sàng, trợ lý chọn hạ tầng và bộ lọc case study.</p>
+        <div class="hero-meta"><span><b>Đối tượng:</b> Lãnh đạo &amp; toàn công ty</span><span><b>Nguồn:</b> Báo cáo nghiên cứu 06/2026</span><span><b>Phạm vi:</b> Giao nhận · Hải quan · C/O</span></div>
+      </div>
+
+      <h3>Bắt đầu theo vai trò của bạn</h3>
+      <p>Đọc tuần tự bằng nút <strong>Sau →</strong>, hoặc nhảy thẳng tới công cụ hợp với bạn:</p>
+      <div class="paths">
+        <button class="pathcard" data-path="s7"><div class="pi">🧭</div><h4>Lãnh đạo</h4><p>Lộ trình ba giai đoạn dạng tab kèm danh sách ngưỡng chuyển tiếp đánh dấu được.</p><div class="pgo">Vào Lộ trình Bò – Đi – Chạy →</div></button>
+        <button class="pathcard" data-path="s6"><div class="pi">🧮</div><h4>Quản lý vận hành</h4><p>Kéo thanh trượt để ước tính giờ và chi phí tiết kiệm theo sản lượng thực tế.</p><div class="pgo">Vào Máy tính ROI →</div></button>
+        <button class="pathcard" data-path="s8"><div class="pi">✅</div><h4>Người triển khai</h4><p>10 hạng mục tự chấm để biết công ty đang đứng ở đâu trước khi bật AI.</p><div class="pgo">Vào Mức độ sẵn sàng →</div></button>
+      </div>
+
+      <div class="kicker"><span class="num">00</span><span class="line"></span></div>
+      <h2>Thông điệp cốt lõi của nghiên cứu</h2>
+      <p class="lead">AI đã trở thành <strong>điều kiện cạnh tranh bắt buộc</strong> với doanh nghiệp giao nhận và đại lý hải quan — câu hỏi không còn là "có nên dùng" mà là "<strong>dùng theo mô hình nào</strong>".</p>
+      <p>Mô hình thắng cuộc cho một forwarder Việt Nam <strong>không phải là tự động hóa để cắt giảm nhân sự</strong>, mà là <strong>tăng cường năng lực con người</strong>: dùng AI như trợ lý đồng hành để đội ngũ hiện hữu xử lý tờ khai, bộ chứng từ C/O và giao tiếp khách hàng nhanh hơn, chính xác hơn.</p>
+      <ul class="clean">
+        <li><strong>Điểm khởi đầu ROI cao nhất:</strong> nghiệp vụ chứng từ hải quan và C/O.</li>
+        <li><strong>Cách triển khai:</strong> lộ trình tuần tự ba giai đoạn "bò – đi – chạy", con người giám sát ở mọi bước.</li>
+        <li><strong>Rủi ro then chốt:</strong> bảo mật dữ liệu khách hàng (mã số thuế, hóa đơn, dữ liệu khai báo) — phải thiết kế ngay từ đầu, đặc biệt khi Luật Bảo vệ Dữ liệu Cá nhân và Nghị định 356 có hiệu lực từ 1/1/2026.</li>
+      </ul>
+      <div class="box tip"><div class="bx-h">Cách dùng</div><p>Mỗi mục là một "màn" riêng. Dùng thanh bên trái, nút <strong>Trước / Sau</strong>, hoặc phím <strong>← →</strong> trên máy tính. Các con số bạn nhập (máy tính ROI, bảng tự chấm) chỉ nằm trong phiên duyệt web hiện tại, không được lưu hay gửi đi đâu.</p></div>
+    </section>
+
+    <!-- 1 -->
+    <section class="view" id="s1">
+      <div class="kicker"><span class="num">01</span><span class="line"></span></div>
+      <h2>Vì sao 2025–2026 là bước ngoặt</h2>
+      <p class="lead">Ba lực lượng đang cộng hưởng, khiến giai đoạn này trở thành điểm bùng phát của làn sóng AI trong logistics.</p>
+      <ol class="steps">
+        <li><strong>Công nghệ đã vượt ngưỡng khả dụng.</strong> Các mô hình ngôn ngữ lớn (LLM) nay đọc được một tệp PDF hóa đơn thương mại gửi qua email — kể cả khi có ghi chú viết tay — và trích xuất dữ liệu có cấu trúc một cách đáng tin cậy. Đây chính là nút thắt từng làm thất bại mọi nỗ lực tự động hóa trong nhiều thập kỷ; C.H. Robinson gọi đây là "thách thức tồn tại hàng chục năm".</li>
+        <li><strong>Động lực cạnh tranh đang cộng hưởng.</strong> C.H. Robinson cho biết AI tạo sinh thúc đẩy mức tăng năng suất 30% giai đoạn 2023–2024 và đặt mục tiêu tăng thêm 15% năm 2025 — một đối thủ giờ phục vụ nhiều khách hơn trên mỗi nhân viên và báo giá trong vài giây thay vì vài giờ.</li>
+        <li><strong>Chính sách và chi phí tại Việt Nam hội tụ.</strong> Yêu cầu chuyển đổi số của Chính phủ, chi phí lao động tăng, và tỷ lệ nhân sự được đào tạo bài bản chỉ 5–7% khiến AI là cách thực tế nhất để mở rộng quy mô mà vẫn giữ chất lượng — thay vì lao vào cuộc đua tuyển dụng.</li>
+      </ol>
+      <div class="bigcompare">
+        <div class="bc-i before"><div class="bv">hàng giờ</div><div class="bl">thời gian một báo giá thủ công</div></div>
+        <div class="bc-arrow">→</div>
+        <div class="bc-i after"><div class="bv">32 giây</div><div class="bl">báo giá qua email tại C.H. Robinson</div></div>
+        <div class="bc-cap">Cùng tiêu chí đó — giá và tốc độ — là thứ khách hàng dùng để chọn forwarder.</div>
+      </div>
+      <div class="box warn"><div class="bx-h">Cái giá của việc đứng yên</div><p>Trong ngành mà forwarder cạnh tranh chủ yếu trên <strong>giá</strong> và <strong>tốc độ báo giá</strong>, đối thủ trang bị AI sẽ — về mặt cấu trúc — hạ chi phí phục vụ và nâng tốc độ, đúng hai tiêu chí khách hàng dùng để lựa chọn. Doanh nghiệp chậm chuyển đổi trở thành lựa chọn đắt đỏ và phản hồi chậm, mất trước tiên phần sản lượng nhạy cảm với giá.</p></div>
+    </section>
+
+    <!-- 2 -->
+    <section class="view" id="s2">
+      <div class="kicker"><span class="num">02</span><span class="line"></span></div>
+      <h2>Thị trường &amp; bối cảnh số hóa</h2>
+      <h3>Toàn cầu: đường cong ứng dụng dốc nhất từ trước tới nay</h3>
+      <p>Các tổ chức nghiên cứu định giá thị trường AI trong logistics toàn cầu ở mức khoảng <strong>15–26 tỷ USD</strong> giai đoạn 2024–2025, với CAGR <strong>40–47%</strong>. Riêng chi tiêu cho AI tạo sinh trong logistics nhỏ hơn nhưng tăng nhanh (Precedence: 1,47 tỷ USD năm 2025).</p>
+      <div class="chart">
+        <div class="ch-t">Dự báo thị trường AI trong logistics toàn cầu</div>
+        <div class="ch-s">Tỷ USD · thanh nhạt = giá trị hiện tại, thanh đậm = giá trị dự báo · thang tuyến tính</div>
+        <div class="crow"><div class="cl2"><b>Research &amp; Markets</b><br>CAGR 47%</div><div class="ctrack"><div class="cfill alt" data-w="3.7"></div></div><div class="cval">26,33 ('25)</div></div>
+        <div class="crow"><div class="cl2"></div><div class="ctrack"><div class="cfill" data-w="17.1"></div></div><div class="cval">122,78 ('29)</div></div>
+        <div class="chsep"></div>
+        <div class="crow"><div class="cl2"><b>DataM Intelligence</b><br>CAGR 42%</div><div class="ctrack"><div class="cfill alt" data-w="2.1"></div></div><div class="cval">15,28 ('24)</div></div>
+        <div class="crow"><div class="cl2"></div><div class="ctrack"><div class="cfill" data-w="42.6"></div></div><div class="cval">306,76 ('32)</div></div>
+        <div class="chsep"></div>
+        <div class="crow"><div class="cl2"><b>Precedence Research</b><br>CAGR 44,4%</div><div class="ctrack"><div class="cfill alt" data-w="2.5"></div></div><div class="cval">17,96 ('24)</div></div>
+        <div class="crow"><div class="cl2"></div><div class="ctrack"><div class="cfill hot" data-w="98.3"></div></div><div class="cval">707,75 ('34)</div></div>
+      </div>
+      <p>Đây đều là <strong>dự báo của nhà cung cấp dịch vụ nghiên cứu</strong> — nên đọc như chỉ báo xu hướng, không phải số liệu chính xác. Điểm nhất quán: châu Á – Thái Bình Dương là khu vực tăng trưởng nhanh nhất.</p>
+      <h3>Việt Nam: lớn, tăng trưởng, chi phí cao, còn ít số hóa</h3>
+      <div class="statgrid">
+        <div class="stat"><div class="sv"><span class="cnt" data-to="52.06" data-dec="2">0</span> → <span class="cnt" data-to="71.88" data-dec="2">0</span></div><div class="sl">tỷ USD thị trường logistics VN, 2025 → 2030 (CAGR 6,67%)</div><div class="ss">Mordor Intelligence</div></div>
+        <div class="stat"><div class="sv"><span class="cnt" data-to="90" data-dec="0">0</span>%</div><div class="sl">doanh nghiệp logistics là SME (89–90%)</div><div class="ss">Vietnam Briefing</div></div>
+        <div class="stat"><div class="sv"><span class="cnt" data-to="7" data-dec="0">0</span>%</div><div class="sl">nhân sự được đào tạo bài bản (5–7%)</div><div class="ss">Tổng hợp</div></div>
+        <div class="stat"><div class="sv">40.000–200.000</div><div class="sl">USD đầu tư số hằng năm mỗi doanh nghiệp</div><div class="ss">YCP Vietnam (2025)</div></div>
+        <div class="stat"><div class="sv">9,6–12,5</div><div class="sl">triệu đồng/tháng — lương nhân viên khai báo hải quan</div><div class="ss">Indeed; CareerViet</div></div>
+      </div>
+      <div class="chart">
+        <div class="ch-t">Chi phí logistics so với GDP — khoảng cách cần thu hẹp</div>
+        <div class="ch-s">YCP / B-Company, dữ liệu 2024 · nguyên nhân: phân mảnh và mức độ ứng dụng công nghệ thấp</div>
+        <div class="crow"><div class="cl2"><b>Việt Nam</b></div><div class="ctrack"><div class="cfill hot" data-w="84"></div></div><div class="cval">16,5–16,8%</div></div>
+        <div class="crow"><div class="cl2"><b>Trung bình toàn cầu</b></div><div class="ctrack"><div class="cfill" data-w="58"></div></div><div class="cval">~11,6%</div></div>
+      </div>
+      <h3>Lực đẩy chính sách</h3>
+      <ul class="clean">
+        <li><strong>Nghị quyết 57</strong> (12/2024): khoa học – công nghệ và chuyển đổi số là ưu tiên đột phá quốc gia; mục tiêu đưa Việt Nam vào nhóm ba nước dẫn đầu ASEAN về AI vào 2030.</li>
+        <li><strong>Chương trình Chuyển đổi số Quốc gia:</strong> kinh tế số chiếm 30% GDP vào 2030.</li>
+        <li><strong>Luật Công nghiệp công nghệ số</strong> (Luật số 71/2025/QH15), hiệu lực 1/1/2026 — có chương riêng về trí tuệ nhân tạo.</li>
+        <li><strong>Luật Trí tuệ nhân tạo</strong> (Luật số 134/2025/QH15), hiệu lực 1/3/2026.</li>
+      </ul>
+      <div class="box case"><div class="bx-h">Lưu ý độ tin cậy</div><p>Toàn bộ số liệu quy mô thị trường là dự báo, không phải kết quả kiểm toán, và dao động rộng giữa các tổ chức. Xem mục <strong>Giới hạn dữ liệu</strong>.</p></div>
+    </section>
+
+    <!-- 3 -->
+    <section class="view" id="s3">
+      <div class="kicker"><span class="num">03</span><span class="line"></span></div>
+      <h2>Hải quan Việt Nam đã số hóa — cơ hội AI nằm ở khâu "tiền hệ thống"</h2>
+      <p>Hệ thống thông quan tự động <strong>VNACCS/VCIS</strong> (vận hành từ tháng 4/2014, do Nhật Bản tài trợ), cùng Cơ chế một cửa quốc gia và một cửa ASEAN, đã số hóa quy trình khai báo – phê duyệt – thông quan, trao đổi C/O điện tử mẫu D, và phân luồng rủi ro Xanh/Vàng/Đỏ.</p>
+      <div class="statgrid">
+        <div class="stat"><div class="sv">−3 giờ / −6 giờ</div><div class="sl">thời gian thông quan xuất khẩu / nhập khẩu được rút ngắn</div><div class="ss">World Bank</div></div>
+        <div class="stat"><div class="sv">~<span class="cnt" data-to="19" data-dec="0">0</span> USD</div><div class="sl">tiết kiệm mỗi lô hàng</div><div class="ss">World Bank</div></div>
+        <div class="stat"><div class="sv">~<span class="cnt" data-to="170" data-dec="0">0</span> triệu USD</div><div class="sl">doanh nghiệp tiết kiệm trong 10 tháng đầu 2017</div><div class="ss">World Bank</div></div>
+      </div>
+      <h3>Hành trình một bộ chứng từ — bấm vào từng bước</h3>
+      <div class="flow" id="flow">
+        <button class="fstep" data-fd="fd0">📧 Email chứng từ</button><span class="farrow">→</span>
+        <button class="fstep ai" data-fd="fd1">🤖 Trích xuất</button><span class="farrow">→</span>
+        <button class="fstep ai" data-fd="fd2">🤖 Đối chiếu</button><span class="farrow">→</span>
+        <button class="fstep ai" data-fd="fd3">🤖 Mã HS</button><span class="farrow">→</span>
+        <button class="fstep ai" data-fd="fd4">🤖 Soạn tờ khai</button><span class="farrow">→</span>
+        <button class="fstep" data-fd="fd5">✍️ Người ký rà soát</button><span class="farrow">→</span>
+        <button class="fstep" data-fd="fd6">🖥️ ECUS / FPT.TQDT</button><span class="farrow">→</span>
+        <button class="fstep" data-fd="fd7">🏛️ VNACCS/VCIS</button>
+      </div>
+      <div class="flegend"><span><i style="background:var(--red)"></i>Khâu AI đảm nhận / hỗ trợ</span><span><i style="background:var(--navy)"></i>Con người &amp; hệ thống chính thức</span></div>
+      <div class="fdetail" id="fdetail">Bấm vào một bước trong quy trình để xem AI và con người làm gì ở khâu đó.</div>
+      <div class="box tip"><div class="bx-h">Điểm mấu chốt cho forwarder</div><p>"Đường ống" thông quan của cơ quan nhà nước <strong>đã điện tử hóa</strong>. Cơ hội ứng dụng AI nằm ở khâu <strong>tiền hệ thống</strong> — toàn bộ phần màu đỏ ở trên — <em>trước khi</em> dữ liệu được đưa vào VNACCS qua phần mềm ECUS hoặc FPT.TQDT.</p></div>
+    </section>
+
+    <!-- 4 -->
+    <section class="view" id="s4">
+      <div class="kicker"><span class="num">04</span><span class="line"></span></div>
+      <h2>Tăng cường năng lực, không thay thế con người</h2>
+      <p class="lead">Đây không phải khẩu hiệu đạo đức — triết lý này được hậu thuẫn bởi bằng chứng thực nghiệm vững chắc.</p>
+      <h3>Bằng chứng thực nghiệm — nhìn một lần là thấy</h3>
+      <div class="chart">
+        <div class="ch-t">AI tác động thế nào đến hiệu suất con người</div>
+        <div class="ch-s">Thanh xanh = cải thiện · thanh đỏ = suy giảm khi dùng AI <em>ngoài ranh giới năng lực</em> của nó</div>
+        <div class="crow"><div class="cl2"><b>Năng suất trung bình</b><br>QJE 2025 · RCT, 5.179 nhân viên</div><div class="dtrack"><div class="dzero"></div><div class="dfill pos" data-w="22.4"></div></div><div class="cval">+14%</div></div>
+        <div class="crow"><div class="cl2"><b>Nhóm ít kinh nghiệm</b><br>QJE 2025</div><div class="dtrack"><div class="dzero"></div><div class="dfill pos" data-w="54.4"></div></div><div class="cval">+34%</div></div>
+        <div class="crow"><div class="cl2"><b>Hiệu quả mỗi giờ dùng AI</b><br>Fed St. Louis</div><div class="dtrack"><div class="dzero"></div><div class="dfill pos" data-w="52.8"></div></div><div class="cval">+33%</div></div>
+        <div class="crow"><div class="cl2"><b>Số nhiệm vụ hoàn thành</b><br>HBS × BCG · 758 chuyên gia tư vấn</div><div class="dtrack"><div class="dzero"></div><div class="dfill pos" data-w="19.5"></div></div><div class="cval">+12,2%</div></div>
+        <div class="crow"><div class="cl2"><b>Tốc độ hoàn thành</b><br>HBS × BCG</div><div class="dtrack"><div class="dzero"></div><div class="dfill pos" data-w="40.2"></div></div><div class="cval">+25,1%</div></div>
+        <div class="crow"><div class="cl2"><b>Chất lượng — trong ranh giới</b><br>HBS × BCG</div><div class="dtrack"><div class="dzero"></div><div class="dfill pos" data-w="64"></div></div><div class="cval">+40%</div></div>
+        <div class="crow"><div class="cl2"><b>Xác suất đúng — ngoài ranh giới</b><br>HBS × BCG</div><div class="dtrack"><div class="dzero"></div><div class="dfill neg" data-w="30.4"></div></div><div class="cval neg">−19%</div></div>
+      </div>
+      <p style="font-size:13px;color:var(--ink-soft)">Hai phát hiện đáng nhớ nhất: lợi ích lớn nhất thuộc về <strong>lao động ít kinh nghiệm</strong> (chuyển giao tri thức chuyên gia cho người mới), và hiệu suất <strong>sụt 19 điểm</strong> khi giao AI việc vượt quá năng lực — đúng thanh đỏ duy nhất trên biểu đồ.</p>
+      <div class="box warn"><div class="bx-h">Ánh xạ trực tiếp cho đại lý hải quan</div><p>Phát hiện "−19% ngoài ranh giới" cho thấy sự cần thiết của giám sát con người: <strong>AI soạn thảo, người khai báo có chứng chỉ kiểm tra và ký.</strong></p></div>
+      <h3>Cách các doanh nghiệp dẫn đầu định khung</h3>
+      <ul class="clean">
+        <li><strong>Kuehne+Nagel:</strong> hệ thống có con người trong vòng lặp (human-in-the-loop) cho tình huống phức tạp; AI tác tử cho tác vụ thường quy; cộng tác vòng kín — con người đặt mục tiêu, AI thực thi.</li>
+        <li><strong>C.H. Robinson — "Lean AI":</strong> không thay thế, mà chuyển hóa — giải phóng nhân viên cho công việc giá trị cao hơn.</li>
+        <li><strong>DHL:</strong> nhân viên kho mô tả robot là công cụ "hỗ trợ": vẫn cần một người nhặt hàng, quét mã và xác nhận thao tác.</li>
+      </ul>
+      <h3>Ba lý do đây là lựa chọn thương mại đúng đắn</h3>
+      <ol class="steps">
+        <li><strong>Yếu tố tạo khác biệt là quan hệ và phán đoán</strong>, không phải nhập liệu. Theo C.H. Robinson, lý do số một khách hàng chọn họ là con người — AI nên loại bỏ thao tác gõ phím để nhân viên dành thời gian cho khách hàng, lô hàng phức tạp và các ngoại lệ.</li>
+        <li><strong>Tăng cường nâng cấp nhanh nhất cho nhóm yếu nhất.</strong> Lợi ích lớn nhất thuộc về lao động ít kinh nghiệm — đặc biệt phù hợp khi chỉ 5–7% nhân sự ngành được đào tạo bài bản. AI giúp nhân viên khai báo cấp dưới làm việc gần trình độ chuyên viên cấp cao.</li>
+        <li><strong>Trách nhiệm pháp lý vẫn thuộc về con người có chứng chỉ.</strong> Tờ khai mang rủi ro pháp lý và xử phạt; hướng dẫn của TT Club nêu rõ duy trì giám sát con người với quy trình khai báo là tối quan trọng. Giữ người ký có chứng chỉ vừa cần cho tuân thủ, vừa tạo niềm tin cho nhân viên.</li>
+      </ol>
+    </section>
+
+    <!-- 5 -->
+    <section class="view" id="s5">
+      <div class="kicker"><span class="num">05</span><span class="line"></span></div>
+      <h2>Con người &amp; quản trị thay đổi</h2>
+      <p class="lead">Công nghệ tốt vẫn thất bại nếu đội ngũ không tin và không dùng. Trường hợp ORION của UPS là bài học kinh điển.</p>
+      <div class="box case"><div class="bx-h">Tình huống: UPS ORION</div><p>Ban đầu các tài xế nghi ngờ và phớt lờ thuật toán tối ưu tuyến, buộc UPS phải <strong>xây dựng lại hệ thống</strong>, bổ sung khả năng giải thích, đào tạo lại toàn bộ, và đổi thước đo thành công từ "vượt thời gian của năm ngoái" sang "mức độ tuân thủ lộ trình tối ưu".</p></div>
+      <h3>Bốn bài học</h3>
+      <ol class="steps">
+        <li>Cho nhân viên <strong>tham gia vào thiết kế</strong> ngay từ đầu.</li>
+        <li>Làm cho các đề xuất của AI <strong>có thể giải thích được</strong>.</li>
+        <li><strong>Thiết lập lại thước đo hiệu suất</strong> phù hợp với cách làm việc mới.</li>
+        <li><strong>Cam kết rõ ràng và truyền thông sớm:</strong> phần năng suất tăng thêm được tái đầu tư vào tăng trưởng và công việc giá trị cao hơn — không phải để sa thải.</li>
+      </ol>
+      <div class="box warn"><div class="bx-h">Bằng chứng phản biện từ Việt Nam</div><p>Một lãnh đạo Viện Sáng tạo và Chuyển đổi số cảnh báo làn sóng tự động hóa của Viettel Post mang theo rủi ro mất việc làm, yêu cầu kỹ năng mới và áp lực tâm lý lên người lao động. Hệ quả: <strong>việc đào tạo lại phải được cấp ngân sách</strong>, không thể mặc nhiên giả định.</p></div>
+      <div class="box tip"><div class="bx-h">Hình mẫu văn hóa: Allan Brown (DHL)</div><p>Một người lái xe nâng trở thành trưởng nhóm triển khai robot. Tạo <strong>lộ trình thăng tiến nội bộ</strong> để AI được nhìn nhận như cơ hội nghề nghiệp, không phải mối đe dọa.</p></div>
+    </section>
+
+    <!-- 6 -->
+    <section class="view" id="s6">
+      <div class="kicker"><span class="num">06</span><span class="line"></span></div>
+      <h2>Máy tính ROI &amp; chỉ số cần đo</h2>
+      <p class="lead">Với mức lương khai báo 9,6–12,5 triệu đồng/tháng, ROI phù hợp với một SME <strong>không nằm ở cắt giảm nhân sự</strong> mà ở ba nguồn: thông lượng, tránh sai sót, và tốc độ báo giá.</p>
+      <div class="calc">
+        <h4>🧮 Ước tính giá trị từ thông lượng — kéo thanh trượt theo số liệu của bạn</h4>
+        <div class="cfield"><div class="cl"><span>Số bộ C/O + tờ khai xử lý mỗi tháng</span><output id="oVol">350</output></div><input type="range" id="rVol" min="50" max="1000" step="10" value="350"></div>
+        <div class="cfield"><div class="cl"><span>Thời gian xử lý trung bình mỗi bộ (phút)</span><output id="oMin">60</output></div><input type="range" id="rMin" min="15" max="240" step="5" value="60"></div>
+        <div class="cfield"><div class="cl"><span>Lương nhân viên khai báo (triệu đồng/tháng)</span><output id="oSal">11</output></div><input type="range" id="rSal" min="8" max="20" step="0.5" value="11"></div>
+        <div class="cfield"><div class="cl"><span>Mức giảm thời gian nhờ IDP/LLM (%)</span><output id="oRed">50</output></div><input type="range" id="rRed" min="30" max="70" step="5" value="50"></div>
+        <div class="timebar"><div class="tb-rem" id="tbRem" style="width:50%"></div><div class="tb-sav" id="tbSav" style="width:50%"></div></div>
+        <div class="tb-legend"><span><i style="background:var(--navy)"></i>Thời gian còn cần: <b id="tbRemL">—</b></span><span><i style="background:var(--green)"></i>Giờ được giải phóng: <b id="tbSavL">—</b></span></div>
+        <div class="cout">
+          <div class="co hot"><div class="ov" id="cHours">—</div><div class="ol">giờ lao động tiết kiệm mỗi tháng</div></div>
+          <div class="co"><div class="ov" id="cMoney">—</div><div class="ol">triệu đồng giá trị giờ công/tháng (quy đổi theo lương)</div></div>
+          <div class="co"><div class="ov" id="cFte">—</div><div class="ol">tương đương số nhân sự toàn thời gian được "giải phóng"</div></div>
+          <div class="co hot"><div class="ov" id="cThru">—</div><div class="ol">thông lượng tiềm năng với cùng đội ngũ</div></div>
+        </div>
+        <p style="font-size:12.5px;color:var(--ink-soft);margin:0 0 12px;">Ước tính chỉ báo, tính trong trình duyệt của bạn. Khoảng giảm 30–70% dựa trên báo cáo IDP trong ngành (FreightMynd ~70%; mục tiêu Giai đoạn 1 của nghiên cứu: 40–70%; ngưỡng tối thiểu để tiến tiếp: 30%). Quy đổi giờ công theo 22 ngày × 8 giờ/tháng. Giá trị thực còn đến từ <strong>tránh chi phí sai sót</strong> và <strong>tốc độ báo giá</strong> — hai nguồn chưa nằm trong phép tính này.</p>
+      </div>
+      <h3>Hai nguồn giá trị còn lại</h3>
+      <ul class="clean">
+        <li><strong>Tránh chi phí do sai sót:</strong> ít tờ khai bị từ chối, ít bị xử phạt, ít sửa đổi sau thông quan — sai sót hải quan mang chi phí tài chính và uy tín trực tiếp.</li>
+        <li><strong>Tốc độ báo giá:</strong> phản hồi nhanh giành nhiều đơn đặt chỗ hơn (ở C.H. Robinson, thời gian báo giá giảm từ hàng giờ xuống 32 giây; tác tử "Orders Agent" lập một đơn trong ~90 giây, xử lý 5.500 đơn/ngày, tiết kiệm ~600 giờ lao động/ngày).</li>
+      </ul>
+      <h3>Bảng KPI cần thiết lập giá trị nền trước khi triển khai</h3>
+      <ul class="clean">
+        <li>Số tờ khai / bộ C/O xử lý trên mỗi nhân viên mỗi ngày</li>
+        <li>Thời gian xử lý trung bình mỗi tờ khai</li>
+        <li>Tỷ lệ chính xác ngay lần đầu và tỷ lệ bị từ chối</li>
+        <li>Tỷ lệ phải sửa đổi sau thông quan</li>
+        <li>Thời gian quay vòng báo giá và thời gian phản hồi khách hàng</li>
+        <li>Số giờ nhân sự được tái phân bổ sang công việc tiếp xúc khách hàng</li>
+        <li>Chi phí trên mỗi tờ khai</li>
+      </ul>
+      <div class="box warn"><div class="bx-h">Điều kiện tiên quyết</div><p><strong>Không có baseline thì không thể chứng minh hiệu quả một cách khách quan.</strong> Đo trước, triển khai sau.</p></div>
+    </section>
+
+    <!-- 7 -->
+    <section class="view" id="s7">
+      <div class="kicker"><span class="num">07</span><span class="line"></span></div>
+      <h2>Lộ trình Bò – Đi – Chạy</h2>
+      <p class="lead">Ba giai đoạn tuần tự — mỗi giai đoạn chỉ mở rộng khi giai đoạn trước <strong>đã chứng minh hiệu quả</strong>. Chọn tab để xem chi tiết và tự đánh dấu ngưỡng chuyển tiếp.</p>
+      <div class="trail">
+        <button class="tseg t0 cur" data-tp="tp0" style="width:12.5%">🐢 Bò<small>0–3</small></button>
+        <button class="tseg t1" data-tp="tp1" style="width:25%">🚶 Đi<small>3–9</small></button>
+        <button class="tseg t2" data-tp="tp2" style="width:62.5%">🏃 Chạy<small>9–24</small></button>
+      </div>
+      <div class="tscale"><span>Tháng 0</span><span>3</span><span>9</span><span>24</span></div>
+      <div class="tabs">
+        <button class="tabbtn active" data-tp="tp0">🐢 Bò<span class="tb-s">Tháng 0–3</span></button>
+        <button class="tabbtn" data-tp="tp1">🚶 Đi<span class="tb-s">Tháng 3–9</span></button>
+        <button class="tabbtn" data-tp="tp2">🏃 Chạy<span class="tb-s">Tháng 9–24</span></button>
+      </div>
+      <div class="tabpanel active" id="tp0">
+        <h3 style="margin-top:4px">Tác vụ hẹp, khối lượng lớn, rủi ro thấp</h3>
+        <p>Trích xuất dữ liệu từ chứng từ gửi qua email cho tờ khai hải quan (hóa đơn, phiếu đóng gói, C/O) — con người rà soát <strong>100%</strong> kết quả. Song song là một "thắng lợi nhanh": trợ lý tri thức nội bộ để tra cứu mã HS và quy trình nội bộ. Mục tiêu: giảm 40–70% thời gian xử lý trên tuyến thử nghiệm mà không tăng tỷ lệ bị từ chối.</p>
+        <h3>Ngưỡng để chuyển sang "Đi" — đánh dấu khi đạt</h3>
+        <label class="ck"><input type="checkbox" data-ph="0"><span>Thời gian xử lý giảm <strong>≥30%</strong> so với giá trị nền</span></label>
+        <label class="ck"><input type="checkbox" data-ph="0"><span>Độ chính xác <strong>không thấp hơn</strong> giá trị nền</span></label>
+        <label class="ck"><input type="checkbox" data-ph="0"><span>100% kết quả được người khai báo <strong>có chứng chỉ</strong> rà soát và ký</span></label>
+        <label class="ck"><input type="checkbox" data-ph="0"><span>Trợ lý tra cứu mã HS &amp; quy trình nội bộ đang hoạt động</span></label>
+        <div class="phasebadge" id="pb0">Chưa đủ điều kiện chuyển giai đoạn</div>
+      </div>
+      <div class="tabpanel" id="tp1">
+        <h3 style="margin-top:4px">Mở rộng có kiểm soát</h3>
+        <p>Bổ sung đề xuất phân loại mã HS, kiểm tra đối chiếu chéo giữa các chứng từ, sàng lọc đối tượng bị cấm vận, và soạn thảo email/báo giá bằng AI. Giảm rà soát của con người xuống mức <strong>theo ngoại lệ</strong> với các trường hợp thường quy, độ tin cậy cao. Tái phân bổ giờ được giải phóng sang quan hệ khách hàng và lô hàng phức tạp; <strong>cấp ngân sách đào tạo lại</strong>.</p>
+        <h3>Ngưỡng để chuyển sang "Chạy" — đánh dấu khi đạt</h3>
+        <label class="ck"><input type="checkbox" data-ph="1"><span>Thông lượng trên mỗi nhân viên <strong>tăng có ghi nhận</strong></span></label>
+        <label class="ck"><input type="checkbox" data-ph="1"><span>Thời gian phản hồi khách hàng <strong>cải thiện đo được</strong></span></label>
+        <label class="ck"><input type="checkbox" data-ph="1"><span>Tinh thần nhân viên <strong>ổn định hoặc tốt lên</strong></span></label>
+        <label class="ck"><input type="checkbox" data-ph="1"><span>Ngân sách đào tạo lại <strong>đã được cấp</strong> và sử dụng</span></label>
+        <div class="phasebadge" id="pb1">Chưa đủ điều kiện chuyển giai đoạn</div>
+      </div>
+      <div class="tabpanel" id="tp2">
+        <h3 style="margin-top:4px">Tác tử có lan can an toàn</h3>
+        <p>Mở rộng sang dự báo thời gian đến (ETA), tự động cập nhật trạng thái lô hàng, tạo báo cáo nội bộ và phân tích hợp đồng; thử nghiệm các luồng công việc tác tử cho giao dịch hoàn toàn thường quy — luôn duy trì <strong>nhật ký kiểm toán</strong> và <strong>lộ trình chuyển cho con người xử lý</strong>. Tận dụng hỗ trợ chuyển đổi số gắn với Nghị quyết 57.</p>
+        <h3>Tiêu chí thành công giai đoạn — đánh dấu khi đạt</h3>
+        <label class="ck"><input type="checkbox" data-ph="2"><span>Chi phí trên mỗi tờ khai <strong>giảm</strong></span></label>
+        <label class="ck"><input type="checkbox" data-ph="2"><span>Doanh thu trên mỗi nhân viên <strong>tăng</strong></span></label>
+        <label class="ck"><input type="checkbox" data-ph="2"><span>Chất lượng <strong>không suy giảm</strong></span></label>
+        <label class="ck"><input type="checkbox" data-ph="2"><span>Nhật ký kiểm toán &amp; lộ trình chuyển con người <strong>được duy trì</strong></span></label>
+        <div class="phasebadge" id="pb2">Chưa đạt đủ tiêu chí thành công</div>
+      </div>
+      <div class="box tip" style="margin-top:22px"><div class="bx-h">Nguyên tắc xuyên suốt</div><p>Chuyển giai đoạn theo <strong>số liệu so với baseline</strong>, không theo lịch. Các ô đánh dấu ở trên chỉ lưu trong phiên duyệt web — dùng làm bảng theo dõi khi họp giao ban.</p></div>
+    </section>
+
+    <!-- 8 -->
+    <section class="view" id="s8">
+      <div class="kicker"><span class="num">08</span><span class="line"></span></div>
+      <h2>Tự đánh giá mức độ sẵn sàng</h2>
+      <p class="lead">10 hạng mục rút từ điều kiện tiên quyết và lan can an toàn của nghiên cứu. Đánh dấu những gì công ty <strong>đã có</strong> — thanh đo và khuyến nghị cập nhật tức thì.</p>
+      <h3>Nền tảng quản trị &amp; pháp lý</h3>
+      <label class="ck"><input type="checkbox" class="rd"><span>Đã ban hành <strong>chính sách sử dụng AI được chấp nhận</strong> (cấm dán MST, hóa đơn, dữ liệu hải quan của khách vào công cụ AI tiêu dùng)</span></label>
+      <label class="ck"><input type="checkbox" class="rd"><span>Đã ký <strong>hợp đồng API thương mại kèm DPA</strong>, hoặc triển khai qua AWS Bedrock / Google Vertex AI</span></label>
+      <label class="ck"><input type="checkbox" class="rd"><span>Đã yêu cầu / kích hoạt chế độ <strong>Zero Data Retention</strong> cho dữ liệu hải quan mật</span></label>
+      <label class="ck"><input type="checkbox" class="rd"><span>Đã hoàn thành <strong>đánh giá tác động chuyển dữ liệu (TIA)</strong> nếu dữ liệu cá nhân công dân VN được xử lý ở nước ngoài — hoặc xác nhận không thuộc diện</span></label>
+      <h3>Hạ tầng dữ liệu (mức tối thiểu cho SME)</h3>
+      <label class="ck"><input type="checkbox" class="rd"><span>Kho lưu trữ chứng từ <strong>đã số hóa, đặt tên nhất quán</strong></span></label>
+      <label class="ck"><input type="checkbox" class="rd"><span>Hồ sơ khách hàng và mã số thuế <strong>có cấu trúc</strong></span></label>
+      <label class="ck"><input type="checkbox" class="rd"><span>Các <strong>mẫu biểu sạch</strong> cho từng loại chứng từ</span></label>
+      <h3>Vận hành &amp; con người</h3>
+      <label class="ck"><input type="checkbox" class="rd"><span>Đã thiết lập <strong>giá trị nền (baseline)</strong> cho các KPI: thời gian xử lý, độ chính xác lần đầu, thời gian báo giá</span></label>
+      <label class="ck"><input type="checkbox" class="rd"><span>Một người khai báo <strong>có chứng chỉ</strong> là người ký chịu trách nhiệm trên mọi tờ khai; <strong>nhật ký kiểm toán</strong> được duy trì</span></label>
+      <label class="ck"><input type="checkbox" class="rd"><span>Có <strong>"quán quân AI"</strong> nội bộ (một người am hiểu vận hành + bảo trợ của ban lãnh đạo) và kế hoạch đào tạo thực hành</span></label>
+      <div class="gaugewrap">
+        <div class="gauge"><i id="gFill"></i></div>
+        <div class="gmeta"><span>Mức độ sẵn sàng</span><b id="gScore">0 / 10</b></div>
+      </div>
+      <div class="gres" id="gRes"><b>Bắt đầu từ Giai đoạn 0.</b> Ưu tiên ba việc trong 0–4 tuần: ban hành chính sách sử dụng, ký API thương mại kèm DPA/ZDR, và chọn một tuyến thử nghiệm để đo baseline.</div>
+    </section>
+
+    <!-- 9 -->
+    <section class="view" id="s9">
+      <div class="kicker"><span class="num">09</span><span class="line"></span></div>
+      <h2>Chọn hạ tầng AI cho dữ liệu của bạn</h2>
+      <p class="lead">Tờ khai, mã số thuế, hóa đơn và C/O là dữ liệu thương mại nhạy cảm, thường thuộc nhiều mã số thuế khách hàng khác nhau. Bảo mật phải được <strong>thiết kế ngay từ ngày đầu</strong>.</p>
+      <h3>Thang an toàn dữ liệu — từ cấm đến khuyến nghị</h3>
+      <div class="ladder">
+        <div class="rung l0"><span class="ri">⛔</span><div><b>Chatbot tiêu dùng miễn phí <span class="tagx">Cấm cho dữ liệu khách</span></b><p>Gói tiêu dùng có thể huấn luyện trên dữ liệu. Dán MST, hóa đơn, tờ khai vào đây chính là "AI ngầm" — vi phạm tuân thủ.</p></div></div>
+        <div class="rung l1"><span class="ri">⚠️</span><div><b>Bộ định tuyến trung gian (OpenRouter…) <span class="tagx">Tránh cho dữ liệu mật</span></b><p>Thêm một bên xử lý dữ liệu, kéo theo chính sách của các nhà cung cấp hạ nguồn khác nhau — suy yếu đảm bảo hợp đồng và lưu trữ.</p></div></div>
+        <div class="rung l2"><span class="ri">🔐</span><div><b>API thương mại trực tiếp + DPA <span class="tagx">Chuẩn tối thiểu</span></b><p>Cam kết không huấn luyện trên dữ liệu theo hợp đồng; Anthropic giữ nhật ký API tiêu chuẩn 7 ngày (từ 14/9/2025).</p></div></div>
+        <div class="rung l3"><span class="ri">🛡️</span><div><b>API + Zero Data Retention, hoặc Bedrock / Vertex AI trong vùng thuê bao <span class="tagx">Khuyến nghị cho dữ liệu hải quan</span></b><p>ZDR: không lưu dữ liệu vào/ra sau khi phản hồi trả về (thỏa thuận cấp doanh nghiệp). Bedrock/Vertex: dữ liệu nằm trong vùng thuê bao của chính doanh nghiệp.</p></div></div>
+      </div>
+      <div class="wizard">
+        <div class="wq">Tải dữ liệu bạn định đưa qua AI thuộc tình huống nào?</div>
+        <div class="wiz-opts">
+          <button class="wiz-opt" data-res="wr0">Nội dung công khai / nội bộ không nhạy cảm — soạn thảo chung, tra cứu kiến thức</button>
+          <button class="wiz-opt" data-res="wr1">Có dữ liệu khách hàng: mã số thuế, hóa đơn, tờ khai, C/O</button>
+          <button class="wiz-opt" data-res="wr2">Có dữ liệu cá nhân của công dân Việt Nam, xử lý ở nước ngoài</button>
+          <button class="wiz-opt" data-res="wr3">Công ty đã có sẵn hạ tầng AWS hoặc Google Cloud</button>
+        </div>
+        <div class="wiz-res" id="wr0"><b>Gói API/ứng dụng thương mại tiêu chuẩn là đủ</b> — nhưng vẫn cấm dùng chatbot tiêu dùng miễn phí cho bất kỳ dữ liệu khách hàng nào, và đưa quy tắc này vào chính sách sử dụng để tránh "AI ngầm".</div>
+        <div class="wiz-res" id="wr1"><b>API thương mại trực tiếp + DPA + Zero Data Retention.</b> Điều khoản thương mại cam kết không huấn luyện trên dữ liệu khách hàng theo hợp đồng; Anthropic đã giảm lưu nhật ký API tiêu chuẩn xuống 7 ngày (từ 14/9/2025), và ZDR — kích hoạt theo tổ chức qua đội ngũ tài khoản — không lưu dữ liệu vào/ra sau khi phản hồi trả về. <b>Tránh bộ định tuyến trung gian như OpenRouter:</b> thêm một bên xử lý dữ liệu làm suy yếu các đảm bảo hợp đồng.</div>
+        <div class="wiz-res" id="wr2"><b>Cần lớp tuân thủ bổ sung:</b> hồ sơ đánh giá tác động chuyển dữ liệu xuyên biên giới (nộp trong 60 ngày kể từ ngày chuyển, cập nhật định kỳ 6 tháng), cân nhắc triển khai trong vùng thuê bao (Bedrock/Vertex) hoặc lưu trú dữ liệu theo vùng, và cơ chế con người trong vòng lặp được tài liệu hóa theo Nghị định 356. Theo dõi các LLM lưu trữ tại Việt Nam (Viettel, FPT, VNPT) — nếu đạt chất lượng cạnh tranh, chuyển tải dữ liệu mật về trong nước.</div>
+        <div class="wiz-res" id="wr3"><b>Claude trên AWS Bedrock hoặc Google Vertex AI</b> — dữ liệu nằm trong vùng thuê bao đám mây của doanh nghiệp, không được dùng để huấn luyện, và kế thừa DPA cùng kiểm soát truy cập sẵn có. Đây là cách C.H. Robinson dùng Azure AI có chủ đích để bảo đảm quyền riêng tư và tuân thủ.</div>
+      </div>
+      <h3>Nguyên tắc chung bất kể lựa chọn</h3>
+      <ul class="clean">
+        <li><strong>Không bao giờ</strong> dùng chatbot tiêu dùng cho dữ liệu khách hàng — gói tiêu dùng có thể huấn luyện trên dữ liệu.</li>
+        <li><strong>Lệ thuộc nhà cung cấp:</strong> giữ lời nhắc và dữ liệu có thể di chuyển; chọn nhà cung cấp cho phép chuyển đổi mô hình.</li>
+        <li><strong>"Ảo giác":</strong> giám sát con người và ngưỡng độ tin cậy; người khai báo có chứng chỉ chịu trách nhiệm cuối cùng.</li>
+        <li><strong>Quản trị tổ chức:</strong> chính sách sử dụng được chấp nhận + rà soát của con người với tờ khai + nhật ký kiểm toán; đào tạo thực hành trên công cụ cụ thể, không phải bài giảng trừu tượng.</li>
+      </ul>
+    </section>
+
+    <!-- 10 -->
+    <section class="view" id="s10">
+      <div class="kicker"><span class="num">10</span><span class="line"></span></div>
+      <h2>Tuân thủ pháp luật Việt Nam</h2>
+      <div class="box law"><div class="bx-h">Khung pháp lý hiệu lực 2026</div><p><strong>Luật Bảo vệ Dữ liệu Cá nhân (Luật số 91/2025/QH15)</strong> và <strong>Nghị định 356/2025/NĐ-CP</strong> có hiệu lực từ <strong>1/1/2026</strong>, với mức phạt lên tới <strong>5% doanh thu năm liền trước</strong> đối với vi phạm về chuyển dữ liệu xuyên biên giới. Bên cạnh đó: <strong>Luật Công nghiệp công nghệ số</strong> (71/2025/QH15, hiệu lực 1/1/2026, có chương về AI) và <strong>Luật Trí tuệ nhân tạo</strong> (134/2025/QH15, hiệu lực 1/3/2026).</p></div>
+      <div class="wizard">
+        <div class="wq">Doanh nghiệp có xử lý dữ liệu cá nhân của công dân Việt Nam ở nước ngoài (ví dụ qua API AI đặt máy chủ ngoài nước) không?</div>
+        <div class="wiz-opts">
+          <button class="wiz-opt" data-res="cr1">Có / có khả năng</button>
+          <button class="wiz-opt" data-res="cr0">Không — toàn bộ xử lý trong nước</button>
+        </div>
+        <div class="wiz-res" id="cr1">
+          <b>Nghĩa vụ chuyển dữ liệu xuyên biên giới kích hoạt:</b>
+          <div class="ltl">
+            <div class="lt-node"><b>Ngày chuyển dữ liệu</b>thời điểm bắt đầu xử lý dữ liệu cá nhân ở nước ngoài</div>
+            <div class="lt-gap">≤ 60 ngày<span>→</span></div>
+            <div class="lt-node"><b>Nộp hồ sơ TIA</b>cho cơ quan chuyên trách bảo vệ dữ liệu cá nhân (thuộc Bộ Công an)</div>
+            <div class="lt-gap">15 ngày<span>→</span></div>
+            <div class="lt-node"><b>Nhận kết quả</b>đạt / không đạt yêu cầu</div>
+            <div class="lt-gap">mỗi 6 tháng<span>↻</span></div>
+            <div class="lt-node loop"><b>Cập nhật hồ sơ</b>khi phát sinh mục đích hoặc bên xử lý mới</div>
+          </div>
+          Kèm theo: cân nhắc lưu trú dữ liệu theo vùng và cơ chế con người trong vòng lặp được tài liệu hóa.
+        </div>
+        <div class="wiz-res" id="cr0"><b>Nghĩa vụ chuyển dữ liệu xuyên biên giới chưa kích hoạt</b>, nhưng vẫn áp dụng: yêu cầu nội địa hóa một số dữ liệu người dùng Việt Nam (Luật An ninh mạng 2018/2025; Nghị định 53/2022, hiệu lực đến 30/6/2026) và yêu cầu của Nghị định 356 về <strong>minh bạch</strong> cùng <strong>sự can thiệp của con người</strong> đối với các quyết định tự động liên quan đến AI. Lưu ý: nếu sau này dùng API đặt máy chủ ở nước ngoài cho dữ liệu cá nhân, nghĩa vụ TIA sẽ kích hoạt.</div>
+      </div>
+      <div class="box warn"><div class="bx-h">Lưu ý</div><p>Quy định đang thay đổi nhanh. Cần <strong>kiểm chứng điều khoản hiện hành và tham vấn luật sư Việt Nam</strong> trước khi xử lý dữ liệu khách hàng qua bất kỳ dịch vụ AI đám mây nào.</p></div>
+    </section>
+
+    <!-- 11 -->
+    <section class="view" id="s11">
+      <div class="kicker"><span class="num">11</span><span class="line"></span></div>
+      <h2>Khám phá case study</h2>
+      <p class="lead">Lọc theo khu vực hoặc nhóm công nghệ để xem các trường hợp liên quan nhất với câu hỏi của bạn.</p>
+      <div class="chips" id="csChips">
+        <button class="chip on" data-f="all">Tất cả</button>
+        <button class="chip" data-f="global">🌍 Toàn cầu</button>
+        <button class="chip" data-f="vn">🇻🇳 Việt Nam &amp; khu vực</button>
+        <button class="chip" data-f="genai">AI tạo sinh &amp; tác tử</button>
+        <button class="chip" data-f="robot">Robot &amp; thị giác máy tính</button>
+        <button class="chip" data-f="dubao">Dự báo &amp; tối ưu</button>
+        <button class="chip" data-f="idp">Chứng từ &amp; hải quan</button>
+      </div>
+      <div class="box case cs" data-tags="global dubao"><div class="kstat"><div class="kv">320+</div><div class="kl">triệu USD tiết kiệm tính đến 12/2015</div></div><div class="kbody"><div class="bx-h">UPS — ORION (tối ưu tuyến đường)</div><p>Dự án nghiên cứu vận hành kéo dài cả thập kỷ, triển khai đầy đủ 2016; phân tích hơn 200.000 phương án định tuyến cho mỗi tài xế, ~30.000 phép tính tuyến mỗi phút. Theo INFORMS, đến 12/2015 đã tiết kiệm hơn 320 triệu USD; khi triển khai đầy đủ dự kiến 300–400 triệu USD/năm, giảm ~10 triệu gallon nhiên liệu và 100.000 tấn CO₂/năm — so với chi phí dự án ~250 triệu USD. Bản đầu cắt ~8 dặm/tài xế; "ORION động" (2020–2021) cắt thêm 2–4 dặm. Bài học lớn nhất nằm ở quản trị thay đổi (xem mục 05).</p></div></div>
+      <div class="box case cs" data-tags="global dubao genai"><div class="kstat"><div class="kv">−9,2%</div><div class="kl">nhiên liệu nhờ định tuyến tàu bằng AI</div></div><div class="kbody"><div class="bx-h">Maersk — bảo trì dự đoán &amp; định tuyến tàu</div><p>Định tuyến tàu bằng AI (Microsoft Azure) được báo cáo giảm ~9,2% nhiên liệu; bảo trì dự đoán giảm ~30% thời gian tàu ngừng hoạt động, đóng góp hơn 300 triệu USD/năm (số liệu do công ty công bố). Thử nghiệm NavAssist: giảm tới 12% nhiên liệu, cải thiện 16% độ chính xác ETA trên 130 tàu. Trung tâm Bangalore xây mô-đun tự động hóa đặt chỗ (RPA + NLP) xử lý ~17.000 giao dịch/tuần. Đáng chú ý: khảo sát 2024 của chính Maersk xếp AI chỉ hạng 10/15 xu hướng — sự thận trọng đáng tham khảo.</p></div></div>
+      <div class="box case cs" data-tags="global robot genai"><div class="kstat"><div class="kv">+30–180%</div><div class="kl">năng suất nhặt hàng với robot hỗ trợ</div></div><div class="kbody"><div class="bx-h">DHL — robot kho, thị giác máy tính, AI tác tử</div><p>Hơn 2.000 robot tự hành hỗ trợ nhặt hàng; năng suất nhặt hàng tăng 30–180%, lỗi nhặt giảm ~50%, hơn 500 triệu lượt nhặt có robot hỗ trợ tính đến giữa 2024. "DHLBots" phân loại hơn 1.000 kiện nhỏ/giờ với độ chính xác 99% (+40% công suất). Robot Stretch dỡ tới 700 thùng/giờ. Đầu tư 537 triệu GBP (737 triệu USD) cho hơn 1.000 robot tại Anh &amp; Ireland năm 2025. Về AI tạo sinh: hợp tác HappyRobot cho tác tử xử lý điện thoại và email; CIO Sally Miller cho biết đã dành hơn 18 tháng thử nghiệm có hệ thống.</p></div></div>
+      <div class="box case cs" data-tags="global genai idp"><div class="kstat"><div class="kv">32 giây</div><div class="kl">mỗi báo giá — trước đây mất hàng giờ</div></div><div class="kbody"><div class="bx-h">C.H. Robinson — phù hợp nhất với một forwarder</div><p>Trên Microsoft Azure OpenAI: hơn 30 tác tử AI, hơn 3 triệu tác vụ giao nhận. Báo giá qua email giảm từ hàng giờ xuống trung bình 32 giây; ~5.500 đơn hàng/ngày, mỗi đơn ~90 giây (so với ~7 phút thủ công), tiết kiệm ~600 giờ lao động/ngày; ~10.000 giao dịch thường quy/ngày được tự động hóa. AI tạo sinh đóng vai trò then chốt trong mức tăng năng suất 30% giai đoạn 2023–2024 (CEO sau đó nêu hơn 40% kể từ 2023). Năm 2026: tự động hóa 95% kiểm tra lỗi "bỏ sót lấy hàng LTL", tiết kiệm hơn 350 giờ/ngày. Họ chọn Azure AI có chủ đích để bảo đảm quyền riêng tư và tuân thủ dữ liệu — một hình mẫu.</p></div></div>
+      <div class="box case cs" data-tags="global robot dubao"><div class="kstat"><div class="kv">+75%</div><div class="kl">tốc độ nhận diện &amp; lưu kho (Sequoia)</div></div><div class="kbody"><div class="bx-h">Amazon — tương phản hữu ích</div><p>Hơn 1 triệu robot; hệ thống Sequoia nhận diện và lưu kho nhanh hơn tới 75%; cơ sở thế hệ mới giảm 25% thời gian hoàn tất đơn; "Wellspring" lập bản đồ hơn 2,8 triệu địa chỉ căn hộ. Nhưng tự động hóa của Amazon <strong>thiên về thay thế</strong> (mục tiêu bị rò rỉ: tự động hóa 75% khâu hoàn tất đơn hàng) — tương phản với mô hình tăng cường mà một SME nên áp dụng.</p></div></div>
+      <div class="box case cs" data-tags="global genai dubao idp"><div class="kstat"><div class="kv">20+</div><div class="kl">sản phẩm AI Flexport ra mắt riêng đợt 2/2025</div></div><div class="kbody"><div class="bx-h">Kuehne+Nagel, DSV, FedEx, Flexport</div><p>K+N: dự báo ETA cấp từng kiện hàng, nhận dạng chứng từ có khả năng từ chối ảnh bằng chứng giao hàng không đọc được, phân tích cảm xúc phản hồi tài xế. DSV (đã mua DB Schenker 2025) coi tăng tốc AI là trụ cột chiến lược với kỳ vọng lợi ích trong 18 tháng. FedEx: nền tảng Dataworks (2020), fdx (2024), giải pháp thông quan trên nền tảng (5/2025). Flexport: hơn 20 sản phẩm AI trong "Winter Release" 2/2025 (trên OpenAI, Anthropic, AWS) — tác tử giọng nói, định giá thời gian thực, bộ công nghệ hải quan; tuyên bố "tự động hóa 80% tác vụ hải quan vào 2025" là <em>mục tiêu hướng tới tương lai</em>, chưa phải kết quả kiểm chứng.</p></div></div>
+      <div class="box case cs" data-tags="vn robot"><div class="kstat"><div class="kv">×3,5</div><div class="kl">sản lượng tại tổ hợp Quang Minh</div></div><div class="kbody"><div class="bx-h">Viettel Post — trường hợp tiêu biểu của Việt Nam</div><p>Tháng 1/2024 khai trương tổ hợp chia chọn thông minh đầu tiên của Việt Nam (Quang Minh, Hà Nội): 200 robot AGV cùng Wheel Sorter Matrix và Cross-belt Sorter, tự động hóa khâu lấy hàng ~99%, xử lý tới 1,4 triệu bưu kiện/ngày (+40% công suất), rút thời gian giao từ 8–10 giờ xuống 2–3 giờ, tăng 3,5 lần sản lượng, giảm ~60% nhu cầu nhân sự tại cơ sở đó. Tự xây robot, băng chuyền và phần mềm trong ~6 tháng (so với ~2 năm trên thế giới). <strong>Lưu ý chuyển giao:</strong> đây là doanh nghiệp nhà nước được Bộ Quốc phòng hậu thuẫn — tiếp thu triết lý làm chủ công nghệ, không giả định về quy mô.</p></div></div>
+      <div class="box case cs" data-tags="vn idp dubao"><div class="kstat"><div class="kv">−95%</div><div class="kl">thời gian giao dịch tại cảng (3–4 giờ → ~10 phút)</div></div><div class="kbody"><div class="bx-h">Gemadept — SmartPort</div><p>Triển khai từ 2023: rút thời gian giao dịch tại cảng từ 3–4 giờ xuống ~10 phút (giảm ~95%), tăng trưởng sử dụng được báo cáo 400%, kèm hệ thống cổng xe SmartGate. Cụm cảng Cái Mép (nơi Gemadept vận hành Gemalink) đã vào nhóm 10 cảng container hiệu quả nhất thế giới.</p></div></div>
+      <div class="box case cs" data-tags="vn idp"><div class="kstat"><div class="kv">Để ngỏ</div><div class="kl">phần lớn mới ở mức số hóa chứng từ — cơ hội cho SME tiên phong AI</div></div><div class="kbody"><div class="bx-h">Tân Cảng Sài Gòn, Transimex, ITL, Sotrans</div><p>Tân Cảng vận hành hải quan điện tử nhiều năm; Transimex, Sotrans và ITL số hóa chứng từ ở nhiều mức độ, với lãnh đạo ITL nhấn mạnh "chuyển đổi kép" (số và xanh). Điểm đáng chú ý: ngay cả các doanh nghiệp tầm trung – lớn vẫn chủ yếu ở giai đoạn <strong>số hóa chứng từ</strong> — để ngỏ cơ hội cho một SME tiên phong về AI vượt lên.</p></div></div>
+      <div class="box case cs" data-tags="vn dubao"><div class="kstat"><div class="kv">99%</div><div class="kl">độ chính xác phân loại (J&amp;T tại Việt Nam)</div></div><div class="kbody"><div class="bx-h">Giao hàng chặng cuối khu vực</div><p>Ninja Van: tối ưu tuyến và theo dõi thời gian thực (~2 triệu bưu kiện/ngày) — nhưng việc bị định giá lại từ 1,5 tỷ USD (2021) xuống ~1 tỷ USD (2025) là lời cảnh báo rằng <strong>công nghệ đơn thuần không bảo đảm lợi nhuận</strong>. J&amp;T Express: ~25 tỷ bưu kiện năm 2024; trung tâm tại Việt Nam đạt độ chính xác phân loại 99%, xử lý ~3–5 phút. Grab: tối ưu tuyến được cho là giảm 15% thời gian giao. Shopee: phân tích dự báo cho quản lý tồn kho.</p></div></div>
+      <div class="gnone" id="csNone" style="display:none">Không có case study khớp bộ lọc này.</div>
+      <h3>Nhà cung cấp tham khảo</h3>
+      <p><strong>IDP toàn cầu:</strong> Raft, Digicust, PaperEntry (Deep Cognition), Veryfi, FreightMynd. <strong>Phần mềm khai báo Việt Nam (hệ thống ghi nhận chính thức):</strong> ECUS5VNACCS của Thái Sơn, FPT.TQDT — đều được Tổng cục Hải quan chứng nhận; G.O.L, Softech, TS24 cũng được chứng nhận. <strong>API LLM đa dụng:</strong> Anthropic Claude, OpenAI GPT theo điều khoản thương mại (kèm DPA/ZDR), hoặc qua AWS Bedrock / Google Vertex AI. <strong>Trong nước:</strong> Viettel Solutions, FPT IS, TMA Solutions.</p>
+    </section>
+
+    <!-- 12 -->
+    <section class="view" id="s12">
+      <div class="kicker"><span class="num">12</span><span class="line"></span></div>
+      <h2>Khuyến nghị hành động</h2>
+      <h3>Giai đoạn 0 — Nền tảng (ngay bây giờ, 0–4 tuần)</h3>
+      <ol class="steps">
+        <li>Ban hành <strong>chính sách sử dụng AI được chấp nhận</strong>: cấm dán mã số thuế, hóa đơn hoặc dữ liệu hải quan của khách hàng vào các công cụ AI tiêu dùng miễn phí.</li>
+        <li>Ký <strong>hợp đồng API thương mại</strong> (Anthropic và/hoặc OpenAI) kèm Thỏa thuận Xử lý Dữ liệu, hoặc kích hoạt Claude qua AWS/Google sẵn có — và <strong>yêu cầu chế độ Zero Data Retention</strong>.</li>
+        <li>Chọn <strong>một tuyến thử nghiệm</strong>: trích xuất chứng từ gửi qua email cho tờ khai. Thiết lập giá trị nền về thời gian xử lý, độ chính xác lần đầu và thời gian quay vòng báo giá.</li>
+      </ol>
+      <h3>Giai đoạn 1 → 3</h3>
+      <p>Triển khai theo lộ trình <strong>Bò – Đi – Chạy</strong> ở mục 07, chuyển giai đoạn theo ngưỡng số liệu (dùng danh sách đánh dấu trong tab). Mục tiêu Giai đoạn 1: giảm 40–70% thời gian xử lý trên tuyến thử nghiệm mà không tăng tỷ lệ bị từ chối.</p>
+      <div class="box law"><div class="bx-h">Lan can an toàn xuyên suốt</div><p>Giữ một người có chứng chỉ là người ký chịu trách nhiệm trên mọi tờ khai · duy trì nhật ký kiểm toán · hoàn thành đánh giá tác động chuyển dữ liệu xuyên biên giới nếu dữ liệu cá nhân công dân Việt Nam được xử lý ở nước ngoài · rà soát việc xử lý dữ liệu của nhà cung cấp hằng năm · tránh định tuyến dữ liệu mật qua bộ định tuyến trung gian thứ ba (ví dụ OpenRouter).</p></div>
+      <div class="box tip"><div class="bx-h">Những điều có thể làm thay đổi kế hoạch</div><p><strong>(1)</strong> Nếu một LLM lưu trữ tại Việt Nam và tuân thủ pháp luật (Viettel, FPT, VNPT) đạt chất lượng cạnh tranh → chuyển các tải dữ liệu mật về trong nước để đơn giản hóa tuân thủ nội địa hóa. <strong>(2)</strong> Nếu việc thực thi Nghị định 356 trở nên nghiêm ngặt với xử lý AI xuyên biên giới → ưu tiên triển khai trong vùng thuê bao/trong nước sớm hơn. <strong>(3)</strong> Nếu một đối thủ trong phân khúc công khai triển khai báo giá bằng AI → đẩy nhanh Giai đoạn 2.</p></div>
+      <h3>Năm sai lầm cần tránh</h3>
+      <div class="pitfall"><div class="pf-bad"><span class="x">1</span><p><b>Dùng AI ngoài ranh giới năng lực của nó</b> — chính là phát hiện về mức sụt giảm hiệu suất 19 điểm phần trăm.</p></div><button class="reveal">Xem cách sửa →</button><div class="fix"><div class="inner"><span class="v">✓</span><p>Giữ <b>giám sát của con người</b> ở các tác vụ đòi hỏi phán đoán.</p></div></div></div>
+      <div class="pitfall"><div class="pf-bad"><span class="x">2</span><p><b>Chất lượng dữ liệu kém.</b> "AI tạo sinh chỉ tốt ngang với dữ liệu nuôi nó" (DHL).</p></div><button class="reveal">Xem cách sửa →</button><div class="fix"><div class="inner"><span class="v">✓</span><p>Hoàn thành điều kiện tiên quyết về dữ liệu <b>trước</b> khi triển khai — xem bảng tự chấm ở mục 08.</p></div></div></div>
+      <div class="pitfall"><div class="pf-bad"><span class="x">3</span><p><b>Bỏ qua quản trị thay đổi</b> — bài học ORION của UPS.</p></div><button class="reveal">Xem cách sửa →</button><div class="fix"><div class="inner"><span class="v">✓</span><p>Cho nhân viên tham gia thiết kế, làm AI giải thích được, đổi thước đo, cam kết tái đầu tư năng suất.</p></div></div></div>
+      <div class="pitfall"><div class="pf-bad"><span class="x">4</span><p><b>Tham lam ôm đồm.</b></p></div><button class="reveal">Xem cách sửa →</button><div class="fix"><div class="inner"><span class="v">✓</span><p>Kỷ luật của C.H. Robinson: không ném AI vào mọi thứ — <b>chỉ dùng tác tử AI ở những nơi mang lại kết quả kinh doanh cụ thể</b>.</p></div></div></div>
+      <div class="pitfall"><div class="pf-bad"><span class="x">5</span><p><b>AI ngầm (shadow AI):</b> nhân viên dán dữ liệu mật của khách hàng vào các chatbot tiêu dùng miễn phí, tạo vi phạm tuân thủ.</p></div><button class="reveal">Xem cách sửa →</button><div class="fix"><div class="inner"><span class="v">✓</span><p>Ban hành <b>chính sách sử dụng được chấp nhận</b> và cấp công cụ chính thức (API thương mại) để nhân viên không phải "lách".</p></div></div></div>
+    </section>
+
+    <!-- 13 -->
+    <section class="view" id="s13">
+      <div class="kicker"><span class="num">13</span><span class="line"></span></div>
+      <h2>Giới hạn dữ liệu &amp; lưu ý độ tin cậy</h2>
+      <p class="lead">Đọc số liệu trong cẩm nang này thế nào cho đúng — giữ nguyên tinh thần trung thực của báo cáo gốc.</p>
+      <ul class="clean">
+        <li><strong>Số liệu quy mô thị trường</strong> là dự báo của các nhà cung cấp dịch vụ nghiên cứu, không phải kết quả kiểm toán, và dao động rất rộng (CAGR thị trường AI trong logistics toàn cầu trải từ 26% đến 47% tùy tổ chức).</li>
+        <li>Một số kết quả nổi bật là <strong>do công ty công bố</strong> hoặc từ báo chí (các con số của Maersk, NavAssist); một số là <strong>mục tiêu hướng tới tương lai</strong> (Maersk "80% tác vụ", Flexport "80% hải quan vào 2025") — chưa được kiểm chứng.</li>
+        <li>Con số "68% doanh nghiệp ứng dụng" bắt nguồn từ phát biểu của một chuyên gia tư vấn YCP qua Vietnam Investment Review (6/2025); con số "~10%" tự động hóa là của toàn nền kinh tế, không riêng logistics.</li>
+        <li><strong>Không tồn tại thống kê chính thức</strong> về số lượng doanh nghiệp logistics Việt Nam — VLA cũng thừa nhận; các con số 3.000 và hơn 5.000 đến từ các cơ quan và năm khác nhau.</li>
+        <li>Số liệu lương lấy từ trang tuyển dụng — mang tính chỉ báo, không phải thống kê chính thức. Kết quả máy tính ROI ở mục 06 vì vậy cũng chỉ là <strong>ước tính chỉ báo</strong>.</li>
+        <li>Quy định về dữ liệu và AI đang thay đổi nhanh — kiểm chứng điều khoản hiện hành và tham vấn luật sư trước khi xử lý dữ liệu khách hàng qua dịch vụ AI đám mây.</li>
+        <li>Kết quả Viettel Post <strong>không chuyển giao trực tiếp</strong> cho một SME — tiếp thu triết lý, không giả định về quy mô.</li>
+      </ul>
+    </section>
+
+    <!-- 14 -->
+    <section class="view" id="s14">
+      <div class="kicker"><span class="num">14</span><span class="line"></span></div>
+      <h2>Tự kiểm tra</h2>
+      <div class="quizbar"><b>8 câu — chọn đáp án để xem giải thích</b><span id="quizScore">Điểm: 0 / 8</span></div>
+      <div class="q"><div class="qq">1. Theo nghiên cứu trên Quarterly Journal of Economics (5.179 nhân viên), nhóm nào hưởng lợi năng suất lớn nhất từ trợ lý AI?</div><div class="opts">
+        <button class="opt">Chuyên gia giàu kinh nghiệm nhất</button>
+        <button class="opt" data-correct="1">Lao động ít kinh nghiệm (~34%)</button>
+        <button class="opt">Quản lý cấp trung</button>
+      </div><div class="q-exp">Mức tăng trung bình là 14%, nhưng nhóm ít kinh nghiệm tăng ~34% — AI thực chất chuyển giao tri thức chuyên gia cho người mới. Điều này đặc biệt phù hợp khi chỉ 5–7% nhân sự logistics Việt Nam được đào tạo bài bản.</div></div>
+      <div class="q"><div class="qq">2. Thí nghiệm HBS × BCG phát hiện gì với nhiệm vụ "nằm ngoài ranh giới năng lực" của AI?</div><div class="opts">
+        <button class="opt">AI vẫn nhanh hơn nhưng đắt hơn</button>
+        <button class="opt">Không có khác biệt đáng kể</button>
+        <button class="opt" data-correct="1">Người dùng AI có xác suất đưa ra lời giải đúng thấp hơn 19%</button>
+      </div><div class="q-exp">Đây là lý do cốt lõi của nguyên tắc: AI soạn thảo, người khai báo có chứng chỉ kiểm tra và ký.</div></div>
+      <div class="q"><div class="qq">3. Điểm khởi đầu có tỷ suất hoàn vốn cao nhất cho một forwarder Việt Nam là gì?</div><div class="opts">
+        <button class="opt" data-correct="1">Nghiệp vụ chứng từ hải quan và C/O</button>
+        <button class="opt">Chatbot chăm sóc khách hàng</button>
+        <button class="opt">Dự báo ETA toàn chuỗi</button>
+      </div><div class="q-exp">Tác vụ hẹp, khối lượng lớn, rủi ro thấp — và IDP trong ngành báo cáo giảm ~70% thời gian lập tờ khai. ETA thuộc giai đoạn "Chạy" về sau.</div></div>
+      <div class="q"><div class="qq">4. Chế độ nào phù hợp nhất khi gửi dữ liệu hải quan mật qua API LLM?</div><div class="opts">
+        <button class="opt">Gói chatbot tiêu dùng miễn phí có bật chế độ ẩn danh</button>
+        <button class="opt" data-correct="1">API thương mại kèm DPA và Zero Data Retention</button>
+        <button class="opt">Bất kỳ API nào, miễn xóa lịch sử thủ công</button>
+      </div><div class="q-exp">ZDR: dữ liệu vào/ra không được lưu sau khi phản hồi trả về. Đây là thỏa thuận cấp doanh nghiệp, kích hoạt theo từng tổ chức.</div></div>
+      <div class="q"><div class="qq">5. Vì sao nên tránh bộ định tuyến trung gian (như OpenRouter) cho dữ liệu mật?</div><div class="opts">
+        <button class="opt">Vì giá cao hơn API trực tiếp</button>
+        <button class="opt" data-correct="1">Vì thêm một bên xử lý dữ liệu, làm suy yếu các đảm bảo hợp đồng và lưu trữ</button>
+        <button class="opt">Vì tốc độ phản hồi chậm hơn</button>
+      </div><div class="q-exp">Định tuyến qua trung gian kéo theo chính sách của các nhà cung cấp hạ nguồn khác nhau — nên ký hợp đồng trực tiếp hoặc triển khai qua AWS Bedrock / Google Vertex AI.</div></div>
+      <div class="q"><div class="qq">6. Luật Bảo vệ Dữ liệu Cá nhân và Nghị định 356 có hiệu lực khi nào, mức phạt tối đa cho vi phạm chuyển dữ liệu xuyên biên giới là bao nhiêu?</div><div class="opts">
+        <button class="opt">1/3/2026 — phạt cố định 1 tỷ đồng</button>
+        <button class="opt" data-correct="1">1/1/2026 — tới 5% doanh thu năm liền trước</button>
+        <button class="opt">1/7/2025 — tới 2% doanh thu</button>
+      </div><div class="q-exp">Hồ sơ đánh giá tác động chuyển dữ liệu phải nộp trong 60 ngày kể từ ngày chuyển; cơ quan trả kết quả trong 15 ngày; cập nhật định kỳ 6 tháng.</div></div>
+      <div class="q"><div class="qq">7. Ngưỡng để chuyển từ giai đoạn "Bò" sang "Đi" là gì?</div><div class="opts">
+        <button class="opt" data-correct="1">Thời gian xử lý giảm ≥30% và độ chính xác không thấp hơn giá trị nền</button>
+        <button class="opt">Đủ 3 tháng theo lịch là chuyển</button>
+        <button class="opt">Nhân viên đã quen dùng công cụ</button>
+      </div><div class="q-exp">Mỗi giai đoạn chỉ mở rộng khi giai đoạn trước đã chứng minh hiệu quả bằng số liệu so với baseline — không theo lịch.</div></div>
+      <div class="q"><div class="qq">8. Với một forwarder SME, lựa chọn đúng giữa tự xây và mua giải pháp là gì?</div><div class="opts">
+        <button class="opt">Tự xây mô hình độc quyền như C.H. Robinson</button>
+        <button class="opt" data-correct="1">Mua và cấu hình — công cụ IDP/LLM chuyên biệt cộng API LLM đa dụng</button>
+        <button class="opt">Chờ giải pháp miễn phí mã nguồn mở hoàn thiện</button>
+      </div><div class="q-exp">Tự xây đòi hỏi quy mô dữ liệu và đội ngũ kỹ sư mà SME không có. ECUS/FPT.TQDT vẫn là hệ thống ghi nhận chính thức.</div></div>
+      <div class="qresult" id="quizResult"></div>
+    </section>
+
+    <!-- 15 -->
+    <section class="view" id="s15">
+      <div class="kicker"><span class="num">15</span><span class="line"></span></div>
+      <h2>Thuật ngữ &amp; tra cứu</h2>
+      <input class="gsearch" id="glossaryFilter" type="text" placeholder="Gõ để lọc thuật ngữ… (ví dụ: ZDR, IDP, tác tử)">
+      <div class="gterm"><b>LLM — Mô hình ngôn ngữ lớn</b><p>Loại AI đọc và sinh văn bản; nay đọc được PDF hóa đơn kèm ghi chú viết tay và trích xuất dữ liệu có cấu trúc đáng tin cậy.</p></div>
+      <div class="gterm"><b>AI tạo sinh (Generative AI)</b><p>AI sinh nội dung mới (văn bản, email, báo giá) thay vì chỉ phân loại hoặc dự báo.</p></div>
+      <div class="gterm"><b>AI tác tử (Agentic AI)</b><p>AI tự thực hiện chuỗi tác vụ thường quy theo mục tiêu được giao — luôn cần nhật ký kiểm toán và lộ trình chuyển cho con người.</p></div>
+      <div class="gterm"><b>Human-in-the-loop — Con người trong vòng lặp</b><p>Mô hình vận hành trong đó con người giám sát, phê duyệt hoặc can thiệp vào quyết định của AI; bắt buộc với tờ khai hải quan.</p></div>
+      <div class="gterm"><b>IDP — Xử lý chứng từ thông minh</b><p>Trích xuất dữ liệu từ hóa đơn, phiếu đóng gói, C/O, vận đơn và điền sẵn tờ khai. Ví dụ: Raft, Digicust, PaperEntry, Veryfi, FreightMynd.</p></div>
+      <div class="gterm"><b>OCR — Nhận dạng ký tự quang học</b><p>Công nghệ chuyển hình ảnh văn bản thành văn bản máy đọc được; nền tảng của IDP.</p></div>
+      <div class="gterm"><b>RPA — Tự động hóa quy trình bằng robot phần mềm</b><p>Tự động hóa thao tác lặp lại trên hệ thống có sẵn; Maersk kết hợp RPA + NLP xử lý ~17.000 giao dịch đặt chỗ mỗi tuần.</p></div>
+      <div class="gterm"><b>ZDR — Zero Data Retention</b><p>Chế độ không lưu giữ dữ liệu: đầu vào/đầu ra không được lưu sau khi phản hồi trả về. Thỏa thuận cấp doanh nghiệp, kích hoạt theo tổ chức.</p></div>
+      <div class="gterm"><b>DPA — Thỏa thuận Xử lý Dữ liệu</b><p>Hợp đồng quy định cách nhà cung cấp xử lý dữ liệu của doanh nghiệp; điều kiện cần khi dùng API thương mại.</p></div>
+      <div class="gterm"><b>TIA — Đánh giá tác động chuyển dữ liệu</b><p>Hồ sơ đánh giá tác động chuyển dữ liệu cá nhân xuyên biên giới — nộp cho cơ quan thuộc Bộ Công an trong 60 ngày kể từ ngày chuyển.</p></div>
+      <div class="gterm"><b>VNACCS/VCIS</b><p>Hệ thống thông quan tự động của Hải quan Việt Nam, vận hành từ 4/2014 (Nhật Bản tài trợ); phân luồng rủi ro Xanh/Vàng/Đỏ.</p></div>
+      <div class="gterm"><b>ECUS / FPT.TQDT</b><p>Phần mềm khai báo hải quan Việt Nam được Tổng cục Hải quan chứng nhận — hệ thống ghi nhận chính thức; AI làm việc ở khâu trước đó.</p></div>
+      <div class="gterm"><b>C/O — Chứng nhận xuất xứ</b><p>Chứng từ xác nhận xuất xứ hàng hóa (ví dụ mẫu D trao đổi điện tử qua một cửa ASEAN); nghiệp vụ trọng tâm của cẩm nang này.</p></div>
+      <div class="gterm"><b>Mã HS</b><p>Mã phân loại hàng hóa hài hòa; phân loại mã HS là ứng dụng AI thuộc giai đoạn "Đi" — luôn cần con người xác nhận.</p></div>
+      <div class="gterm"><b>ETA — Thời gian đến dự kiến</b><p>Dự báo thời gian hàng đến; ứng dụng AI dự báo thuộc giai đoạn "Chạy".</p></div>
+      <div class="gterm"><b>CAGR — Tốc độ tăng trưởng kép hằng năm</b><p>Chỉ số đo tăng trưởng trung bình mỗi năm của một thị trường qua nhiều năm.</p></div>
+      <div class="gterm"><b>Baseline — Giá trị nền</b><p>Số đo hiện trạng (thời gian xử lý, độ chính xác, thời gian báo giá) thiết lập trước khi triển khai để chứng minh hiệu quả khách quan.</p></div>
+      <div class="gterm"><b>Shadow AI — AI ngầm</b><p>Nhân viên tự dùng chatbot tiêu dùng với dữ liệu mật của khách hàng — vi phạm tuân thủ; phòng ngừa bằng chính sách sử dụng và công cụ chính thức.</p></div>
+      <div class="gterm"><b>Ảo giác (Hallucination)</b><p>Hiện tượng AI tạo ra thông tin nghe hợp lý nhưng sai; giảm thiểu bằng giám sát con người và ngưỡng độ tin cậy.</p></div>
+      <div class="gterm"><b>Lệ thuộc nhà cung cấp (Vendor lock-in)</b><p>Rủi ro khó chuyển đổi nhà cung cấp; giảm thiểu bằng cách giữ lời nhắc và dữ liệu có thể di chuyển.</p></div>
+      <div class="gterm"><b>Nội địa hóa dữ liệu</b><p>Yêu cầu một số dữ liệu người dùng Việt Nam phải lưu trữ trong nước (Luật An ninh mạng 2018/2025; Nghị định 53/2022, hiệu lực đến 30/6/2026).</p></div>
+      <div class="gterm"><b>AWS Bedrock / Google Vertex AI</b><p>Nền tảng đám mây cho phép chạy Claude trong vùng thuê bao của doanh nghiệp — dữ liệu không dùng để huấn luyện.</p></div>
+      <div class="gterm"><b>RCT — Thử nghiệm ngẫu nhiên có đối chứng</b><p>Phương pháp nghiên cứu tin cậy cao; nghiên cứu QJE 2025 về trợ lý AI là một RCT trên 5.179 nhân viên.</p></div>
+      <div class="gnone" id="gNone" style="display:none">Không tìm thấy thuật ngữ phù hợp.</div>
+      <div class="refs">
+        <h3>Nguồn</h3>
+        <p>Cẩm nang này được biên soạn từ báo cáo nội bộ <em>"Ứng dụng Trí tuệ Nhân tạo để Dẫn dắt Ngành Giao nhận Vận tải và Đại lý Hải quan Việt Nam — Khung chiến lược cho lãnh đạo doanh nghiệp giai đoạn 2026–2030"</em> (tháng 6/2026). Danh mục tài liệu tham khảo đầy đủ nằm trong báo cáo gốc.</p>
+        <span class="pill">Brynjolfsson, Li &amp; Raymond — QJE 2025</span><span class="pill">Dell'Acqua et al. — HBS 2023</span><span class="pill">Fed St. Louis</span><span class="pill">INFORMS — UPS ORION</span><span class="pill">Microsoft — C.H. Robinson</span><span class="pill">World Bank — VNACCS</span><span class="pill">Mordor · Precedence · DataM · R&amp;M</span><span class="pill">YCP Vietnam · VIR</span><span class="pill">TT Club</span>
+      </div>
+    </section>
+
+    </div>
+  </main>
+</div>
+
+<div class="pager">
+  <button id="pagerPrev">← Trước</button>
+  <span class="plabel" id="pagerLabel">1 / 16</span>
+  <button id="pagerNext">Sau →</button>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var views = Array.prototype.slice.call(document.querySelectorAll('.view'));
+  var order = views.map(function(v){return v.id;});
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.navlink'));
+  var progress = document.getElementById('progressFill');
+  var pagerPrev = document.getElementById('pagerPrev');
+  var pagerNext = document.getElementById('pagerNext');
+  var pagerLabel = document.getElementById('pagerLabel');
+  var topTitle = document.getElementById('topTitle');
+  var sidebar = document.getElementById('sidebar');
+  var backdrop = document.getElementById('backdrop');
+  var current = 0;
+
+  function titleOf(id){
+    var v = document.getElementById(id);
+    var h = v ? v.querySelector('h1,h2') : null;
+    return h ? h.textContent : 'Cẩm nang AI';
+  }
+  function closeNav(){ sidebar.classList.remove('open'); backdrop.classList.remove('show'); }
+  function openNav(){ sidebar.classList.add('open'); backdrop.classList.add('show'); }
+
+  /* ===== animated counters ===== */
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function fmt(n, dec){
+    var s = n.toFixed(dec);
+    var parts = s.split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return dec > 0 ? parts[0] + ',' + parts[1] : parts[0];
+  }
+  function runCounters(view){
+    var cs = view.querySelectorAll('.cnt:not(.cdone)');
+    Array.prototype.forEach.call(cs, function(el){
+      el.classList.add('cdone');
+      var to = parseFloat(el.getAttribute('data-to')) || 0;
+      var dec = parseInt(el.getAttribute('data-dec') || '0', 10);
+      if(reduceMotion){ el.textContent = fmt(to, dec); return; }
+      var t0 = null, dur = 900;
+      function step(ts){
+        if(!t0) t0 = ts;
+        var p = Math.min((ts - t0) / dur, 1);
+        var e = 1 - Math.pow(1 - p, 3);
+        el.textContent = fmt(to * e, dec);
+        if(p < 1) requestAnimationFrame(step); else el.textContent = fmt(to, dec);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+
+  function runBars(view){
+    var bs = view.querySelectorAll('.cfill[data-w]:not(.bdone), .dfill[data-w]:not(.bdone)');
+    Array.prototype.forEach.call(bs, function(el){
+      el.classList.add('bdone');
+      var w = el.getAttribute('data-w') + '%';
+      if(reduceMotion){ el.style.width = w; return; }
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){ el.style.width = w; }); });
+    });
+  }
+
+  function show(id, updateHash){
+    var idx = order.indexOf(id);
+    if(idx < 0) idx = 0;
+    current = idx;
+    for(var i=0;i<views.length;i++){ views[i].classList.remove('active'); }
+    var view = views[idx];
+    view.classList.add('active');
+    view.style.animation = 'none';
+    void view.offsetWidth;
+    view.style.animation = '';
+    for(var j=0;j<navLinks.length;j++){
+      navLinks[j].classList.toggle('active', navLinks[j].getAttribute('data-target') === order[idx]);
+    }
+    progress.style.width = ((idx+1)/order.length*100) + '%';
+    pagerPrev.disabled = (idx === 0);
+    pagerNext.disabled = (idx === order.length-1);
+    pagerLabel.textContent = (idx+1) + ' / ' + order.length;
+    if(topTitle){ topTitle.textContent = titleOf(order[idx]); }
+    window.scrollTo(0,0);
+    runCounters(view);
+    runBars(view);
+    if(updateHash !== false){
+      try{ history.replaceState(null,'','#'+id); }catch(e){ location.hash = id; }
+    }
+    closeNav();
+  }
+  function go(delta){
+    var n = current + delta;
+    if(n < 0) n = 0;
+    if(n > order.length-1) n = order.length-1;
+    show(order[n]);
+  }
+
+  navLinks.forEach(function(a){ a.addEventListener('click', function(){ show(a.getAttribute('data-target')); }); });
+  var brand = document.querySelector('.brand');
+  if(brand){ brand.addEventListener('click', function(){ show('s0'); }); }
+  pagerPrev.addEventListener('click', function(){ go(-1); });
+  pagerNext.addEventListener('click', function(){ go(1); });
+  document.addEventListener('keydown', function(e){
+    var t = e.target;
+    if(t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
+    if(e.key === 'ArrowRight'){ go(1); }
+    if(e.key === 'ArrowLeft'){ go(-1); }
+  });
+
+  var menuBtn = document.getElementById('menuBtn');
+  if(menuBtn){ menuBtn.addEventListener('click', openNav); }
+  backdrop.addEventListener('click', closeNav);
+
+  var initial = (location.hash || '').replace('#','');
+  show(order.indexOf(initial) >= 0 ? initial : order[0], false);
+  window.addEventListener('hashchange', function(){
+    var h = (location.hash || '').replace('#','');
+    if(order.indexOf(h) >= 0 && h !== order[current]) show(h, false);
+  });
+
+  // role paths
+  document.querySelectorAll('.pathcard').forEach(function(c){
+    c.addEventListener('click', function(){ show(c.getAttribute('data-path')); });
+  });
+
+  /* ===== flow pipeline (s3) ===== */
+  var fdetails = {
+    fd0: '<b>Email chứng từ.</b> Hóa đơn thương mại, phiếu đóng gói và C/O đến qua email — thường là PDF, đôi khi kèm ghi chú viết tay. Đây là điểm bắt đầu của mọi bộ hồ sơ.',
+    fd1: '<b>Trích xuất (AI — giai đoạn Bò).</b> LLM/IDP đọc PDF và trả về các trường dữ liệu có cấu trúc. Chính nút thắt "tồn tại hàng chục năm" này nay đã giải được — lý do làn sóng tự động hóa bùng phát.',
+    fd2: '<b>Đối chiếu (AI — giai đoạn Đi).</b> Kiểm tra chéo giữa hóa đơn – phiếu đóng gói – C/O để phát hiện sai lệch; bổ sung sàng lọc đối tượng bị cấm vận.',
+    fd3: '<b>Mã HS (AI đề xuất — giai đoạn Đi).</b> AI đề xuất phân loại, con người xác nhận. Tác vụ đòi hỏi phán đoán — đúng vùng cần giám sát theo phát hiện "−19% ngoài ranh giới".',
+    fd4: '<b>Soạn tờ khai (AI — giai đoạn Bò/Đi).</b> AI điền sẵn tờ khai từ dữ liệu đã trích xuất và đối chiếu, trước khi đưa vào phần mềm khai báo.',
+    fd5: '<b>Người ký rà soát (bắt buộc).</b> Người khai báo có chứng chỉ kiểm tra và ký — trách nhiệm pháp lý nằm ở đây. Giai đoạn Bò: rà soát 100%; giai đoạn Đi: rà soát theo ngoại lệ với trường hợp thường quy.',
+    fd6: '<b>ECUS / FPT.TQDT.</b> Hệ thống ghi nhận chính thức, được Tổng cục Hải quan chứng nhận. AI không thay thế lớp này — chỉ chuẩn bị dữ liệu cho nó.',
+    fd7: '<b>VNACCS/VCIS.</b> "Đường ống" của cơ quan nhà nước, đã điện tử hóa từ 4/2014: phê duyệt, phân luồng Xanh/Vàng/Đỏ, thông quan.'
+  };
+  var fdetailEl = document.getElementById('fdetail');
+  document.querySelectorAll('.fstep').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('.fstep').forEach(function(x){ x.classList.remove('on'); });
+      b.classList.add('on');
+      if(fdetailEl) fdetailEl.innerHTML = fdetails[b.getAttribute('data-fd')] || '';
+    });
+  });
+
+  /* ===== ROI calculator (s6) ===== */
+  var rIds = ['rVol','rMin','rSal','rRed'];
+  function calcROI(){
+    var vol = parseFloat((document.getElementById('rVol')||{}).value || 0);
+    var min = parseFloat((document.getElementById('rMin')||{}).value || 0);
+    var sal = parseFloat((document.getElementById('rSal')||{}).value || 0);
+    var red = parseFloat((document.getElementById('rRed')||{}).value || 0) / 100;
+    var o;
+    if(o = document.getElementById('oVol')) o.textContent = fmt(vol,0);
+    if(o = document.getElementById('oMin')) o.textContent = fmt(min,0) + ' phút';
+    if(o = document.getElementById('oSal')) o.textContent = fmt(sal, sal % 1 ? 1 : 0) + ' tr';
+    if(o = document.getElementById('oRed')) o.textContent = fmt(red*100,0) + '%';
+    var hoursTotal = vol * min / 60;          // tổng giờ hiện tại/tháng
+    var hoursSaved = hoursTotal * red;        // giờ tiết kiệm/tháng
+    var hourly = sal / 176;                   // triệu đồng mỗi giờ công (22 ngày × 8 giờ)
+    var money = hoursSaved * hourly;          // triệu đồng/tháng
+    var fte = hoursSaved / 176;               // nhân sự toàn thời gian tương đương
+    var thru = red < 1 ? 1 / (1 - red) : 0;   // hệ số thông lượng tiềm năng
+    if(o = document.getElementById('cHours')) o.textContent = fmt(hoursSaved, 0);
+    if(o = document.getElementById('cMoney')) o.textContent = fmt(money, 1);
+    if(o = document.getElementById('cFte'))   o.textContent = fmt(fte, 1);
+    if(o = document.getElementById('cThru'))  o.textContent = '×' + fmt(thru, 1);
+    var rem = document.getElementById('tbRem'), sav = document.getElementById('tbSav');
+    if(rem && sav){ rem.style.width = ((1-red)*100).toFixed(1) + '%'; sav.style.width = (red*100).toFixed(1) + '%'; }
+    if(o = document.getElementById('tbRemL')) o.textContent = fmt(hoursTotal - hoursSaved, 0) + ' giờ/tháng';
+    if(o = document.getElementById('tbSavL')) o.textContent = fmt(hoursSaved, 0) + ' giờ/tháng';
+  }
+  rIds.forEach(function(id){ var el = document.getElementById(id); if(el) el.addEventListener('input', calcROI); });
+  if(document.getElementById('rVol')) calcROI();
+
+  /* ===== phase tabs + checklists (s7) ===== */
+  function setTab(tp){
+    document.querySelectorAll('.tabbtn').forEach(function(x){ x.classList.toggle('active', x.getAttribute('data-tp') === tp); });
+    document.querySelectorAll('.tabpanel').forEach(function(p){ p.classList.toggle('active', p.id === tp); });
+    document.querySelectorAll('.tseg').forEach(function(s){ s.classList.toggle('cur', s.getAttribute('data-tp') === tp); });
+  }
+  document.querySelectorAll('.tabbtn, .tseg').forEach(function(b){
+    b.addEventListener('click', function(){ setTab(b.getAttribute('data-tp')); });
+  });
+  var phaseMsgs = [
+    ['Chưa đủ điều kiện chuyển giai đoạn', '✓ Đủ điều kiện chuyển sang "Đi"'],
+    ['Chưa đủ điều kiện chuyển giai đoạn', '✓ Đủ điều kiện chuyển sang "Chạy"'],
+    ['Chưa đạt đủ tiêu chí thành công', '✓ Giai đoạn "Chạy" đạt tiêu chí thành công']
+  ];
+  function updatePhases(){
+    for(var p=0;p<3;p++){
+      var boxes = document.querySelectorAll('.ck input[data-ph="'+p+'"]');
+      var done = 0;
+      boxes.forEach(function(x){ if(x.checked) done++; });
+      var badge = document.getElementById('pb'+p);
+      if(badge){
+        var ready = boxes.length > 0 && done === boxes.length;
+        badge.textContent = (ready ? phaseMsgs[p][1] : phaseMsgs[p][0]) + ' (' + done + '/' + boxes.length + ')';
+        badge.classList.toggle('ready', ready);
+      }
+    }
+  }
+
+  /* ===== checklist visuals + readiness gauge (s7, s8) ===== */
+  var gBands = [
+    [0, 3, '<b>Bắt đầu từ Giai đoạn 0.</b> Ưu tiên ba việc trong 0–4 tuần: ban hành chính sách sử dụng, ký API thương mại kèm DPA/ZDR, và chọn một tuyến thử nghiệm để đo baseline.'],
+    [4, 7, '<b>Nền tảng đã có một phần.</b> Hoàn thiện các hạng mục còn thiếu — đặc biệt nhóm dữ liệu và baseline — trước khi mở rộng phạm vi. Nhớ nguyên tắc: "AI tạo sinh chỉ tốt ngang với dữ liệu nuôi nó".'],
+    [8, 10, '<b>Sẵn sàng cho giai đoạn Bò (hoặc Đi).</b> Chọn tuyến thử nghiệm trích xuất chứng từ qua email, giữ rà soát 100% bởi người có chứng chỉ, và theo dõi ngưỡng chuyển tiếp ở mục 07.']
+  ];
+  function updateGauge(){
+    var boxes = document.querySelectorAll('.ck input.rd');
+    if(!boxes.length) return;
+    var done = 0;
+    boxes.forEach(function(x){ if(x.checked) done++; });
+    var f = document.getElementById('gFill');
+    var s = document.getElementById('gScore');
+    var r = document.getElementById('gRes');
+    if(f) f.style.width = (done / boxes.length * 100) + '%';
+    if(s) s.textContent = done + ' / ' + boxes.length;
+    if(r){
+      for(var i=0;i<gBands.length;i++){
+        if(done >= gBands[i][0] && done <= gBands[i][1]){ r.innerHTML = gBands[i][2]; break; }
+      }
+    }
+  }
+  document.querySelectorAll('.ck input').forEach(function(x){
+    x.addEventListener('change', function(){
+      x.closest('.ck').classList.toggle('done', x.checked);
+      updatePhases();
+      updateGauge();
+    });
+  });
+  updatePhases();
+  updateGauge();
+
+  /* ===== wizards (s9, s10) ===== */
+  document.querySelectorAll('.wizard').forEach(function(w){
+    var opts = w.querySelectorAll('.wiz-opt');
+    var ress = w.querySelectorAll('.wiz-res');
+    opts.forEach(function(o){
+      o.addEventListener('click', function(){
+        opts.forEach(function(x){ x.classList.remove('sel'); });
+        o.classList.add('sel');
+        var r = o.getAttribute('data-res');
+        ress.forEach(function(res){ res.classList.toggle('show', res.id === r); });
+      });
+    });
+  });
+
+  /* ===== case study filter (s11) ===== */
+  var csChips = document.querySelectorAll('#csChips .chip');
+  csChips.forEach(function(ch){
+    ch.addEventListener('click', function(){
+      csChips.forEach(function(c){ c.classList.remove('on'); });
+      ch.classList.add('on');
+      var f = ch.getAttribute('data-f');
+      var shown = 0;
+      document.querySelectorAll('.cs').forEach(function(card){
+        var tags = (card.getAttribute('data-tags') || '').split(' ');
+        var match = (f === 'all') || tags.indexOf(f) >= 0;
+        card.classList.toggle('hiddenf', !match);
+        if(match) shown++;
+      });
+      var none = document.getElementById('csNone');
+      if(none) none.style.display = shown === 0 ? 'block' : 'none';
+    });
+  });
+
+  /* ===== pitfalls ===== */
+  document.querySelectorAll('.pitfall .reveal').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var fix = btn.parentElement.querySelector('.fix');
+      var open = fix.classList.toggle('open');
+      btn.textContent = open ? 'Ẩn cách sửa' : 'Xem cách sửa →';
+    });
+  });
+
+  /* ===== quiz ===== */
+  var score = 0;
+  var quizScoreEl = document.getElementById('quizScore');
+  var allQ = document.querySelectorAll('.q');
+  function quizBand(s, n){
+    if(s === n) return '<b>' + s + '/' + n + ' — xuất sắc!</b> Bạn đã nắm vững khung chiến lược. Bước tiếp theo: bảng tự chấm mức độ sẵn sàng ở mục 08.';
+    if(s >= 6)  return '<b>' + s + '/' + n + ' — rất tốt.</b> Xem lại phần giải thích ở các câu sai, rồi qua mục 08 để tự chấm mức độ sẵn sàng.';
+    if(s >= 4)  return '<b>' + s + '/' + n + ' — nắm được khung chính.</b> Nên đọc lại mục 04 (bằng chứng tăng cường), 07 (lộ trình) và 09 (hạ tầng AI).';
+    return '<b>' + s + '/' + n + '.</b> Đề xuất đọc lại tuần tự từ mục 00 — đặc biệt thông điệp cốt lõi và lộ trình Bò – Đi – Chạy.';
+  }
+  allQ.forEach(function(q){
+    var opts = q.querySelectorAll('.opt');
+    opts.forEach(function(opt){
+      opt.addEventListener('click', function(){
+        if(q.classList.contains('done')) return;
+        q.classList.add('done');
+        var correct = opt.getAttribute('data-correct') === '1';
+        if(correct){ opt.classList.add('right'); score++; }
+        else {
+          opt.classList.add('wrong');
+          var right = q.querySelector('.opt[data-correct="1"]');
+          if(right) right.classList.add('right');
+        }
+        var exp = q.querySelector('.q-exp');
+        if(exp) exp.classList.add('show');
+        var done = document.querySelectorAll('.q.done').length;
+        if(quizScoreEl){
+          quizScoreEl.textContent = 'Điểm: ' + score + ' / ' + allQ.length + (done === allQ.length ? ' — xong!' : '');
+        }
+        if(done === allQ.length){
+          var qr = document.getElementById('quizResult');
+          if(qr){ qr.innerHTML = quizBand(score, allQ.length); qr.classList.add('show'); }
+        }
+      });
+    });
+  });
+
+  /* ===== glossary filter ===== */
+  var gf = document.getElementById('glossaryFilter');
+  var gNone = document.getElementById('gNone');
+  if(gf){
+    gf.addEventListener('input', function(){
+      var q = gf.value.toLowerCase().trim();
+      var shown = 0;
+      document.querySelectorAll('.gterm').forEach(function(t){
+        var match = t.textContent.toLowerCase().indexOf(q) >= 0;
+        t.style.display = match ? '' : 'none';
+        if(match) shown++;
+      });
+      if(gNone) gNone.style.display = shown === 0 ? 'block' : 'none';
+    });
+  }
+})();
+</script>
+</body>
+</html>

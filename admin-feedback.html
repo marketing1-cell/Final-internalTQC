@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Góp ý | TQC INTERNAL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff', 100: '#e0f2fe', 400: '#38bdf8', 500: '#0ea5e9',
+                            600: '#0284c7', 800: '#075985', 900: '#0c4a6e',
+                        }
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        body { background-color: #f8fafc; }
+    </style>
+</head>
+<body class="font-sans text-slate-800 antialiased flex h-screen overflow-hidden hidden" id="page-body">
+
+    <aside class="w-64 bg-white flex flex-col h-full border-r border-slate-200 z-30">
+        <div class="h-20 flex items-center px-6 border-b border-slate-100">
+            <div class="flex items-center gap-3 text-brand-600 font-bold text-xl tracking-tight">
+                <i class="ph-fill ph-shield-check text-2xl"></i>
+                <span>ADMIN INTERNAL</span>
+            </div>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
+            <a href="index.html" class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-slate-50 hover:text-brand-600 rounded-xl font-medium transition-all">
+                <i class="ph-fill ph-arrow-left text-xl"></i> Về trang chủ
+            </a>
+            
+            <p class="px-4 text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3 mt-6">Quản trị hệ thống</p>
+            
+            <button class="w-full flex items-center gap-3 px-4 py-3 bg-brand-50 text-brand-600 rounded-xl font-semibold transition-all">
+                <i class="ph-fill ph-warning-circle text-xl"></i> Quản lý Góp ý
+            </button>
+            
+        </nav>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-full relative overflow-y-auto">
+        <header class="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-10 sticky top-0 z-20">
+            <div>
+                <h1 class="text-xl font-bold text-slate-800">Danh sách Góp ý & Báo lỗi</h1>
+                <p class="text-xs text-slate-500 font-medium">Theo dõi và cập nhật tài liệu dựa trên phản hồi của nhân viên</p>
+            </div>
+        </header>
+
+        <div class="p-10">
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-slate-50 text-slate-500 border-b border-slate-200">
+                        <tr>
+                            <th class="px-6 py-4 font-bold">Người gửi / Ngày</th>
+                            <th class="px-6 py-4 font-bold">Bài viết liên quan</th>
+                            <th class="px-6 py-4 font-bold">Nội dung góp ý</th>
+                            <th class="px-6 py-4 font-bold">Trạng thái</th>
+                            <th class="px-6 py-4 font-bold text-right">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="feedback-table-body" class="divide-y divide-slate-100">
+                        <tr>
+                            <td colspan="5" class="px-6 py-10 text-center text-slate-400 animate-pulse font-medium">Đang tải dữ liệu góp ý...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="THINH.js"></script>
+</body>
+</html>
