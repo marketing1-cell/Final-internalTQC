@@ -1,9 +1,7 @@
 
 function openSuggestionModal() {
-
     document.getElementById('suggestion-form').reset();
     
-
     const container = document.getElementById('sug-items-container');
     const boxes = container.querySelectorAll('.sug-item-box');
     for(let i = 1; i < boxes.length; i++) {
@@ -11,10 +9,14 @@ function openSuggestionModal() {
     }
     
     toggleModal('company-suggestion-modal', 'company-suggestion-box', true);
+    const floatingWidgets = document.querySelector('.fixed.bottom-6.right-4');
+    if (floatingWidgets) floatingWidgets.style.display = 'none';
 }
 
 function closeSuggestionModal() {
     toggleModal('company-suggestion-modal', 'company-suggestion-box', false);
+    const floatingWidgets = document.querySelector('.fixed.bottom-6.right-4');
+    if (floatingWidgets) floatingWidgets.style.display = '';
 }
 
 function addSuggestionBox() {
@@ -158,7 +160,6 @@ async function initQuickNotes() {
         });
     }
 
-    // Hiển thị ra màn hình
     updateCategoryDropdown();
 }
 
@@ -282,7 +283,6 @@ function renderQuickNotes() {
     }
 
     listEl.innerHTML = activeCat.tasks.map((task, index) => {
-        // Xử lý logic hiển thị màu sắc hiện đại
         const isImp = task.isImportant;
         const isDone = task.isDone;
         
