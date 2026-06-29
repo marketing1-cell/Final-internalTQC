@@ -144,10 +144,10 @@
                 </div>
 
 
-                <div class="relative group cursor-pointer shrink-0">
+                <div class="relative group cursor-pointer shrink-0 z-50">
                     <div class="h-10 w-10 rounded-full border-2 border-blue-100 bg-blue-50 flex items-center justify-center text-blue-700 font-bold shadow-sm group-hover:border-blue-300 transition-colors">
-                        <i class="ph-bold ph-user text-lg"></i>
-                    </div>
+                      <i class="ph-bold ph-user text-lg"></i>
+                </div>
                     <div class="absolute top-full right-0 mt-2 w-56 bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 p-2 z-50">
                         <div class="px-4 py-3 border-b border-slate-100 mb-2">
                             <p id="current-user-name" class="text-sm font-bold text-slate-800 truncate">Đang tải...</p>
@@ -167,7 +167,6 @@
                             <i class="ph-bold ph-key text-lg"></i> Đổi mật khẩu
                         </button>
                         
-                        <button onclick="handleLogout()" class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm font-bold text-red-600 hover:bg-red-50 rounded-xl transition-colors">
                         <button onclick="handleLogout()" class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm font-bold text-red-600 hover:bg-red-50 rounded-xl transition-colors">
                             <i class="ph-bold ph-sign-out text-lg"></i> Đăng xuất
                         </button>
@@ -497,31 +496,30 @@
             </button>
         </div>
     </div>       
-    <div class="fixed bottom-6 right-4 md:right-6 z-[100] flex flex-col items-end gap-3">
+    <div class="fixed bottom-6 right-4 md:right-6 z-[100] flex flex-col items-end gap-3 pointer-events-none">
+    
+    <div class="pointer-events-auto">
         <button onclick="openSuggestionModal()" class="flex items-center gap-2.5 bg-white/95 backdrop-blur-md border border-amber-200/50 text-slate-700 px-4 py-2.5 rounded-2xl shadow-xl shadow-amber-500/10 hover:shadow-amber-500/20 hover:-translate-y-1 hover:border-amber-300 transition-all cursor-pointer group">
             <div class="w-7 h-7 rounded-full bg-amber-50 flex items-center justify-center text-amber-500 group-hover:scale-110 group-hover:bg-amber-100 transition-all">
                 <i class="ph-fill ph-envelope-simple text-lg"></i>
             </div>
             <span class="font-bold text-sm tracking-wide">Hộp Thư Góp Ý</span>
-        </button>   </br>
-
-        <div id="ai-greeting-badge" class="animate-bounce flex items-center gap-1.5 md:gap-2 bg-slate-900/80 backdrop-blur-md border border-cyan-400/50 text-cyan-300 px-3 py-1.5 md:px-4 md:py-2 rounded-2xl rounded-br-none shadow-[0_0_20px_rgba(34,211,238,0.3)] cursor-pointer" onclick="toggleAIChat()">
-            <i class="ph-fill ph-sparkle animate-pulse text-amber-300 text-xs md:text-base"></i>
-            <span class="font-black tracking-wider text-[9px] md:text-sm bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">T-LOGI AI ĐANG LẮNG NGHE</span>
-        </div>
-
-        <div class="relative group cursor-pointer mt-2" onclick="toggleAIChat()">
-            <div class="absolute inset-4 bg-cyan-400 rounded-full animate-ping opacity-40 group-hover:opacity-60 transition-opacity duration-300 z-0"></div>
-
-            <div class="absolute -inset-2 bg-gradient-to-tr from-cyan-400 to-blue-600 rounded-full blur-xl opacity-50 group-hover:opacity-80 animate-pulse transition-opacity duration-300 z-0"></div>
-
-            <button id="ai-chat-btn" class="relative w-20 h-20 bg-transparent flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:-translate-y-2 z-10 outline-none border-none">
- 
-                <img src="ai.png" alt="T-Logi AI" class="w-16 h-16 md:w-20 md:h-20 object-contain drop-shadow-[0_10px_20px_rgba(34,211,238,0.8)]">
-                
-            </button>
-        </div>
+        </button>
     </div>
+
+    <div id="ai-greeting-badge" class="pointer-events-auto animate-bounce flex items-center gap-1.5 md:gap-2 bg-slate-900/80 backdrop-blur-md border border-cyan-400/50 text-cyan-300 px-3 py-1.5 md:px-4 md:py-2 rounded-2xl rounded-br-none shadow-[0_0_20px_rgba(34,211,238,0.3)] cursor-pointer" onclick="toggleAIChat()">
+        <i class="ph-fill ph-sparkle animate-pulse text-amber-300 text-xs md:text-base"></i>
+        <span class="font-black tracking-wider text-[9px] md:text-sm bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">T-LOGI AI ĐANG LẮNG NGHE</span>
+    </div>
+
+    <div class="pointer-events-auto relative group cursor-pointer mt-2" onclick="toggleAIChat()">
+        <div class="absolute inset-4 bg-cyan-400 rounded-full animate-ping opacity-40 group-hover:opacity-60 transition-opacity duration-300 z-0"></div>
+        <div class="absolute -inset-2 bg-gradient-to-tr from-cyan-400 to-blue-600 rounded-full blur-xl opacity-50 group-hover:opacity-80 animate-pulse transition-opacity duration-300 z-0"></div>
+        <button id="ai-chat-btn" class="relative w-20 h-20 bg-transparent flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:-translate-y-2 z-10 outline-none border-none">
+            <img src="ai.png" alt="T-Logi AI" class="w-16 h-16 md:w-20 md:h-20 object-contain drop-shadow-[0_10px_20px_rgba(34,211,238,0.8)]">
+        </button>
+    </div>
+</div>
 
     <div id="ai-chat-window" class="fixed bottom-28 right-4 md:right-6 w-[calc(100vw-2rem)] md:w-[420px] bg-slate-900/90 backdrop-blur-2xl rounded-[2rem] shadow-[0_0_50px_rgba(0,0,0,0.5)] z-[100] flex flex-col overflow-hidden transition-all duration-500 origin-bottom-right transform scale-0 opacity-0 pointer-events-none border border-cyan-500/30">
         
