@@ -500,7 +500,6 @@ function showEmotionPopup(type) {
 
     toggleModal('emotion-modal', 'emotion-box', true);
 
-    // BỔ SUNG: Ẩn các nút nổi khi mở popup cảm xúc
     const floatingWidgets = document.querySelector('.fixed.bottom-6.right-4');
     if (floatingWidgets) floatingWidgets.style.display = 'none';
 }

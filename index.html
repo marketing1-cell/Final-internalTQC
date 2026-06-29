@@ -113,8 +113,13 @@
                             <a href="gioi-thieu.html" class="text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors">
                                 Giới thiệu
                             </a>
+
                             <a href="TQC-AI.html" class="text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors">
                                 T-logi AI
+                            </a>
+
+                            <a href="bao-cao-cskh.html" id="menu-cskh-report" class="hidden text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors border-b border-slate-100/50">
+                            <i class="ph-bold ph-chart-bar text-brand-500 mr-1"></i> Báo cáo CSKH
                             </a>
                         </div>
                     </div>
@@ -154,11 +159,15 @@
                                 <i class="ph-bold ph-plus-circle text-lg"></i> Ban hành tài liệu
                             </button>
                             <a href="admin-feedback.html" class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-amber-50 hover:text-amber-600 rounded-xl transition-colors">
-                                <i class="ph-bold ph-envelope-open text-lg"></i> Hộp thư Góp ý
+                                <i class="ph-bold ph-envelope-open text-lg"></i> ADMIN
                             </a>
                         </div>
 
-
+                        <button onclick="openChangePasswordModal()" class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm font-bold text-slate-600 hover:bg-slate-50 hover:text-brand-600 rounded-xl transition-colors mb-1">
+                            <i class="ph-bold ph-key text-lg"></i> Đổi mật khẩu
+                        </button>
+                        
+                        <button onclick="handleLogout()" class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm font-bold text-red-600 hover:bg-red-50 rounded-xl transition-colors">
                         <button onclick="handleLogout()" class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm font-bold text-red-600 hover:bg-red-50 rounded-xl transition-colors">
                             <i class="ph-bold ph-sign-out text-lg"></i> Đăng xuất
                         </button>
@@ -668,6 +677,41 @@
         </div>
     </div>
     
+    <div id="change-password-modal" class="fixed inset-0 z-[100] hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeChangePasswordModal()"></div>
+        <div id="change-password-box" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm bg-white rounded-[2rem] shadow-2xl overflow-hidden flex flex-col transform scale-95 transition-transform duration-300">
+            <div class="px-6 py-5 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+                <h3 class="text-lg font-black text-slate-800 flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center"><i class="ph-bold ph-lock-key"></i></div>
+                    Đổi Mật Khẩu
+                </h3>
+                <button type="button" onclick="closeChangePasswordModal()" class="text-slate-400 hover:text-red-500 bg-white rounded-full p-1.5 shadow-sm transition-colors"><i class="ph-bold ph-x text-lg"></i></button>
+            </div>
+
+            <form id="change-password-form" class="p-6 space-y-4" onsubmit="submitChangePassword(event)">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Mật khẩu mới</label>
+                    <div class="relative">
+                        <i class="ph-bold ph-lock-key absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input type="password" id="new-password" required minlength="6" class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 py-3 text-sm font-medium focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all" placeholder="Nhập ít nhất 6 ký tự...">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Xác nhận mật khẩu</label>
+                    <div class="relative">
+                        <i class="ph-bold ph-check-circle absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input type="password" id="confirm-password" required minlength="6" class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 py-3 text-sm font-medium focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all" placeholder="Nhập lại mật khẩu mới...">
+                    </div>
+                </div>
+                <div class="pt-4 flex justify-end gap-3">
+                    <button type="button" onclick="closeChangePasswordModal()" class="px-5 py-2.5 text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors">Hủy</button>
+                    <button type="submit" id="btn-submit-password" class="px-5 py-2.5 text-sm font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-xl shadow-lg shadow-brand-500/30 transition-all flex items-center gap-2">
+                        <i class="ph-bold ph-floppy-disk"></i> Lưu thay đổi
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.ckeditor.com/4.19.1/standard/ckeditor.js"></script>

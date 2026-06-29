@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo cáo & Phân tích CSKH | TQC INTERNAL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { brand: { 50: '#f0f9ff', 100: '#e0f2fe', 500: '#0ea5e9', 600: '#0284c7', 900: '#0c4a6e' } }, fontFamily: { sans: ['Inter', 'sans-serif'] } } }
+        }
+    </script>
+    <style>
+        .accordion-content { transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), padding 0.6s ease, opacity 0.4s ease; max-height: 0; overflow: hidden; padding-top: 0; padding-bottom: 0; opacity: 0; }
+        .accordion-content.open { max-height: 8000px; padding-top: 1.5rem; padding-bottom: 2rem; opacity: 1; }
+        .caret-icon { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .caret-icon.open { transform: rotate(180deg); }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .bad-score-glow { box-shadow: 0 0 0 1px #fca5a5, 0 4px 20px -2px rgba(254, 226, 226, 0.5); }
+        .chart-bar:hover .chart-tooltip { opacity: 1; transform: translateY(-5px); visibility: visible; }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <header class="bg-white/95 backdrop-blur-xl border-b border-slate-200 sticky top-0 z-40 shadow-sm transition-all">
+        <div class="max-w-[1400px] mx-auto px-4 md:px-6 lg:px-8 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3 md:gap-5">
+                <a href="/" class="flex items-center gap-3 shrink-0 group">
+                    <img src="logo.png" alt="Logo Thông Quan" class="w-12 h-12 md:w-14 md:h-14 object-contain group-hover:scale-105 transition-transform">
+                    <div class="hidden sm:block">
+                        <span class="block font-black text-lg md:text-xl text-slate-800 tracking-tight leading-none uppercase">Thông Quan</span>
+                        <span class="block font-bold text-[10px] text-brand-500 tracking-widest uppercase mt-0.5">Khách hàng đánh giá chi tiết</span>
+                    </div>
+                </a>
+                <div class="h-8 w-px bg-slate-200 hidden md:block"></div>
+                <div class="flex bg-slate-100 p-1 rounded-xl">
+                    <button id="tab-btn-detail" onclick="switchTab('detail')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition-all bg-white text-brand-600 shadow-sm"><i class="ph-bold ph-list-dashes mr-1"></i> Chi Tiết Khách Hàng</button>
+                    <button id="tab-btn-dashboard" onclick="switchTab('dashboard')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition-all text-slate-500 hover:text-slate-700"><i class="ph-bold ph-chart-line-up mr-1"></i>Dashboard</button>
+                </div>
+            </div>
+            <a href="/" class="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs md:text-sm font-bold transition-all">
+                <i class="ph-bold ph-house text-lg"></i> <span class="hidden md:inline">Trang Chủ</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-[1200px] w-full mx-auto px-4 py-8 md:py-10 space-y-8">
+        
+        <div class="bg-white p-6 rounded-[2rem] border border-slate-200 shadow-sm flex flex-col md:flex-row gap-5 items-end relative overflow-hidden">
+            <div class="absolute -right-8 -top-8 text-slate-50 opacity-60 pointer-events-none transform rotate-12"><i class="ph-fill ph-funnel text-9xl"></i></div>
+            <div class="w-full md:flex-1 relative z-10">
+                <label class="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1">Từ ngày</label>
+                <div class="relative"><i class="ph-bold ph-calendar-blank absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i><input type="date" id="filter-start" class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 py-3 text-sm font-semibold text-slate-700 focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all cursor-pointer"></div>
+            </div>
+            <div class="w-full md:flex-1 relative z-10">
+                <label class="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 ml-1">Đến ngày</label>
+                <div class="relative"><i class="ph-bold ph-calendar-blank absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i><input type="date" id="filter-end" class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 py-3 text-sm font-semibold text-slate-700 focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all cursor-pointer"></div>
+            </div>
+            <button onclick="applyFilter()" class="w-full md:w-auto px-8 py-3.5 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl shadow-xl shadow-slate-900/20 transition-all flex items-center justify-center gap-2 relative z-10"><i class="ph-bold ph-arrows-clockwise text-lg"></i> Đồng Bộ Lại</button>
+        </div>
+
+        <div id="loading-indicator" class="text-center py-24 hidden"><div class="w-16 h-16 rounded-full border-4 border-slate-100 border-t-brand-500 animate-spin mx-auto mb-4"></div><p class="font-bold text-slate-500 tracking-wide">Đang phân tích dữ liệu...</p></div>
+
+        <div id="tab-content-detail" class="space-y-6 block">
+            <div id="report-container" class="space-y-6"></div>
+            <div id="pagination-container" class="mt-8 flex justify-center items-center gap-2"></div>
+        </div>
+
+        <div id="tab-content-dashboard" class="space-y-8 hidden">
+            
+            <div class="bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 shadow-sm">
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+                    <div>
+                        <h3 class="text-sm font-black text-slate-800 uppercase tracking-widest flex items-center gap-2"><i class="ph-bold ph-trend-up text-brand-600 text-xl"></i> XU HƯỚNG CẢI THIỆN TOÀN CÔNG TY</h3>
+                        <p class="text-xs text-slate-500 font-medium mt-1">Điểm trung bình của tất cả phòng ban theo từng tháng</p>
+                    </div>
+                    <div id="overall-trend-status" class="flex items-center gap-2"></div>
+                </div>
+                
+                <div class="h-64 flex items-end justify-start gap-4 md:gap-8 pb-6 border-b border-slate-100 relative" id="trend-chart-container">
+                    </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-center gap-2">
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Tổng Phiếu Đánh Giá</p>
+                    <div class="flex items-end gap-3"><i class="ph-fill ph-files text-4xl text-brand-500"></i><p id="dash-total-reviews" class="text-4xl font-black text-slate-800 leading-none">0</p></div>
+                </div>
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex items-center gap-4 md:col-span-2 relative overflow-hidden">
+                    <div class="w-14 h-14 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center text-3xl shrink-0"><i class="ph-fill ph-warning"></i></div>
+                    <div>
+                        <p class="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-wider">Báo động Đỏ: Phòng ban điểm thấp nhất</p>
+                        <p id="dash-worst-dept" class="text-lg md:text-2xl font-black text-red-600 mt-1">Chưa có dữ liệu</p>
+                    </div>
+                    <i class="ph-fill ph-trend-down absolute right-4 bottom-[-10px] text-7xl text-red-50 opacity-50"></i>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-sm font-black text-slate-800 uppercase tracking-widest mt-10 mb-2 flex items-center gap-2 pl-2"><i class="ph-bold ph-cursor-click text-brand-600 text-xl"></i> PHÂN TÍCH TỪNG PHÒNG BAN</h3>
+                <p class="text-xs text-slate-500 font-medium pl-2 mb-4 italic">💡 Click vào thẻ phòng ban bên dưới để xem danh sách khách hàng đánh giá chi tiết.</p>
+                <div id="dash-dept-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="dept-detail-modal" class="fixed inset-0 z-[100] hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeDeptModal()"></div>
+        <div id="dept-detail-box" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-white rounded-[2rem] shadow-2xl flex flex-col transform scale-95 transition-transform duration-300 max-h-[90vh]">
+            <div class="px-6 md:px-8 py-5 border-b border-slate-100 bg-slate-50 flex justify-between items-center shrink-0 rounded-t-[2rem]">
+                <div>
+                    <h3 id="modal-dept-title" class="text-lg md:text-xl font-black text-brand-900 uppercase tracking-tight">Tên Phòng Ban</h3>
+                    <p id="modal-dept-stats" class="text-xs text-slate-500 font-bold mt-1">0 lượt đánh giá</p>
+                </div>
+                <button onclick="closeDeptModal()" class="text-slate-400 hover:text-red-500 bg-white border border-slate-200 rounded-full p-2 shadow-sm transition-colors"><i class="ph-bold ph-x text-lg"></i></button>
+            </div>
+            <div id="modal-dept-body" class="p-6 md:p-8 overflow-y-auto space-y-4 bg-slate-50">
+                </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="cfg.js"></script>
+
+    <script src="cskh.js"></script>
+</body>
+</html>

@@ -3,86 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý Góp ý | TQC INTERNAL</title>
+    <title>Quản trị Hệ thống | TQC INTERNAL</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            50: '#f0f9ff', 100: '#e0f2fe', 400: '#38bdf8', 500: '#0ea5e9',
-                            600: '#0284c7', 800: '#075985', 900: '#0c4a6e',
-                        }
-                    },
-                    fontFamily: { sans: ['Inter', 'sans-serif'] }
-                }
-            }
+            theme: { extend: { colors: { brand: { 50: '#f0f9ff', 100: '#e0f2fe', 500: '#0ea5e9', 600: '#0284c7', 900: '#0c4a6e' } }, fontFamily: { sans: ['Inter', 'sans-serif'] } } }
         }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <style>
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        body { background-color: #f8fafc; }
     </style>
 </head>
-<body class="font-sans text-slate-800 antialiased flex h-screen overflow-hidden hidden" id="page-body">
+<body class="font-sans text-slate-800 antialiased flex h-screen overflow-hidden hidden bg-slate-50" id="page-body">
 
-    <aside class="w-64 bg-white flex flex-col h-full border-r border-slate-200 z-30">
+    <aside class="w-64 bg-white flex flex-col h-full border-r border-slate-200 z-30 shrink-0 shadow-sm">
         <div class="h-20 flex items-center px-6 border-b border-slate-100">
-            <div class="flex items-center gap-3 text-brand-600 font-bold text-xl tracking-tight">
+            <div class="flex items-center gap-3 text-brand-600 font-black text-xl tracking-tight">
                 <i class="ph-fill ph-shield-check text-2xl"></i>
-                <span>ADMIN INTERNAL</span>
+                <span>TQC ADMIN</span>
             </div>
         </div>
 
         <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
-            <a href="index.html" class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-slate-50 hover:text-brand-600 rounded-xl font-medium transition-all">
-                <i class="ph-fill ph-arrow-left text-xl"></i> Về trang chủ
+            <a href="index.html" class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-slate-50 hover:text-brand-600 rounded-xl font-bold transition-all">
+                <i class="ph-bold ph-arrow-left text-xl"></i> Về trang chủ
             </a>
             
-            <p class="px-4 text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3 mt-6">Quản trị hệ thống</p>
+            <p class="px-4 text-[11px] font-black text-slate-400 uppercase tracking-widest mb-3 mt-6">Hệ thống</p>
             
-            <button class="w-full flex items-center gap-3 px-4 py-3 bg-brand-50 text-brand-600 rounded-xl font-semibold transition-all">
+            <button id="tab-btn-feedbacks" onclick="switchTab('feedbacks')" class="w-full flex items-center gap-3 px-4 py-3 bg-brand-50 text-brand-600 rounded-xl font-bold transition-all">
                 <i class="ph-fill ph-warning-circle text-xl"></i> Quản lý Góp ý
             </button>
-            
+            <button id="tab-btn-users" onclick="switchTab('users')" class="w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-slate-50 hover:text-brand-600 rounded-xl font-bold transition-all">
+                <i class="ph-fill ph-users text-xl"></i> Quản lý Nhân sự
+            </button>
         </nav>
     </aside>
 
-    <main class="flex-1 flex flex-col h-full relative overflow-y-auto">
-        <header class="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-10 sticky top-0 z-20">
-            <div>
-                <h1 class="text-xl font-bold text-slate-800">Danh sách Góp ý & Báo lỗi</h1>
-                <p class="text-xs text-slate-500 font-medium">Theo dõi và cập nhật tài liệu dựa trên phản hồi của nhân viên</p>
-            </div>
-        </header>
-
-        <div class="p-10">
-            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
-                <table class="w-full text-left text-sm">
-                    <thead class="bg-slate-50 text-slate-500 border-b border-slate-200">
-                        <tr>
-                            <th class="px-6 py-4 font-bold">Người gửi / Ngày</th>
-                            <th class="px-6 py-4 font-bold">Bài viết liên quan</th>
-                            <th class="px-6 py-4 font-bold">Nội dung góp ý</th>
-                            <th class="px-6 py-4 font-bold">Trạng thái</th>
-                            <th class="px-6 py-4 font-bold text-right">Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody id="feedback-table-body" class="divide-y divide-slate-100">
-                        <tr>
-                            <td colspan="5" class="px-6 py-10 text-center text-slate-400 animate-pulse font-medium">Đang tải dữ liệu góp ý...</td>
-                        </tr>
-                    </tbody>
-                </table>
+    <main class="flex-1 flex flex-col h-full relative overflow-hidden">
+        
+        <div id="tab-content-feedbacks" class="flex flex-col h-full overflow-hidden transition-all duration-300">
+            <header class="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-10 shrink-0 shadow-sm z-10">
+                <div>
+                    <h1 class="text-xl font-black text-slate-800">Danh sách Góp ý & Báo lỗi</h1>
+                    <p class="text-xs text-slate-500 font-bold mt-1">Theo dõi và cập nhật tài liệu dựa trên phản hồi của nhân viên</p>
+                </div>
+            </header>
+            <div class="flex-1 overflow-y-auto p-10">
+                <div class="bg-white border border-slate-200 rounded-[2rem] shadow-sm overflow-hidden">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-50 text-slate-500 border-b border-slate-200">
+                            <tr>
+                                <th class="px-6 py-4 font-black uppercase tracking-wider text-xs">Người gửi / Ngày</th>
+                                <th class="px-6 py-4 font-black uppercase tracking-wider text-xs">Bài viết liên quan</th>
+                                <th class="px-6 py-4 font-black uppercase tracking-wider text-xs w-1/3">Nội dung góp ý</th>
+                                <th class="px-6 py-4 font-black uppercase tracking-wider text-xs text-center">Trạng thái</th>
+                                <th class="px-6 py-4 font-black uppercase tracking-wider text-xs text-right">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="feedback-table-body" class="divide-y divide-slate-100">
+                            <tr><td colspan="5" class="px-6 py-10 text-center text-slate-400 animate-pulse font-bold">Đang tải dữ liệu góp ý...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
+
+        <div id="tab-content-users" class="flex flex-col h-full overflow-hidden hidden transition-all duration-300">
+            <header class="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-10 shrink-0 shadow-sm z-10">
+                <div>
+                    <h1 class="text-xl font-black text-slate-800">Quản lý Tài khoản Nhân sự</h1>
+                    <p class="text-xs text-slate-500 font-bold mt-1">Cấp quyền truy cập và phân bổ vai trò cho nhân viên</p>
+                </div>
+                <button onclick="openCreateUserModal()" class="bg-brand-600 hover:bg-brand-700 text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-lg shadow-brand-500/30 flex items-center gap-2">
+                    <i class="ph-bold ph-user-plus text-lg"></i> Thêm Tài Khoản
+                </button>
+            </header>
+
+
     </main>
 
+<div id="create-user-modal" class="fixed inset-0 z-50 hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeCreateUserModal()"></div>
+        <div id="create-user-box" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white rounded-[2rem] shadow-2xl overflow-hidden flex flex-col transform scale-95 transition-transform duration-300">
+            <div class="px-8 py-6 border-b border-slate-100 bg-brand-50 flex justify-between items-center">
+                <h3 class="text-lg font-black text-brand-900 flex items-center gap-2">
+                    <i class="ph-fill ph-user-circle-plus text-brand-500 text-xl"></i> Tạo Tài Khoản Mới
+                </h3>
+                <button type="button" onclick="closeCreateUserModal()" class="text-slate-400 hover:text-red-500 bg-white rounded-full p-2 shadow-sm transition-colors"><i class="ph-bold ph-x"></i></button>
+            </div>
+            <form id="create-user-form" class="p-8 space-y-5" onsubmit="submitCreateUser(event)">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Họ & Tên Nhân Viên</label>
+                    <input type="text" id="new-user-name" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all" placeholder="Ví dụ: Nguyễn Văn A">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Email Đăng Nhập</label>
+                    <input type="email" id="new-user-email" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all" placeholder="name@thongquan.com.vn">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Mật khẩu cấp phát</label>
+                    <input type="text" id="new-user-pass" required minlength="6" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all" placeholder="Tối thiểu 6 ký tự...">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Vai Trò (Role)</label>
+                    <select id="new-user-role" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-brand-600 focus:outline-none focus:border-brand-500 transition-all cursor-pointer outline-none">
+                        <option value="staff">Staff (Nhân viên thường)</option>
+                        <option value="cskh">CSKH (Chăm sóc KH)</option>
+                        <option value="bod">BOD (Ban Giám Đốc)</option>
+                        <option value="admin">Admin (Quản trị viên)</option>
+                    </select>
+                </div>
+                <div class="flex justify-end gap-3 pt-4">
+                    <button type="button" onclick="closeCreateUserModal()" class="px-6 py-3 text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors">Hủy</button>
+                    <button type="submit" id="btn-submit-user" class="px-6 py-3 text-sm font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-xl shadow-lg shadow-brand-500/30 transition-all flex items-center gap-2">
+                        <i class="ph-bold ph-plus-circle"></i> Khởi tạo
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function toggleModal(modalId, boxId, show) {
+            const modal = document.getElementById(modalId);
+            const box = document.getElementById(boxId);
+            if (!modal || !box) return;
+
+            if (show) {
+                modal.classList.remove('hidden');
+                setTimeout(() => { 
+                    modal.classList.remove('opacity-0'); 
+                    box.classList.remove('scale-95'); 
+                }, 10);
+            } else {
+                modal.classList.add('opacity-0');
+                box.classList.add('scale-95');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            }
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="THINH.js"></script>
 </body>
