@@ -636,8 +636,7 @@ async function summarizeFeedbackWithAI() {
     resultBox.classList.remove('hidden');
     resultBox.innerHTML = '<div class="flex items-center justify-center py-6 text-cyan-400 animate-pulse font-bold"><i class="ph-bold ph-spinner animate-spin text-3xl mr-3"></i> T-Logi AI đang phân tích dữ liệu chuyên sâu...</div>';
 
-    const API_KEY = "AQ.Ab8RN6KXZK5cHGumTMSql159AwoV1Lk4KQ0aSvRmIpDr88yniw"; 
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${API_KEY}`;
+    const endpoint = `http://localhost:3000/api/analyze`;
     
     const prompt = `Bạn là Giám đốc Chăm Sóc Khách hàng . Dưới đây là các ý kiến phản hồi thô của khách hàng. Hãy phân tích và trả về kết quả bằng tiếng Việt, trình bày bằng thẻ HTML cơ bản (<b>, <br>) để hiển thị web. Không dùng Markdown.
     Cấu trúc bắt buộc:
@@ -664,6 +663,12 @@ async function summarizeFeedbackWithAI() {
 
         const data = await response.json();
         
+     if (data.error) {
+            console.error("Lỗi chi tiết từ API:", data.error);
+            resultBox.innerHTML = `<p class="text-red-400 font-bold">Lỗi từ máy chủ AI: ${data.error.message}</p>`;
+            return;
+        }
+        
         if (data.candidates && data.candidates.length > 0) {
             const aiText = data.candidates[0].content.parts[0].text;
             resultBox.innerHTML = `
@@ -672,7 +677,7 @@ async function summarizeFeedbackWithAI() {
                 </div>
             `;
         } else {
-            resultBox.innerHTML = '<p class="text-red-400 font-bold">Lỗi: AI từ chối trả lời do bộ lọc an toàn hoặc định dạng không hợp lệ.</p>';
+            resultBox.innerHTML = '<p class="text-amber-400 font-bold">Lỗi: AI từ chối trả lời do bộ lọc an toàn hoặc định dạng không hợp lệ.</p>';
         }
     } catch (error) {
         console.error(error);
