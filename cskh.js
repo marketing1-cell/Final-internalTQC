@@ -636,7 +636,7 @@ async function summarizeFeedbackWithAI() {
     resultBox.classList.remove('hidden');
     resultBox.innerHTML = '<div class="flex items-center justify-center py-6 text-cyan-400 animate-pulse font-bold"><i class="ph-bold ph-spinner animate-spin text-3xl mr-3"></i> T-Logi AI đang phân tích dữ liệu chuyên sâu...</div>';
 
-    const endpoint = `http://localhost:3000/api/analyze`;
+    const endpoint = `https://backend-cskh-p9fj.onrender.com/api/analyze`;
     
     const prompt = `Bạn là Giám đốc Chăm Sóc Khách hàng . Dưới đây là các ý kiến phản hồi thô của khách hàng. Hãy phân tích và trả về kết quả bằng tiếng Việt, trình bày bằng thẻ HTML cơ bản (<b>, <br>) để hiển thị web. Không dùng Markdown.
     Cấu trúc bắt buộc:
