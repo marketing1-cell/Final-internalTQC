@@ -26,25 +26,46 @@
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 antialiased min-h-screen flex flex-col">
 
-    <header class="bg-white/95 backdrop-blur-xl border-b border-slate-200 sticky top-0 z-40 shadow-sm transition-all">
+   <header class="bg-white/95 backdrop-blur-xl border-b border-slate-200 sticky top-0 z-40 shadow-sm transition-all relative">
         <div class="max-w-[1400px] mx-auto px-4 md:px-6 lg:px-8 py-3 flex items-center justify-between">
-            <div class="flex items-center gap-3 md:gap-5">
+            <div class="flex items-center gap-3 md:gap-5 flex-1 justify-start">
+                
+                <button onclick="toggleMobileMenu()" class="md:hidden flex items-center justify-center p-2 bg-slate-100 text-slate-700 rounded-xl hover:bg-slate-200 transition-colors focus:outline-none">
+                    <i class="ph-bold ph-list text-xl"></i>
+                </button>
+
                 <a href="/" class="flex items-center gap-3 shrink-0 group">
                     <img src="logo.png" alt="Logo Thông Quan" class="w-12 h-12 md:w-14 md:h-14 object-contain group-hover:scale-105 transition-transform">
-                    <div class="hidden sm:block">
+                    <div class="hidden lg:block"> 
                         <span class="block font-black text-lg md:text-xl text-slate-800 tracking-tight leading-none uppercase">Thông Quan</span>
                         <span class="block font-bold text-[10px] text-brand-500 tracking-widest uppercase mt-0.5">Khách hàng đánh giá chi tiết</span>
                     </div>
                 </a>
-                <div class="h-8 w-px bg-slate-200 hidden md:block"></div>
+
+                 <a href="/" class="hidden md:flex items-center gap-2 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-sm font-bold transition-all">
+                    <i class="ph-bold ph-house text-lg"></i> Trang Chủ
+                </a>
+            </div>
+            <div class="hidden md:flex flex-1 justify-center">
                 <div class="flex bg-slate-100 p-1 rounded-xl">
-                    <button id="tab-btn-detail" onclick="switchTab('detail')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition-all bg-white text-brand-600 shadow-sm"><i class="ph-bold ph-list-dashes mr-1"></i> Chi Tiết Khách Hàng</button>
-                    <button id="tab-btn-dashboard" onclick="switchTab('dashboard')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition-all text-slate-500 hover:text-slate-700"><i class="ph-bold ph-chart-line-up mr-1"></i>Dashboard</button>
-                    <button id="tab-btn-feedback" onclick="switchTab('feedback')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition-all text-slate-500 hover:text-slate-700"><i class="ph-bold ph-chat-teardrop-text mr-1"></i> Tổng Hợp Ý Kiến</button>
+                    <button id="tab-btn-detail" onclick="switchTab('detail')" class="px-4 py-2 rounded-lg text-sm font-bold transition-all bg-white text-brand-600 shadow-sm"><i class="ph-bold ph-list-dashes mr-1"></i> Chi Tiết</button>
+                    <button id="tab-btn-dashboard" onclick="switchTab('dashboard')" class="px-4 py-2 rounded-lg text-sm font-bold transition-all text-slate-500 hover:text-slate-700"><i class="ph-bold ph-chart-line-up mr-1"></i> Dashboard</button>
+                    <button id="tab-btn-feedback" onclick="switchTab('feedback')" class="px-4 py-2 rounded-lg text-sm font-bold transition-all text-slate-500 hover:text-slate-700"><i class="ph-bold ph-chat-teardrop-text mr-1"></i> Tổng Hợp Ý Kiến</button>
                 </div>
             </div>
-            <a href="/" class="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs md:text-sm font-bold transition-all">
-                <i class="ph-bold ph-house text-lg"></i> <span class="hidden md:inline">Trang Chủ</span>
+
+            <div class="hidden md:flex flex-1 justify-end">
+            </div>
+        </div>
+
+
+        <div id="mobile-menu" class="absolute top-full left-0 w-full bg-white border-b border-slate-200 shadow-2xl hidden flex-col p-4 gap-2 md:hidden z-50">
+            <button id="mob-tab-btn-detail" onclick="switchTab('detail')" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-all bg-brand-50 text-brand-600"><i class="ph-bold ph-list-dashes mr-2"></i> Chi Tiết Khách Hàng</button>
+            <button id="mob-tab-btn-dashboard" onclick="switchTab('dashboard')" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-all text-slate-600 hover:bg-slate-50"><i class="ph-bold ph-chart-line-up mr-2"></i> Dashboard</button>
+            <button id="mob-tab-btn-feedback" onclick="switchTab('feedback')" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-all text-slate-600 hover:bg-slate-50"><i class="ph-bold ph-chat-teardrop-text mr-2"></i> Tổng Hợp Ý Kiến</button>
+            <div class="h-px w-full bg-slate-100 my-2"></div>
+            <a href="/" class="flex items-center px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-xl text-sm font-bold transition-all">
+                <i class="ph-bold ph-house text-lg mr-2"></i> Về Trang Chủ
             </a>
         </div>
     </header>
@@ -73,65 +94,78 @@
 
         <div id="tab-content-dashboard" class="space-y-8 hidden">
             
-            <div class="bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 shadow-sm">
-                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
-                    <div>
-                        <h3 class="text-sm font-black text-slate-800 uppercase tracking-widest flex items-center gap-2"><i class="ph-bold ph-trend-up text-brand-600 text-xl"></i> XU HƯỚNG CẢI THIỆN TOÀN CÔNG TY</h3>
-                        <p class="text-xs text-slate-500 font-medium mt-1">Điểm trung bình của tất cả phòng ban theo từng tháng</p>
-                    </div>
-                    <div id="overall-trend-status" class="flex items-center gap-2"></div>
-                </div>
-                
-                <div class="h-64 flex items-end justify-start gap-4 md:gap-8 pb-6 border-b border-slate-100 relative" id="trend-chart-container">
-                    </div>
-            </div>
-            
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div class="bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 shadow-sm">
-                    <h3 class="text-sm font-black text-slate-800 uppercase tracking-widest flex items-center gap-2 mb-6">
-                        <i class="ph-bold ph-pie-chart text-brand-600 text-xl"></i> CƠ CẤU ĐIỂM SỐ TỔNG THỂ
-                    </h3>
-                    <div id="dash-overall-distribution">
-                        </div>
-                </div>
-
-                <div class="bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 shadow-sm">
-                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-                        <h3 class="text-sm font-black text-slate-800 uppercase tracking-widest flex items-center gap-2">
-                            <i class="ph-bold ph-user-focus text-brand-600 text-xl"></i> BIẾN ĐỘNG KHÁCH HÀNG
-                        </h3>
-                        <select id="customer-select" onchange="renderCustomerTrend()" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-700 outline-none cursor-pointer hover:border-brand-300 w-full md:w-48 truncate">
-                            <option value="">-- Chọn khách hàng --</option>
-                        </select>
-                    </div>
-                    
-                    <div class="h-32 flex items-end justify-start gap-4 pb-2 border-b border-slate-100" id="customer-trend-container">
-                        <p class="text-slate-400 text-sm font-medium w-full text-center mt-10">Vui lòng chọn khách hàng để xem biểu đồ</p>
-                    </div>
-                </div>
-            </div>
-
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                 <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-center gap-2">
                     <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Tổng Phiếu Đánh Giá</p>
                     <div class="flex items-end gap-3"><i class="ph-fill ph-files text-4xl text-brand-500"></i><p id="dash-total-reviews" class="text-4xl font-black text-slate-800 leading-none">0</p></div>
                 </div>
-                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex items-center gap-4 md:col-span-2 relative overflow-hidden">
+                
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex items-center gap-4 md:col-span-2 relative overflow-hidden w-full">
                     <div class="w-14 h-14 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center text-3xl shrink-0"><i class="ph-fill ph-warning"></i></div>
-                    <div>
-                        <p class="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-wider">Báo động Đỏ: Phòng ban điểm thấp nhất</p>
-                        <p id="dash-worst-dept" class="text-lg md:text-2xl font-black text-red-600 mt-1">Chưa có dữ liệu</p>
+                    <div class="flex-1 z-10">
+                        <div id="alert-cust-content" class="block">
+                        </div>
+
+                        <div id="alert-dept-content" class="hidden">
+                            <p class="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-wider">Báo động Đỏ: Phòng ban điểm thấp nhất</p>
+                            <p id="dash-worst-dept" class="text-lg md:text-2xl font-black text-red-600 mt-1">Chưa có dữ liệu</p>
+                        </div>
                     </div>
-                    <i class="ph-fill ph-trend-down absolute right-4 bottom-[-10px] text-7xl text-red-50 opacity-50"></i>
+                    <i class="ph-fill ph-trend-down absolute right-4 bottom-[-10px] text-7xl text-red-50 opacity-50 pointer-events-none"></i>
                 </div>
             </div>
 
-            <div>
-                <h3 class="text-sm font-black text-slate-800 uppercase tracking-widest mt-10 mb-2 flex items-center gap-2 pl-2"><i class="ph-bold ph-cursor-click text-brand-600 text-xl"></i> PHÂN TÍCH TỪNG PHÒNG BAN</h3>
-                <p class="text-xs text-slate-500 font-medium pl-2 mb-4 italic">💡 Click vào thẻ phòng ban bên dưới để xem danh sách khách hàng đánh giá chi tiết.</p>
-                <div id="dash-dept-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    </div>
+            <div class="flex justify-center mt-8 mb-4">
+                <div class="flex bg-slate-200/60 p-1.5 rounded-2xl shadow-inner">
+                    <button id="subtab-btn-cust" onclick="switchDashView('cust')" class="px-6 py-2.5 rounded-xl text-sm font-black transition-all bg-white text-brand-600 shadow-md">Đánh giá khách hàng</button>
+                    <button id="subtab-btn-dept" onclick="switchDashView('dept')" class="px-6 py-2.5 rounded-xl text-sm font-bold transition-all text-slate-500 hover:text-slate-800 hover:bg-slate-200/50">Đánh giá phòng ban</button>
+                </div>
             </div>
+
+            <div id="dash-view-cust" class="block transition-opacity duration-300">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 shadow-sm">
+                        <h3 class="text-sm font-black text-slate-800 uppercase tracking-widest flex items-center gap-2 mb-6">
+                            <i class="ph-bold ph-pie-chart text-brand-600 text-xl"></i> CƠ CẤU ĐIỂM SỐ TỔNG THỂ
+                        </h3>
+                        <div id="dash-overall-distribution"></div>
+                    </div>
+
+                    <div class="bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 shadow-sm">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                            <h3 class="text-sm font-black text-slate-800 uppercase tracking-widest flex items-center gap-2">
+                                <i class="ph-bold ph-user-focus text-brand-600 text-xl"></i> BIẾN ĐỘNG KHÁCH HÀNG
+                            </h3>
+                            <select id="customer-select" onchange="renderCustomerTrend()" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-700 outline-none cursor-pointer hover:border-brand-300 w-full md:w-48 truncate">
+                                <option value="">-- Chọn khách hàng --</option>
+                            </select>
+                        </div>
+                        <div class="h-32 flex items-end justify-start gap-4 pb-2 border-b border-slate-100" id="customer-trend-container">
+                            <p class="text-slate-400 text-sm font-medium w-full text-center mt-10">Vui lòng chọn khách hàng để xem biểu đồ</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="dash-view-dept" class="hidden space-y-8 transition-opacity duration-300">
+                <div class="bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 shadow-sm">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+                        <div>
+                            <h3 class="text-sm font-black text-slate-800 uppercase tracking-widest flex items-center gap-2"><i class="ph-bold ph-trend-up text-brand-600 text-xl"></i> XU HƯỚNG CẢI THIỆN TOÀN CÔNG TY</h3>
+                            <p class="text-xs text-slate-500 font-medium mt-1">Điểm trung bình của tất cả phòng ban theo từng tháng</p>
+                        </div>
+                        <div id="overall-trend-status" class="flex items-center gap-2"></div>
+                    </div>
+                    <div class="h-64 flex items-end justify-start gap-4 md:gap-8 pb-6 border-b border-slate-100 relative" id="trend-chart-container"></div>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-black text-slate-800 uppercase tracking-widest mt-6 mb-2 flex items-center gap-2 pl-2"><i class="ph-bold ph-cursor-click text-brand-600 text-xl"></i> PHÂN TÍCH TỪNG PHÒNG BAN</h3>
+                    <p class="text-xs text-slate-500 font-medium pl-2 mb-4 italic">💡 Click vào thẻ phòng ban bên dưới để xem danh sách khách hàng đánh giá chi tiết.</p>
+                    <div id="dash-dept-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                </div>
+            </div>
+
         </div>
 
         <div id="tab-content-feedback" class="space-y-6 hidden">

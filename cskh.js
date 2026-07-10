@@ -15,14 +15,41 @@ document.addEventListener('DOMContentLoaded', async () => {
     fetchDataFromSheet();
 });
 
-function switchTab(tab) {
+function toggleMobileMenu() {
+    document.getElementById('mobile-menu').classList.toggle('hidden');
+}
 
+
+function switchTab(tab) {
     ['detail', 'dashboard', 'feedback'].forEach(t => {
+
         document.getElementById(`tab-content-${t}`).classList.add('hidden');
-        document.getElementById(`tab-btn-${t}`).className = "px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition-all text-slate-500 hover:text-slate-700";
+        
+
+        const deskBtn = document.getElementById(`tab-btn-${t}`);
+        if(deskBtn) deskBtn.className = "px-4 py-2 rounded-lg text-sm font-bold transition-all text-slate-500 hover:text-slate-700";
+        
+ 
+        const mobBtn = document.getElementById(`mob-tab-btn-${t}`);
+        if(mobBtn) mobBtn.className = "w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-all text-slate-600 hover:bg-slate-50";
     });
+    
+
     document.getElementById(`tab-content-${tab}`).classList.remove('hidden');
-    document.getElementById(`tab-btn-${tab}`).className = "px-4 py-2 rounded-lg text-xs md:text-sm font-bold transition-all bg-white text-brand-600 shadow-sm";
+    
+
+    const activeDesk = document.getElementById(`tab-btn-${tab}`);
+    if(activeDesk) activeDesk.className = "px-4 py-2 rounded-lg text-sm font-bold transition-all bg-white text-brand-600 shadow-sm";
+    
+
+    const activeMob = document.getElementById(`mob-tab-btn-${tab}`);
+    if(activeMob) activeMob.className = "w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-all bg-brand-50 text-brand-600";
+
+
+    const mobileMenu = document.getElementById('mobile-menu');
+    if(mobileMenu && !mobileMenu.classList.contains('hidden')) {
+        mobileMenu.classList.add('hidden');
+    }
 }
 
 async function fetchDataFromSheet() {
@@ -30,7 +57,13 @@ async function fetchDataFromSheet() {
     try {
         const response = await fetch(GAS_API_URL);
         const result = await response.json();
-        if(result.status === 'success') { RAW_DATA = result.data; applyFilter(); }
+        if(result.status === 'success') { 
+            RAW_DATA = result.data; 
+
+            standardizeCompanyNames(); 
+            
+            applyFilter(); 
+        }
     } catch (err) { alert("Lỗi tải dữ liệu."); } 
     finally { document.getElementById('loading-indicator').classList.add('hidden'); }
 }
@@ -96,18 +129,43 @@ function renderMonthFolders() {
     const viewedRecords = JSON.parse(localStorage.getItem('tqc_viewed_feedbacks') || '[]');
     
     // ZIP
-   let html = `
-    <div class="flex justify-end mb-6">
-        <button onclick="downloadAllAsZip()" class="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md shadow-emerald-500/20 transition-all hover:-translate-y-0.5">
-            <i class="ph-bold ph-file-zip text-xl"></i> Down ALL
+  let html = `
+    <div class="flex justify-end mb-6 relative group z-20">
+
+        <button class="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md shadow-emerald-500/20 transition-all cursor-default">
+            <i class="ph-bold ph-download-simple text-xl"></i> Down ALL
+            <i class="ph-bold ph-caret-down ml-1"></i>
         </button>
+
+        <div class="absolute right-0 top-full mt-2 w-64 bg-white border border-slate-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 overflow-hidden flex flex-col">
+            <button onclick="downloadAllAsZip()" class="flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 border-b border-slate-100 transition-colors text-left">
+                <i class="ph-bold ph-file-zip text-lg text-emerald-500"></i>
+                <span>Tải từng tháng (File ZIP)</span>
+            </button>
+            <button onclick="downloadAllAsSingleExcel()" class="flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors text-left">
+                <i class="ph-bold ph-file-xls text-lg text-emerald-500"></i>
+                <span>Tải gộp 1 file Excel tổng</span>
+            </button>
+        </div>
     </div>`;
 
     sortedMonths.forEach((monthKey, folderIdx) => {
         const monthData = monthlyGroupedData[monthKey];
         
-        let companiesHtml = Object.keys(monthData.companies).map((companyName, compIdx) => {
+
+        let sortedCompanyNames = Object.keys(monthData.companies).sort((compA, compB) => {
+            let latestA = Math.max(...monthData.companies[compA].map(r => getSafeTime(r[COL_DATE])));
+            let latestB = Math.max(...monthData.companies[compB].map(r => getSafeTime(r[COL_DATE])));
+            return latestB - latestA; 
+        });
+
+
+        let companiesHtml = sortedCompanyNames.map((companyName, compIdx) => {
             const records = monthData.companies[companyName];
+            
+
+            records.sort((a, b) => getSafeTime(b[COL_DATE]) - getSafeTime(a[COL_DATE]));
+
             let hasBadScoreOverall = false; let hasNewUnread = false; 
             const latestTimestamp = Math.max(...records.map(r => getSafeTime(r[COL_DATE])));
             const groupId = `grp_${companyName}_${latestTimestamp}`.replace(/\s+/g, '_');
@@ -158,7 +216,8 @@ function renderMonthFolders() {
         }).join('');
 
         html += `
-        <div class="mb-10 bg-slate-50 p-2 rounded-3xl border border-slate-200">
+        <div class="month-block mb-10 bg-slate-50 p-2 rounded-3xl border border-slate-200 transition-all duration-500">
+            
             <div class="flex flex-col md:flex-row md:items-center justify-between bg-slate-800 text-white px-6 py-4 rounded-3xl shadow-lg cursor-pointer hover:bg-slate-900 transition-colors" onclick="toggleMonthFolder('folder-content-${monthKey}', 'folder-icon-${monthKey}')">
                 <div class="flex items-center gap-3">
                     <i class="ph-fill ph-folder-open text-amber-400 text-3xl"></i>
@@ -168,19 +227,17 @@ function renderMonthFolders() {
                     </div>
                 </div>
                 <div class="flex items-center gap-3 mt-4 md:mt-0">
-                    <!-- Nút Tải Excel gọn gàng: Nền trắng, chỉ có Icon -->
                     <button onclick="event.stopPropagation(); downloadSingleExcel('${monthKey}')" class="flex justify-center items-center gap-1 bg-white hover:bg-slate-50 border border-slate-200 hover:border-emerald-300 px-3 py-2 rounded-xl transition-all shadow-sm hover:shadow group" title="Tải file Excel">
                         <i class="ph-bold ph-microsoft-excel-logo text-emerald-600 text-lg group-hover:scale-110 transition-transform"></i>
                         <i class="ph-bold ph-download-simple text-slate-400 group-hover:text-emerald-500 transition-colors text-sm"></i>
                     </button>
-                    
                     <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center">
                         <i id="folder-icon-${monthKey}" class="ph-bold ph-caret-down text-xl transition-transform duration-300 -rotate-90"></i>
                     </div>
                 </div>
             </div>
             
-            <div id="folder-content-${monthKey}" class="p-4 md:p-6 transition-all duration-300 hidden">
+            <div id="folder-content-${monthKey}" class="month-content p-4 md:p-6 transition-all duration-300 hidden">
                 ${companiesHtml}
             </div>
         </div>`;
@@ -192,8 +249,43 @@ function renderMonthFolders() {
 window.toggleMonthFolder = function(contentId, iconId) {
     const content = document.getElementById(contentId);
     const icon = document.getElementById(iconId);
+    
+
     content.classList.toggle('hidden');
     icon.classList.toggle('-rotate-90');
+
+
+    const allBlocks = document.querySelectorAll('.month-block');
+    let hasAnyOpen = false;
+
+
+    allBlocks.forEach(block => {
+        const contentDiv = block.querySelector('.month-content');
+        if (contentDiv && !contentDiv.classList.contains('hidden')) {
+            hasAnyOpen = true;
+        }
+    });
+
+
+    allBlocks.forEach(block => {
+        const contentDiv = block.querySelector('.month-content');
+        
+        if (hasAnyOpen) {
+
+            if (contentDiv && !contentDiv.classList.contains('hidden')) {
+                block.classList.remove('opacity-40', 'scale-[0.98]');
+                block.classList.add('opacity-100');
+            } else {
+
+                block.classList.remove('opacity-100');
+                block.classList.add('opacity-40', 'scale-[0.98]');
+            }
+        } else {
+
+            block.classList.remove('opacity-40', 'scale-[0.98]');
+            block.classList.add('opacity-100');
+        }
+    });
 }
 
 
@@ -225,7 +317,6 @@ async function buildExcelBuffer(monthKey) {
 
     sheet.getRow(1).eachCell((cell) => {
         cell.font = { bold: true, color: { argb: 'FFFFFFFF' }, size: 11 };
-        // Đổi màu nền sang mã FF0F172A (Dark Navy Blue)
         cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF0F172A' } }; 
         cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
         cell.border = { top: {style:'thin'}, left: {style:'thin'}, bottom: {style:'thin'}, right: {style:'thin'} };
@@ -410,6 +501,43 @@ function analyzeDashboard(data) {
 
     const worstDept = rankingArr.find(d => parseFloat(d.avg) > 0);
     if (worstDept) document.getElementById('dash-worst-dept').innerHTML = `${worstDept.name} <span class="text-lg font-bold text-red-600 bg-white px-2 py-0.5 rounded-lg ml-2 shadow-sm border border-red-100">${worstDept.avg} điểm</span>`;
+    
+    let custStats = {};
+    data.forEach(row => {
+        let comp = row[COL_COMPANY] || "Khách Hàng Ẩn Danh";
+        if (!custStats[comp]) custStats[comp] = { sum: 0, count: 0 };
+        DEPARTMENTS.forEach(dep => {
+            let score = parseFloat(row[dep]);
+            if (!isNaN(score) && score >= 1 && score <= 5) {
+                custStats[comp].sum += score;
+                custStats[comp].count++;
+            }
+        });
+    });
+
+    let rankingCust = [];
+    for (let comp in custStats) {
+        if (custStats[comp].count > 0) {
+            rankingCust.push({ name: comp, avg: (custStats[comp].sum / custStats[comp].count).toFixed(2) });
+        }
+    }
+
+    rankingCust.sort((a, b) => parseFloat(a.avg) - parseFloat(b.avg));
+    
+
+    let bottom3Cust = rankingCust.slice(0, 3);
+    const alertCustContainer = document.getElementById('alert-cust-content');
+    
+    if (bottom3Cust.length > 0) {
+        let htmlCust = `<p class="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Báo động Đỏ: Top Khách hàng điểm thấp</p><div class="flex flex-wrap gap-2">`;
+        bottom3Cust.forEach(c => {
+            htmlCust += `<span class="bg-red-50 text-red-600 border border-red-200 px-3 py-1 rounded-xl text-xs md:text-sm font-bold shadow-sm">${c.name}: ${c.avg}</span>`;
+        });
+        htmlCust += `</div>`;
+        alertCustContainer.innerHTML = htmlCust;
+    } else {
+        alertCustContainer.innerHTML = `<p class="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-wider">Báo động Đỏ: Top Khách hàng điểm thấp</p><p class="text-lg font-black text-red-600 mt-1">Chưa có dữ liệu</p>`;
+    }
 
     document.getElementById('dash-dept-grid').innerHTML = rankingArr.map(dept => {
         if(dept.count === 0) return '';
@@ -558,6 +686,60 @@ function renderOverallDistribution(data) {
     `;
 }
 
+
+function standardizeCompanyNames() {
+
+    let uniqueRawNames = [...new Set(RAW_DATA.map(r => r[COL_COMPANY]).filter(Boolean))];
+    let clusters = [];
+
+    const getCore = (str) => {
+        let n = str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d");
+        const terms = ["cong ty", "cty", "tnhh", "co phan", "cp", "tap doan", "viet nam", "vn", "co., ltd", "ltd"];
+        terms.forEach(t => { n = n.replace(new RegExp(`\\b${t}\\b`, 'gi'), ' '); });
+        return n.replace(/[^a-z0-9]/gi, ' ').replace(/\s+/g, ' ').trim();
+    };
+
+
+    uniqueRawNames.forEach(raw => {
+        let core = getCore(raw);
+        if (!core) return; 
+        
+        let found = clusters.find(c => {
+            if (c.core === core) return true;
+            if (c.core.length >= 4 && core.length >= 4) {
+                return new RegExp(`\\b${core}\\b`, 'i').test(c.core) || new RegExp(`\\b${c.core}\\b`, 'i').test(core);
+            }
+            return false;
+        });
+
+        if (found) {
+            found.raws.push(raw);
+
+            if (raw.length > found.display.length) found.display = raw.toUpperCase().trim();
+
+            if (core.length < found.core.length && core.length >= 4) found.core = core;
+        } else {
+
+            clusters.push({ core: core, display: raw.toUpperCase().trim(), raws: [raw] });
+        }
+    });
+
+    let clusterMap = {};
+    clusters.forEach(c => {
+        c.raws.forEach(r => { clusterMap[r] = c.display; });
+    });
+
+
+    RAW_DATA.forEach(row => {
+        let rawComp = row[COL_COMPANY];
+        if (rawComp && clusterMap[rawComp]) {
+            row[COL_COMPANY] = clusterMap[rawComp]; 
+        } else if (rawComp) {
+            row[COL_COMPANY] = rawComp.toUpperCase().trim();
+        }
+    });
+}
+
 window.renderCustomerTrend = function() {
     const selectedCompany = document.getElementById('customer-select').value;
     const container = document.getElementById('customer-trend-container');
@@ -636,7 +818,7 @@ async function summarizeFeedbackWithAI() {
     resultBox.classList.remove('hidden');
     resultBox.innerHTML = '<div class="flex items-center justify-center py-6 text-cyan-400 animate-pulse font-bold"><i class="ph-bold ph-spinner animate-spin text-3xl mr-3"></i> T-Logi AI đang phân tích dữ liệu chuyên sâu...</div>';
 
-    const endpoint = `https://backend-cskh-p9fj.onrender.com/api/analyze`;
+ const endpoint = `https://backend-cskh-p9fj.onrender.com/api/analyze`;
     
     const prompt = `Bạn là Giám đốc Chăm Sóc Khách hàng . Dưới đây là các ý kiến phản hồi thô của khách hàng. Hãy phân tích và trả về kết quả bằng tiếng Việt, trình bày bằng thẻ HTML cơ bản (<b>, <br>) để hiển thị web. Không dùng Markdown.
     Cấu trúc bắt buộc:
@@ -681,7 +863,7 @@ async function summarizeFeedbackWithAI() {
         }
     } catch (error) {
         console.error(error);
-        resultBox.innerHTML = '<p class="text-red-400 font-bold">Lỗi mạng: Không thể kết nối đến máy chủ Google Gemini. Vui lòng kiểm tra kết nối internet.</p>';
+        resultBox.innerHTML = '<p class="text-red-400 font-bold">Lỗi mạng Vui lòng kiểm tra kết nối internet hoặc liên hệ với admin Thịnh (P.Kinh Doanh) - email: marketing1@thongquan.com.vn .</p>';
     }
 }
 
@@ -702,4 +884,143 @@ window.toggleAccordionAndMarkRead = function(cId, gId) {
     document.getElementById(cId).classList.toggle('open'); document.getElementById('icon-' + cId).classList.toggle('open');
     const badge = document.getElementById('badge-' + gId);
     if (badge) { badge.remove(); let viewed = JSON.parse(localStorage.getItem('tqc_viewed_feedbacks') || '[]'); if (!viewed.includes(gId)) { viewed.push(gId); localStorage.setItem('tqc_viewed_feedbacks', JSON.stringify(viewed)); } }
+}
+
+
+window.downloadAllAsSingleExcel = async function() {
+
+    if (!filteredDataGlobal || filteredDataGlobal.length === 0) {
+        alert("Không có dữ liệu nào trong khoảng thời gian này để tải xuống!");
+        return;
+    }
+
+    try {
+        const workbook = new ExcelJS.Workbook();
+        const sheet = workbook.addWorksheet("Tong_Hop_Danh_Gia");
+
+
+        sheet.columns = [
+            { header: 'STT', key: 'stt', width: 6 },
+            { header: 'Tên Doanh Nghiệp', key: 'company', width: 45 },
+            { header: 'Người Đại Diện', key: 'rep', width: 22 },
+            { header: 'Thời Gian', key: 'date', width: 18 },
+            { header: 'P. Chứng Từ', key: 'p1', width: 13 },
+            { header: 'P. Khai Báo', key: 'p2', width: 13 },
+            { header: 'P. Giao Nhận', key: 'p3', width: 13 },
+            { header: 'P. C/O', key: 'p4', width: 10 },
+            { header: 'P. Kinh Doanh', key: 'p5', width: 13 },
+            { header: 'P. Kế Toán', key: 'p6', width: 13 },
+            { header: 'Mức Độ Giới Thiệu', key: 'p7', width: 17 },
+            { header: 'Lý Do & Góp Ý Cải Thiện', key: 'feedback', width: 50 },
+            { header: 'Cá Nhân Hài Lòng Nhất', key: 'best_person', width: 25 },
+            { header: 'Cá Nhân Cần Cải Thiện', key: 'worst_person', width: 25 },
+            { header: 'Thắc Mắc Thêm', key: 'more_info', width: 25 }
+        ];
+
+
+        sheet.getRow(1).eachCell((cell) => {
+            cell.font = { bold: true, color: { argb: 'FFFFFFFF' }, size: 11 };
+            cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF0F172A' } }; 
+            cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+            cell.border = { top: {style:'thin'}, left: {style:'thin'}, bottom: {style:'thin'}, right: {style:'thin'} };
+        });
+        sheet.getRow(1).height = 35;
+
+        const getCleanScore = (val) => {
+            let num = parseFloat(val);
+            return isNaN(num) ? '' : num;
+        };
+
+        let stt = 1;
+        filteredDataGlobal.forEach(row => {
+            const r = sheet.addRow({
+                stt: stt++,
+                company: row[COL_COMPANY] || '',
+                rep: row[COL_REP] || '',
+                date: row[COL_DATE] ? new Date(row[COL_DATE]).toLocaleString('vi-VN') : '',
+                p1: getCleanScore(row['P. Chứng từ']),
+                p2: getCleanScore(row['P. Khai báo']),
+                p3: getCleanScore(row['P. Giao nhận - Vận tải']),
+                p4: getCleanScore(row['P. C/O']),
+                p5: getCleanScore(row['P. Kinh doanh']),
+                p6: getCleanScore(row['P. Kế toán']),
+                p7: getCleanScore(row['Mức độ giới thiệu']),
+                feedback: row[COL_FEEDBACK] || '',
+                best_person: row['Cá nhân hài lòng nhất'] || '',
+                worst_person: row['Cá nhân cần cải thiện'] || '', 
+                more_info: row['Thắc mắc thêm'] || '' 
+            });
+
+            let hasBadScore = false;
+            
+
+            [5,6,7,8,9,10,11].forEach(colIndex => {
+                let cell = r.getCell(colIndex);
+                let val = cell.value;
+                if (val !== '') { 
+                    if (val <= 2) {
+                        cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFEF4444' } }; 
+                        cell.font = { color: { argb: 'FFFFFFFF' }, bold: true };
+                        hasBadScore = true;
+                    } else if (val === 3) {
+                        cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFF59E0B' } }; 
+                        cell.font = { color: { argb: 'FFFFFFFF' }, bold: true };
+                        hasBadScore = true;
+                    }
+                }
+                cell.alignment = { horizontal: 'center', vertical: 'middle' };
+            });
+
+            if (hasBadScore) {
+                let compCell = r.getCell(2);
+                compCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFEE2E2' } }; 
+                compCell.font = { color: { argb: 'FFDC2626' }, bold: true }; 
+            }
+
+            [12, 13, 14, 15].forEach(colIndex => {
+                r.getCell(colIndex).alignment = { wrapText: true, vertical: 'top' };
+            });
+
+            r.eachCell((cell) => {
+                cell.border = { top: {style:'thin'}, left: {style:'thin'}, bottom: {style:'thin'}, right: {style:'thin'} };
+            });
+        });
+
+
+        const buffer = await workbook.xlsx.writeBuffer();
+        let year = new Date().getFullYear();
+        saveAs(new Blob([buffer]), `Bao_Cao_Tong_Hop_CSKH_TQC_${year}.xlsx`);
+
+    } catch (error) {
+        console.error("Lỗi khi tạo file Excel:", error);
+        alert("Có lỗi xảy ra khi xuất dữ liệu. Vui lòng thử lại!");
+    }
+}
+
+function switchDashView(view) {
+    const views = ['dept', 'cust'];
+    
+    views.forEach(v => {
+        const viewEl = document.getElementById(`dash-view-${v}`);
+        const btnEl = document.getElementById(`subtab-btn-${v}`);
+        const alertEl = document.getElementById(`alert-${v}-content`);
+        
+        if (v === view) {
+
+            viewEl.classList.remove('hidden');
+            viewEl.classList.add('block');
+            if (alertEl) { alertEl.classList.remove('hidden'); alertEl.classList.add('block'); }
+            
+
+            btnEl.className = "px-6 py-2.5 rounded-xl text-sm font-black transition-all bg-white text-brand-600 shadow-md";
+        } else {
+
+            viewEl.classList.remove('block');
+            viewEl.classList.add('hidden');
+            if (alertEl) { alertEl.classList.remove('block'); alertEl.classList.add('hidden'); }
+            
+
+            btnEl.className = "px-6 py-2.5 rounded-xl text-sm font-bold transition-all text-slate-500 hover:text-slate-800 hover:bg-slate-200/50";
+        }
+    });
 }
