@@ -14,14 +14,21 @@ async function loadArticles(deptSlug = 'all', title = 'Kiến thức mới xuấ
         closeMobileNavMenu();
     }
     
-    const topWidgets = document.getElementById('dashboard-top-widgets');
-    if (topWidgets) {
-        if (deptSlug === 'all') {
-            topWidgets.style.display = ''; 
-        } else {
-            topWidgets.style.display = 'none'; 
-        }
+    // --- ĐÂY LÀ ĐOẠN MÃ CẦN CẬP NHẬT ---
+    // Chúng ta thay thế ID cũ bằng ID mới của banner tràn viền
+    const heroBanner = document.getElementById('hero-banner');
+    const pinnedSection = document.getElementById('pinned-section'); // Khai báo thêm khối bài ghim
+
+    if (deptSlug === 'all') {
+        // Nếu là trang chủ ('all'): Hiện cả Banner và Bài ghim
+        if (heroBanner) heroBanner.classList.remove('hidden');
+        if (pinnedSection) pinnedSection.classList.remove('hidden');
+    } else {
+        // Nếu là các tab phòng ban: Ẩn cả Banner và Bài ghim
+        if (heroBanner) heroBanner.classList.add('hidden');
+        if (pinnedSection) pinnedSection.classList.add('hidden');
     }
+    // ------------------------------------
 
     document.getElementById('main-title').innerText = title;
     document.getElementById('main-subtitle').innerText = deptSlug === 'all' 
@@ -43,17 +50,23 @@ async function loadArticles(deptSlug = 'all', title = 'Kiến thức mới xuấ
     renderArticles(articles);
 }
 
+
 function updateActiveMenu(deptSlug) {
-    document.querySelectorAll('nav button').forEach(btn => {
-        const onclickAttr = btn.getAttribute('onclick') || '';
-        const icon = btn.querySelector('i');
-        
+    document.querySelectorAll('nav .nav-item').forEach(btn => {
+        const onclickAttr = btn.getAttribute('onclick') || btn.getAttribute('href') || '';
+
+        // Đặt lại mặc định: Chữ xám, không nền, không gạch dưới
+        btn.classList.remove('text-blue-600', 'border-blue-600', 'bg-blue-50', 'font-bold');
+        btn.classList.add('text-slate-600', 'border-transparent');
+
+        // Bật hiệu ứng cho Tab đang được chọn
         if (onclickAttr.includes(`'${deptSlug}'`)) {
-            btn.className = 'w-full flex items-center gap-3 px-4 py-3 bg-brand-50 text-brand-600 rounded-2xl font-semibold transition-all';
-            if (icon) icon.className = icon.className.replace('text-slate-400', '').replace('group-hover:text-brand-500', '');
-        } else {
-            btn.className = 'w-full group flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-slate-50 hover:text-brand-600 rounded-2xl font-medium transition-all';
-            if (icon && !icon.className.includes('text-slate-400')) icon.className += ' text-slate-400 group-hover:text-brand-500 transition-colors';
+            btn.classList.remove('text-slate-600', 'border-transparent');
+            
+            // MA THUẬT Ở ĐÂY: 
+            // - Điện thoại: chữ xanh, nền xanh bo tròn (bg-blue-50)
+            // - Máy tính (lg): bỏ nền xanh, dùng gạch dưới (lg:bg-transparent lg:border-blue-600)
+            btn.classList.add('text-blue-600', 'bg-blue-50', 'lg:bg-transparent', 'lg:border-blue-600', 'font-bold');
         }
     });
 }
@@ -466,7 +479,7 @@ function updateDailyGreeting() {
     const hour = new Date().getHours();
     let greeting = "Buổi tối thư giãn nhé! 🌙", icon = '<i class="ph-fill ph-moon-stars text-indigo-500"></i>';
     if (hour >= 5 && hour < 11) { greeting = "Buổi sáng năng suất cho cả ngày nhé!"; icon = '<i class="ph-fill ph-sun text-amber-500"></i>'; } 
-    else if (hour >= 11 && hour < 18) { greeting = "Buổi chiều thật năng lượng và hiệu quả! ☕"; icon = '<i class="ph-fill ph-coffee text-amber-700"></i>'; }
+    else if (hour >= 11 && hour < 18) { greeting = "Buổi chiều thật năng lượng và hiệu quả!"; icon = '<i class="ph-fill ph-coffee text-amber-0 "></i>'; }
 
     const textEl = document.getElementById('greeting-text');
     const iconEl = document.getElementById('greeting-icon');
@@ -511,36 +524,78 @@ function closeEmotionPopup() {
 }
 
 function openMobileNavMenu() {
-    const sidebar = document.getElementById('mobile-sidebar');
-    const backdrop = document.getElementById('mobile-sidebar-backdrop');
-    
-    if (sidebar && backdrop) {
-        sidebar.classList.toggle('-translate-x-full');
-        backdrop.classList.toggle('hidden');
-        return;
-    }
-
     const nav = document.querySelector('header nav');
     if (nav) {
         if (nav.classList.contains('hidden')) {
+            // Đặt menu dọc (flex-col)
+            nav.className = 'flex flex-col absolute top-full left-0 w-full bg-white shadow-2xl p-4 gap-2 z-[100] border-b border-slate-200 transition-all';
 
-            nav.className = 'flex flex-col absolute top-full left-0 w-full bg-white shadow-2xl p-4 gap-1 z-[100] border-b border-slate-200 transition-all';
+            // Định dạng lại các nút: rộng full, bo góc, dễ bấm
+            const navItems = nav.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.classList.remove('h-full');
+                item.classList.add('w-full', 'h-12', 'px-4', 'rounded-xl', 'text-left', 'flex', 'items-center');
+            });
+
+            // ĐẢM BẢO TẤT CẢ MENU CON ĐỀU ĐÓNG KHI MỚI MỞ
+            const subMenus = nav.querySelectorAll('.sub-menu-container');
+            subMenus.forEach(menu => {
+                menu.classList.add('hidden');
+                menu.classList.remove('flex');
+            });
             
-            setTimeout(() => {
-                document.addEventListener('click', closeMenuOutside);
-            }, 10);
+            // Xoay mũi tên về mặc định
+            const icons = nav.querySelectorAll('.ph-caret-down');
+            icons.forEach(icon => icon.style.transform = 'rotate(0deg)');
+
+            setTimeout(() => { document.addEventListener('click', closeMenuOutside); }, 10);
         } else {
             closeMobileNavMenu();
         }
     }
 }
 
-
 function closeMobileNavMenu() {
     const nav = document.querySelector('header nav');
     if (nav && !nav.classList.contains('hidden')) {
-        nav.className = 'hidden lg:flex items-center gap-2 xl:gap-3 shrink-0 whitespace-nowrap';
+        // Trả lại form ngang cho PC
+        nav.className = 'hidden lg:flex items-center gap-2 h-full pt-1';
+
+        // Gỡ bỏ style điện thoại
+        const navItems = nav.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+            item.classList.add('h-full');
+            item.classList.remove('w-full', 'h-12', 'px-4', 'rounded-xl', 'text-left', 'flex', 'items-center');
+        });
+
+        // Khôi phục lại trạng thái để PC có thể rê chuột (hover)
+        const subMenus = nav.querySelectorAll('.sub-menu-container');
+        subMenus.forEach(menu => {
+            menu.classList.add('hidden');
+            menu.classList.remove('flex');
+        });
+
         document.removeEventListener('click', closeMenuOutside);
+    }
+}
+
+function toggleMobileSubMenu(btn) {
+    // Chỉ hoạt động khi đang ở giao diện điện thoại (Nút đang có class w-full)
+    if (btn.classList.contains('w-full')) {
+        const container = btn.nextElementSibling;
+        const icon = btn.querySelector('i');
+        
+        if (container.classList.contains('hidden')) {
+            // Mở menu
+            container.classList.remove('hidden');
+            container.classList.add('flex');
+            if (icon) icon.style.transform = 'rotate(180deg)'; // Xoay mũi tên lên
+        } else {
+            // Đóng menu
+            container.classList.add('hidden');
+            container.classList.remove('flex');
+            if (icon) icon.style.transform = 'rotate(0deg)'; // Xoay mũi tên xuống
+        }
     }
 }
 
@@ -575,73 +630,89 @@ async function loadPinnedArticles() {
     if (!container) return;
 
     try {
+        // Lấy 5 bài ghim mới nhất để người dùng có thể trượt xem
         const { data, error } = await window.supabaseClient
             .from('articles')
             .select('id, title, content, cover_url, is_pinned, pin_type, departments(name)')
             .eq('is_pinned', true)
             .order('created_at', { ascending: false })
-            .limit(3);
+            .limit(5);
 
         if (error) throw error;
 
         if (!data || data.length === 0) {
-            container.innerHTML = `<div class="col-span-3 text-center py-6 text-brand-200/50 text-sm font-medium border border-white/10 rounded-2xl border-dashed">Hiện tại chưa có thông báo ghim nào.</div>`;
+            container.innerHTML = `<div class="w-full text-center py-6 text-slate-400 text-sm font-medium border border-slate-200 rounded-2xl border-dashed">Hiện tại chưa có thông báo ghim nào.</div>`;
             return;
         }
 
         const getBadgeStyle = (type) => {
             switch(type) {
-                case 'capnhat': 
-                    return { bg: 'bg-green-500/20 text-green-300 border-green-500/30', label: 'Cập Nhật' };
-                case 'thongbao': 
-                    return { bg: 'bg-red-500/20 text-red-300 border-red-500/30', label: 'Thông Báo' };
-                case 'baiviet':
-                default:
-                    return { bg: 'bg-blue-500/20 text-blue-300 border-blue-500/30', label: 'Bài Viết' };
+                case 'capnhat': return { text: 'text-emerald-600', label: 'Cập Nhật' };
+                case 'thongbao': return { text: 'text-red-500', label: 'Thông Báo' };
+                case 'baiviet': default: return { text: 'text-blue-600', label: 'Bài Viết' };
             }
         };
 
         container.innerHTML = data.map((article) => {
             const style = getBadgeStyle(article.pin_type);
             
+            // Xử lý làm sạch nội dung chữ
             let tempDiv = document.createElement("div");
             tempDiv.innerHTML = article.content;
-            
             Array.from(tempDiv.getElementsByTagName('style')).forEach(el => el.remove());
             Array.from(tempDiv.getElementsByTagName('script')).forEach(el => el.remove());
             Array.from(tempDiv.getElementsByTagName('iframe')).forEach(el => el.remove());
             
             let plainText = tempDiv.textContent || tempDiv.innerText || "";
-            let cleanDesc = plainText.trim() ? plainText.trim().substring(0, 80) + '...' : 'Nhấn để xem chi tiết...';
+            let cleanDesc = plainText.trim() ? plainText.trim().substring(0, 150) + '...' : 'Nhấn để xem chi tiết tài liệu...';
 
-            const deptName = article.departments ? article.departments.name : 'Admin Ban Hành';
-
+            // Xử lý ảnh: Ảnh to, bo góc lớn
             const coverHTML = article.cover_url 
-                ? `<div class="h-28 w-full rounded-xl overflow-hidden mb-4 bg-slate-900/10 flex items-center justify-center p-1"><img src="${article.cover_url}" alt="${article.title}" class="w-full h-full object-contain drop-shadow-md transition-transform duration-500 group-hover:scale-105"></div>`
-                : '';
+                ? `<img src="${article.cover_url}" alt="${article.title}" class="w-full h-48 md:h-80 object-cover rounded-2xl md:rounded-[2rem] shadow-sm group-hover:scale-105 transition-transform duration-700">`
+                : `<div class="w-full h-48 md:h-80 bg-slate-100 rounded-2xl md:rounded-[2rem] flex items-center justify-center"><i class="ph-duotone ph-image text-4xl md:text-6xl text-slate-300"></i></div>`;
 
             return `
-            <a href="javascript:void(0)" onclick="openArticleModal('${article.id}')" class="block bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 rounded-2xl p-4 md:p-5 shadow-lg transition-all duration-300 group flex flex-col justify-between h-full relative overflow-hidden">
-                <div class="relative z-10 flex-1 flex flex-col">
-                    <div class="flex items-center gap-2 mb-3">
-                        <span class="px-2 py-0.5 rounded text-[9px] font-black ${style.bg} uppercase tracking-wider">${style.label}</span>
-                    </div>
-                    
+            <!-- Khung bài viết: Thu hẹp gap và padding trên mobile -->
+            <div class="w-full shrink-0 snap-center flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-10 bg-white p-4 md:p-6 rounded-3xl md:rounded-[2.5rem] shadow-sm border border-slate-100 hover:shadow-xl transition-shadow duration-300 cursor-pointer group" onclick="openArticleModal('${article.id}')">
+                
+                <!-- Cột Ảnh -->
+                <div class="w-full md:w-3/5 shrink-0 overflow-hidden rounded-2xl md:rounded-[2rem]">
                     ${coverHTML}
+                </div>
 
-                    <h3 class="text-base font-bold text-white leading-snug group-hover:text-cyan-200 transition-colors line-clamp-3">
+                <!-- Cột Nội Dung -->
+                <div class="w-full md:w-2/5 md:pr-8 py-2 md:py-4 flex flex-col justify-center">
+                    <span class="text-[10px] md:text-xs font-black uppercase tracking-widest ${style.text} mb-2 md:mb-3 block">
+                        ${style.label}
+                    </span>
+                    
+                    <!-- Tiêu đề: Nhỏ lại trên mobile (text-xl) -->
+                    <h3 class="text-xl md:text-4xl font-bold text-slate-900 leading-snug md:leading-tight mb-2 md:mb-4 group-hover:text-blue-600 transition-colors line-clamp-2 md:line-clamp-3">
                         ${article.title}
                     </h3>
+                    
+                    <!-- Mô tả: Rút gọn xuống 2 dòng trên mobile -->
+                    <p class="text-slate-500 text-xs md:text-base line-clamp-2 md:line-clamp-3 mb-4 md:mb-8 leading-relaxed">
+                        ${cleanDesc}
+                    </p>
+                    
+                    <div class="flex items-center text-blue-600 font-bold text-xs md:text-base gap-2 mt-auto group-hover:translate-x-2 transition-transform">
+                        Đọc tiếp <i class="ph-bold ph-arrow-right"></i>
+                    </div>
                 </div>
-                <div class="relative z-10 flex items-center justify-between border-t border-white/10 pt-3 mt-4">
-                    <span class="text-[10px] text-brand-200 font-medium line-clamp-1">${deptName}</span>
-                    <i class="ph-bold ph-arrow-right text-white group-hover:translate-x-1 transition-transform shrink-0"></i>
-                </div>
-            </a>`;
+            </div>`;
         }).join('');
 
+                const dotsContainer = document.getElementById('carousel-dots');
+        if (dotsContainer) {
+            dotsContainer.innerHTML = data.map((_, index) => `
+                <button onclick="scrollToSlide(${index})" class="carousel-dot w-2.5 h-2.5 rounded-full border border-slate-800 transition-all duration-300 ${index === 0 ? 'bg-slate-800' : 'bg-transparent'}" aria-label="Đến bài viết ${index + 1}"></button>
+            `).join('');
+        }
+            container.addEventListener('scroll', updateActiveDot);
+
     } catch (err) {
-        container.innerHTML = `<div class="col-span-3 text-center py-4 text-red-300 text-sm">Lỗi tải dữ liệu. Vui lòng thử lại.</div>`;
+        container.innerHTML = `<div class="w-full text-center py-4 text-red-500 text-sm">Lỗi tải dữ liệu. Vui lòng thử lại.</div>`;
     }
 }
 
@@ -691,3 +762,53 @@ function closePresentationModal() {
         }, 300);
     }
 }
+
+// Hàm xử lý cuộn ngang cho Bài viết ghim
+window.scrollPinned = function(direction) {
+    const container = document.getElementById('pinned-articles-container');
+    if (!container) return;
+    
+    // Mỗi lần bấm sẽ trượt đi một khoảng bằng chiều rộng của 1 thẻ (hiển thị 1 bài/lần)
+    const scrollAmount = container.offsetWidth; 
+    
+    if (direction === 'left') {
+        container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    } else {
+        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+};
+
+// Hàm tính toán và cập nhật màu cho dấu chấm khi người dùng cuộn/trượt
+window.updateActiveDot = function() {
+    const container = document.getElementById('pinned-articles-container');
+    const dots = document.querySelectorAll('.carousel-dot');
+    if (!container || !dots.length) return;
+
+    // Tính toán xem slide (bài viết) nào đang chiếm phần lớn trên màn hình
+    const scrollLeft = container.scrollLeft;
+    const slideWidth = container.offsetWidth;
+    const activeIndex = Math.round(scrollLeft / slideWidth);
+
+    // Cập nhật giao diện của các dấu chấm
+    dots.forEach((dot, index) => {
+        if (index === activeIndex) {
+            // Dấu chấm đang được chọn: Tô đậm
+            dot.classList.add('bg-slate-800');
+            dot.classList.remove('bg-transparent');
+        } else {
+            // Dấu chấm khác: Trong suốt (chỉ có viền)
+            dot.classList.remove('bg-slate-800');
+            dot.classList.add('bg-transparent');
+        }
+    });
+};
+
+// Hàm hỗ trợ khi người dùng click trực tiếp vào một dấu chấm bất kỳ
+window.scrollToSlide = function(index) {
+    const container = document.getElementById('pinned-articles-container');
+    if (!container) return;
+    
+    const slideWidth = container.offsetWidth;
+    // Cuộn đến vị trí bài viết tương ứng
+    container.scrollTo({ left: index * slideWidth, behavior: 'smooth' });
+};

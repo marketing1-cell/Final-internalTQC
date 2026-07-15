@@ -69,211 +69,248 @@
 </head>
 <body class="font-sans text-slate-800 antialiased flex flex-col min-h-screen bg-slate-50 overflow-x-hidden">
     
-    
-<header class="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-xl border-b border-slate-200 shadow-sm transition-all">
-        <div class="max-w-[1500px] mx-auto px-4 md:px-6 lg:px-8 py-3 md:py-4 flex items-center justify-between gap-6">
-            
-            <div class="flex items-center gap-3 md:gap-4 shrink-0 cursor-pointer group" onclick="loadArticles('all', 'Kiến thức mới xuất bản')">
-                <img src="logo.png" alt="Logo" class="w-16 h-16 md:w-20 md:h-20 object-contain rounded-2xl shadow-sm group-hover:scale-105 transition-transform duration-300">
+    <header class="sticky top-0 z-50 w-full bg-white backdrop-blur-xl border-b border-slate-200 shadow-sm transition-all h-16 md:h-20">
+        
+
+        <div class="w-full h-full mx-auto px-4 md:px-8 lg:px-12 flex items-center justify-between gap-4">
+
+            <div class="flex items-center gap-6 lg:gap-10 h-full flex-1">
                 
-                <div class="hidden md:block">
-                    <span class="block font-black text-xl md:text-2xl text-blue-900 tracking-tight leading-none uppercase">Thông Quan</span>
-                    <span class="block font-bold text-xs text-blue-500 tracking-widest uppercase mt-1">Logistics</span>
+                <div class="flex items-center gap-3 cursor-pointer group shrink-0" onclick="loadArticles('all', 'Kiến thức mới xuất bản')">
+                    <img src="logo.png" alt="Logo" class="w-12 h-12 md:w-16 md:h-16 object-contain rounded-lg group-hover:scale-105 transition-transform duration-300">
+                    
+                    <div class="hidden sm:flex items-center gap-2">
+                        <span class="font-bold text-2xl text-slate-800 tracking-tight">THÔNG QUAN</span>
+                    </div>
                 </div>
+
+                <nav class="hidden lg:flex items-center gap-2 h-full pt-1">
+                    <button onclick="loadArticles('all', 'Kiến thức mới xuất bản')" class="nav-item h-full px-3 text-sm font-medium text-slate-600 hover:text-slate-900 border-b-2 border-transparent transition-colors">Trang Chủ</button>
+                    <button onclick="loadArticles('tin-tuc', 'Bảng tin tức công ty')" class="nav-item h-full px-3 text-sm font-medium text-slate-600 hover:text-slate-900 border-b-2 border-transparent transition-colors">Tin tức</button>
+                    
+                    <!-- Nhóm Phòng ban -->
+                    <div class="relative group h-full flex flex-col lg:flex-row items-center w-full lg:w-auto">
+                        <button onclick="toggleMobileSubMenu(this)" class="nav-item h-full flex items-center justify-between lg:justify-start gap-1.5 px-3 text-sm font-medium text-slate-600 hover:text-slate-900 border-b-2 border-transparent transition-colors">
+                            Phòng ban <i class="ph-bold ph-caret-down text-xs transition-transform duration-300"></i>
+                        </button>
+
+                        <div class="sub-menu-container hidden lg:group-hover:flex flex-col lg:absolute lg:top-full lg:left-0 w-full lg:w-48 z-50">
+
+                            <div class="flex flex-col bg-slate-50 lg:bg-white rounded-xl lg:shadow-lg border-none lg:border lg:border-slate-100 overflow-hidden mt-1 p-2 lg:p-0">
+                                <button onclick="loadArticles('sales-dept', 'Tài liệu: Kinh Doanh')" class="text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-blue-600 rounded-lg lg:rounded-none transition-colors lg:border-b lg:border-slate-50">Kinh Doanh</button>
+                                <button onclick="loadArticles('nghiep-vu-xnk', 'Tài liệu: Nghiệp Vụ')" class="text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-blue-600 rounded-lg lg:rounded-none transition-colors lg:border-b lg:border-slate-50">Nghiệp Vụ</button>
+                                <button onclick="loadArticles('ke-toan', 'Tài liệu: Kế Toán')" class="text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-blue-600 rounded-lg lg:rounded-none transition-colors">Kế Toán</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="kiem-tra.html" class="nav-item h-full flex items-center px-3 text-sm font-medium text-slate-600 hover:text-slate-900 border-b-2 border-transparent transition-colors">Bài Kiểm Tra</a>
+                    
+                    <div class="relative group h-full flex flex-col lg:flex-row items-center w-full lg:w-auto">
+                        <button onclick="toggleMobileSubMenu(this)" class="nav-item h-full flex items-center justify-between lg:justify-start gap-1.5 px-3 text-sm font-medium text-slate-600 hover:text-slate-900 border-b-2 border-transparent transition-colors">
+                            Tiện Ích <i class="ph-bold ph-caret-down text-xs transition-transform duration-300"></i>
+                        </button>
+                        <div class="sub-menu-container hidden lg:group-hover:flex flex-col lg:absolute lg:top-full lg:left-0 w-full lg:w-52 z-50">
+                            <div class="flex flex-col bg-slate-50 lg:bg-white rounded-xl lg:shadow-lg border-none lg:border lg:border-slate-100 overflow-hidden mt-1 p-2 lg:p-0">
+                                <a href="https://tracuuhscode.thongquan.com.vn/" target="_blank" class="flex items-center justify-between px-5 py-3 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-blue-600 rounded-lg lg:rounded-none transition-colors lg:border-b lg:border-slate-50">
+                                    Tra cứu HS code <i class="ph-bold ph-arrow-square-out text-slate-400"></i>
+                                </a>
+                                <a href="gioi-thieu.html" class="text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-blue-600 rounded-lg lg:rounded-none transition-colors lg:border-b lg:border-slate-50">Giới thiệu</a>
+                                <a href="TQC-AI.html" class="text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-blue-600 rounded-lg lg:rounded-none transition-colors lg:border-b lg:border-slate-50">T-logi AI</a>
+                                <a href="bao-cao-cskh.html" class="text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-blue-600 rounded-lg lg:rounded-none transition-colors"><i class="ph-bold ph-chart-bar text-brand-500 mr-1"></i> Báo cáo CSKH</a>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
             </div>
 
-            <nav class="hidden lg:flex items-center gap-2 xl:gap-3 shrink-0 whitespace-nowrap">
-                <button onclick="loadArticles('all', 'Kiến thức mới xuất bản')" class="w-full lg:w-auto text-left lg:text-center px-4 py-3 lg:py-2 rounded-xl text-sm font-bold text-blue-700 bg-blue-50 transition-colors">Trang Chủ</button>
-                <button onclick="loadArticles('tin-tuc', 'Bảng tin tức công ty')" class="w-full lg:w-auto text-left lg:text-center px-4 py-3 lg:py-2 rounded-xl text-sm font-medium text-slate-600 hover:text-blue-700 hover:bg-slate-50 transition-colors">Tin tức</button>
+            <div class="flex items-center justify-end gap-3 lg:gap-4 shrink-0">
                 
-                <div class="relative group w-full lg:w-auto">
-                    <button class="w-full lg:w-auto flex justify-between lg:justify-start items-center px-4 py-3 lg:py-2 rounded-xl text-sm font-medium text-slate-600 hover:text-blue-700 hover:bg-slate-50 gap-1.5 transition-colors">
-                        Phòng ban <i class="ph-bold ph-caret-down text-xs"></i>
-                    </button>
-                    <div class="hidden group-hover:flex flex-col lg:absolute lg:top-full lg:left-0 w-full lg:w-48 z-50 lg:pt-2">
-                        <div class="flex flex-col bg-slate-50 lg:bg-white rounded-2xl lg:shadow-[0_10px_40px_rgba(0,0,0,0.1)] lg:border border-slate-100 overflow-hidden">
-                            <button onclick="loadArticles('sales-dept', 'Tài liệu: Kinh Doanh')" class="text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors border-b border-slate-100/50">Kinh Doanh</button>
-                            <button onclick="loadArticles('nghiep-vu-xnk', 'Tài liệu: Nghiệp Vụ')" class="text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors border-b border-slate-100/50">Nghiệp Vụ</button>
-                            <button onclick="loadArticles('ke-toan', 'Tài liệu: Kế Toán')" class="text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors">Kế Toán</button>
-                        </div>
+                <div class="hidden md:flex relative items-center justify-end group">
+                    <div class="absolute right-0 w-10 h-10 flex items-center justify-center text-slate-600 group-focus-within:text-blue-600 pointer-events-none z-10 transition-colors">
+                        <i class="ph-bold ph-magnifying-glass text-xl"></i>
                     </div>
+                    <input type="text" id="search-input" oninput="filterArticles()" placeholder="Tra cứu tài liệu, bài viết..." 
+                           class="w-10 h-10 rounded-full bg-transparent border border-transparent focus:bg-slate-100 focus:border-slate-200 focus:w-64 pl-10 pr-4 text-transparent focus:text-slate-700 placeholder-transparent focus:placeholder-slate-400 outline-none transition-all duration-300 ease-in-out cursor-pointer focus:cursor-text z-0">
                 </div>
-
-                <a href="kiem-tra.html" class="w-full lg:w-auto text-left lg:text-center px-4 py-3 lg:py-2 rounded-xl text-sm font-medium text-slate-600 hover:text-blue-700 hover:bg-slate-50 transition-colors">Bài Kiểm Tra</a>
                 
-                <div class="relative group w-full lg:w-auto">
-                    <button class="w-full lg:w-auto flex justify-between lg:justify-start items-center px-4 py-3 lg:py-2 rounded-xl text-sm font-medium text-slate-600 hover:text-blue-700 hover:bg-slate-50 gap-1.5 transition-colors">
-                        Tiện Ích <i class="ph-bold ph-caret-down text-xs"></i>
-                    </button>
-                    <div class="hidden group-hover:flex flex-col lg:absolute lg:top-full lg:left-0 w-full lg:w-52 z-50 lg:pt-2">
-                        <div class="flex flex-col bg-slate-50 lg:bg-white rounded-2xl lg:shadow-[0_10px_40px_rgba(0,0,0,0.1)] lg:border border-slate-100 overflow-hidden">
-                            <a href="https://tracuuhscode.thongquan.com.vn/" target="_blank" class="flex items-center justify-between px-5 py-3 text-sm font-medium text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors border-b border-slate-100/50 group/item">
-                                Tra cứu HS code <i class="ph-bold ph-arrow-square-out text-slate-400 group-hover/item:text-blue-500"></i>
-                            </a>
-                            <a href="gioi-thieu.html" class="text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors">
-                                Giới thiệu
-                            </a>
+                <button onclick="openSuggestionModal()" class="hidden md:flex items-center gap-1.5 px-4 py-2 bg-amber-50 hover:bg-amber-0 text-amber-600 border border-amber-100/10 rounded-full text-sm font-medium transition-colors shadow-sm shrink-0">
+                    <i class="ph-fill ph-envelope-simple text-lg"></i> Góp ý
+                </button>
 
-                            <a href="TQC-AI.html" class="text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors">
-                                T-logi AI
-                            </a>
-
-                            <a href="bao-cao-cskh.html" id="menu-cskh-report" class="hidden text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors border-b border-slate-100/50">
-                            <i class="ph-bold ph-chart-bar text-brand-500 mr-1"></i> Báo cáo CSKH
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-
-            
-                <a href="TQC-AI.html" class="relative hidden md:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-700 to-cyan-500 text-white rounded-full text-sm font-bold shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:-translate-y-0.5 transition-all group shrink-0">
-                    <i class="ph-fill ph-sparkle text-amber-300 animate-pulse"></i> 
-                    <span>T-Logi AI</span>
-                    
-                    <span class="absolute -top-2.5 -right-2 px-1.5 py-0.5 bg-red-500 text-white text-[9px] font-black uppercase tracking-wider rounded-md shadow-sm ring-2 ring-white animate-bounce">
-                        Trợ Lý AI TQC
-                    </span>
+                <a href="TQC-AI.html" class="hidden md:flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full text-sm font-medium transition-colors shadow-sm relative shrink-0">
+                    <i class="ph-fill ph-sparkle text-amber-300"></i> T-Logi AI
+                    <span class="absolute -top-1.5 -right-1.5 px-1.5 py-0.5 bg-red-500 text-white text-[8px] font-black uppercase rounded shadow-sm">Trợ lý</span>
                 </a>
 
-            <div class="flex items-center justify-end gap-3 lg:gap-4 flex-1 min-w-0">
-                
-                <div class="hidden md:flex relative w-full max-w-[320px] group shrink">
-                    <i class="ph-bold ph-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors"></i>
-                    <input type="text" id="search-input" oninput="filterArticles()" placeholder="Tra cứu tài liệu, bài viết..." class="w-full pl-11 pr-4 py-2.5 bg-slate-100 border border-transparent rounded-full text-sm focus:outline-none focus:bg-white focus:border-blue-300 focus:ring-4 focus:ring-blue-500/10 transition-all font-medium placeholder-slate-400">
-                </div>
-
-
-                <div class="relative group cursor-pointer shrink-0 z-50">
-                    <div class="h-10 w-10 rounded-full border-2 border-blue-100 bg-blue-50 flex items-center justify-center text-blue-700 font-bold shadow-sm group-hover:border-blue-300 transition-colors">
+                <div class="relative group cursor-pointer z-50 ml-1">
+                    <div class="h-9 w-9 rounded-full border border-slate-200 bg-white flex items-center justify-center text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-colors shadow-sm">
                       <i class="ph-bold ph-user text-lg"></i>
-                </div>
-                    <div class="absolute top-full right-0 mt-2 w-56 bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 p-2 z-50">
+                    </div>
+
+                    <div class="absolute top-full right-0 mt-2 w-56 bg-white rounded-2xl shadow-lg border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 p-2 z-50">
                         <div class="px-4 py-3 border-b border-slate-100 mb-2">
                             <p id="current-user-name" class="text-sm font-bold text-slate-800 truncate">Đang tải...</p>
                             <p id="current-user-role" class="text-xs font-medium text-blue-600 capitalize">...</p>
                         </div>
-                        
                         <div id="admin-menu-section" class="hidden pb-2 mb-2 border-b border-slate-100 space-y-1">
-                            <button onclick="openAdminModal()" class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-blue-50 hover:text-blue-700 rounded-xl transition-colors">
-                                <i class="ph-bold ph-plus-circle text-lg"></i> Ban hành tài liệu
-                            </button>
-                            <a href="admin-feedback.html" class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-amber-50 hover:text-amber-600 rounded-xl transition-colors">
-                                <i class="ph-bold ph-envelope-open text-lg"></i> ADMIN
-                            </a>
+                            <button onclick="openAdminModal()" class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-xl transition-colors"><i class="ph-bold ph-plus-circle text-lg"></i> Ban hành tài liệu</button>
+                            <a href="admin-feedback.html" class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-xl transition-colors"><i class="ph-bold ph-envelope-open text-lg"></i> ADMIN</a>
                         </div>
-
-                        <button onclick="openChangePasswordModal()" class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm font-bold text-slate-600 hover:bg-slate-50 hover:text-brand-600 rounded-xl transition-colors mb-1">
-                            <i class="ph-bold ph-key text-lg"></i> Đổi mật khẩu
-                        </button>
-                        
-                        <button onclick="handleLogout()" class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm font-bold text-red-600 hover:bg-red-50 rounded-xl transition-colors">
-                            <i class="ph-bold ph-sign-out text-lg"></i> Đăng xuất
-                        </button>
+                        <button onclick="openChangePasswordModal()" class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-xl transition-colors mb-1"><i class="ph-bold ph-key text-lg"></i> Đổi mật khẩu</button>
+                        <button onclick="handleLogout()" class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-500 hover:bg-red-50 rounded-xl transition-colors"><i class="ph-bold ph-sign-out text-lg"></i> Đăng xuất</button>
                     </div>
                 </div>
 
-                <button onclick="openMobileNavMenu()" class="lg:hidden p-2 text-slate-600 hover:text-blue-600 transition-colors shrink-0">
-    <i class="ph-bold ph-list text-2xl"></i>
-</button>
+                <button onclick="openMobileNavMenu()" class="lg:hidden p-2 ml-1 text-slate-600 hover:text-blue-600 transition-colors shrink-0">
+                    <i class="ph-bold ph-list text-2xl"></i>
+                </button>
             </div>
         </div>
     </header>
 
-    <main class="flex-1 w-full max-w-[1400px] mx-auto px-4 md:px-8 py-8 relative">
-
-
-        <div class="flex-1 overflow-y-auto p-10">
-            <div class="max-w-6xl mx-auto space-y-12">
-                <div id="dashboard-top-widgets" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    
+    <section id="hero-banner" class="w-full relative bg-gradient-to-br from-blue-950 via-blue-900 to-blue-700 text-white shadow-2xl overflow-hidden transition-all duration-300">
+       <div class="absolute inset-0 z-0">
+            <img src="bia.jpg" alt="Logistics Background" class="w-full h-full object-cover object-center">
             
-
-                
-<div class="lg:col-span-2 relative bg-gradient-to-br from-blue-950 via-blue-900 to-blue-700 rounded-[2rem] p-6 md:p-8 xl:p-10 text-white shadow-2xl shadow-blue-900/20 overflow-hidden flex flex-col gap-8">
-    
-    <div class="absolute -right-20 -top-20 opacity-10 pointer-events-none">
-        <i class="ph-fill ph-globe-hemisphere-east text-[300px]"></i>
-    </div>
-
-    <div class="relative z-10 w-full space-y-4">
-        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md">
-            <i class="ph-bold ph-calendar-blank text-brand-200"></i>
-
-            <span id="system-date" class="text-xs font-semibold text-brand-50 tracking-wide">Ngày: 22/06/2026</span>
+            <div class="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-blue-900/60 to-transparent"></div>
         </div>
 
-        <h1 id="welcome-message" class="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
-            Chúc admin một ngày tốt lành!
-        </h1>
-        
-        <p class="text-sm md:text-base text-brand-100 max-w-2xl leading-relaxed">
-            Tri thức là sức mạnh của doanh nghiệp. <strong class="text-white">Thông Quan</strong> sẽ luôn đồng hành cùng sự phát triển của bạn.
-        </p>
-    </div>
-
-
-    <div class="relative z-10 w-full">
-
-        <div class="flex items-center gap-2 mb-4">
-            <i class="ph-fill ph-push-pin text-red-400 text-lg"></i>
-            <h2 class="text-sm font-bold text-white uppercase tracking-widest">Bài Viết Được Ghim</h2>
-        </div>
-        
-
-        <div id="pinned-articles-container" class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-5">
+        <div class="max-w-[1400px] mx-auto px-4 md:px-8 py-12 md:py-20 relative z-10 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
             
-            <div class="col-span-3 text-center py-8 text-brand-200/50 animate-pulse font-medium text-sm border border-white/10 rounded-2xl border-dashed">
-                <i class="ph-bold ph-spinner animate-spin text-2xl mb-2"></i><br>Đang tải thông báo ghim...
-            </div>
-            
-        </div>
-    </div>
-</div>
-
-                    <div class="flex flex-col gap-4">
-                        <div class="bg-gradient-to-br from-brand-50 to-blue-50 border border-brand-100/50 rounded-2xl p-4 shadow-sm transition-all hover:shadow-md">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div id="greeting-icon" class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm text-xl">
-                                    <i class="ph-fill ph-sun text-amber-500"></i>
-                                </div>
-                                <div>
-                                    <p id="greeting-text" class="text-sm font-bold text-slate-800">Chào ngày mới!</p>
-                                    <p class="text-[11px] text-slate-500 font-medium mt-0.5">Hôm nay bạn cảm thấy thế nào?</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex justify-between gap-2 mt-2 bg-slate-50 p-2 rounded-2xl border border-slate-100">
-                        
-                        <button onclick="showEmotionPopup('great')" class="group flex-1 py-2 flex flex-col justify-center items-center bg-white hover:bg-emerald-50 hover:scale-105 active:scale-95 transition-all rounded-xl shadow-sm cursor-pointer border border-slate-100" title="Tuyệt vời">
-                            <img src="img/1.png" alt="Tuyệt vời" class="w-9 h-9 drop-shadow-sm group-hover:-translate-y-1 group-hover:scale-110 transition-transform duration-300">
-                            <span class="text-[10px] font-bold text-slate-400 group-hover:text-emerald-600 mt-1 transition-colors">Tuyệt vời</span>
-                        </button>
-                        
-                        <button onclick="showEmotionPopup('okay')" class="group flex-1 py-2 flex flex-col justify-center items-center bg-white hover:bg-amber-50 hover:scale-105 active:scale-95 transition-all rounded-xl shadow-sm cursor-pointer border border-slate-100" title="Bình thường">
-                            <img src="img/3.png" alt="Bình thường" class="w-9 h-9 drop-shadow-sm group-hover:-translate-y-1 group-hover:scale-110 transition-transform duration-300">
-                            <span class="text-[10px] font-bold text-slate-400 group-hover:text-amber-600 mt-1 transition-colors">Bình thường</span>
-                        </button>
-                        
-                        <button onclick="showEmotionPopup('tired')" class="group flex-1 py-2 flex flex-col justify-center items-center bg-white hover:bg-rose-50 hover:scale-105 active:scale-95 transition-all rounded-xl shadow-sm cursor-pointer border border-slate-100" title="Buồn ngủ">
-                            <img src="img/2.png" alt="Buồn ngủ" class="w-9 h-9 drop-shadow-sm group-hover:-translate-y-1 group-hover:scale-110 transition-transform duration-300">
-                            <span class="text-[10px] font-bold text-slate-400 group-hover:text-rose-500 mt-1 transition-colors">Buồn ngủ</span>
-                        </button>
-
+            <div class="w-full space-y-8 flex flex-col items-start text-left">
+                <div class="space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md">
+                        <i class="ph-bold ph-calendar-blank text-brand-200"></i>
+                        <span id="system-date" class="text-xs font-semibold text-brand-50 tracking-wide">Đang tải ngày...</span>
                     </div>
-                        </div>
+                    <h1 id="welcome-message" class="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
+                        Chúc admin<br>một ngày tốt lành!
+                    </h1>
+                    <p class="text-sm md:text-base text-blue-100 max-w-lg leading-relaxed">
+                        Tri thức là sức mạnh của doanh nghiệp. <strong class="text-white">Thông Quan</strong> sẽ luôn đồng hành cùng sự phát triển của bạn.
+                    </p>
+                </div>
 
-                        <div class="bg-white border border-slate-200 rounded-[2rem] p-5 shadow-sm flex-1 flex flex-col min-h-[350px]">
-                    <div class="flex items-center justify-between mb-4">
+                <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-[2rem] p-5 w-full max-w-md shadow-xl">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div id="greeting-icon" class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center shadow-sm text-xl text-white">
+                            <i class="ph-fill ph-sun text-amber-400"></i>
+                        </div>
+                        <div>
+                            <p id="greeting-text" class="text-base font-bold text-white">Chào ngày mới!</p>
+                            <p class="text-xs text-blue-200 font-medium mt-0.5">Bạn đang cảm thấy thế nào?</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between gap-3">
+                        <button onclick="showEmotionPopup('great')" class="group flex-1 py-3 flex flex-col justify-center items-center bg-white/5 hover:bg-white/20 border border-white/10 hover:border-white/30 active:scale-95 transition-all rounded-2xl cursor-pointer" title="Tuyệt vời">
+                            <img src="img/1.png" alt="Tuyệt vời" class="w-9 h-9 drop-shadow-md group-hover:-translate-y-1 group-hover:scale-110 transition-transform duration-300">
+                            <span class="text-[10px] font-bold text-white/70 group-hover:text-white mt-2 transition-colors uppercase tracking-widest">Tuyệt vời</span>
+                        </button>
+                        
+                        <button onclick="showEmotionPopup('okay')" class="group flex-1 py-3 flex flex-col justify-center items-center bg-white/5 hover:bg-white/20 border border-white/10 hover:border-white/30 active:scale-95 transition-all rounded-2xl cursor-pointer" title="Bình thường">
+                            <img src="img/3.png" alt="Bình thường" class="w-9 h-9 drop-shadow-md group-hover:-translate-y-1 group-hover:scale-110 transition-transform duration-300">
+                            <span class="text-[10px] font-bold text-white/70 group-hover:text-white mt-2 transition-colors uppercase tracking-widest">Bình thường</span>
+                        </button>
+                        
+                        <button onclick="showEmotionPopup('tired')" class="group flex-1 py-3 flex flex-col justify-center items-center bg-white/5 hover:bg-white/20 border border-white/10 hover:border-white/30 active:scale-95 transition-all rounded-2xl cursor-pointer" title="Buồn ngủ">
+                            <img src="img/2.png" alt="Buồn ngủ" class="w-9 h-9 drop-shadow-md group-hover:-translate-y-1 group-hover:scale-110 transition-transform duration-300">
+                            <span class="text-[10px] font-bold text-white/70 group-hover:text-white mt-2 transition-colors uppercase tracking-widest">Buồn ngủ</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="hidden md:block relative w-full h-full min-h-[450px]">
+
+                <div class="absolute top-4 left-4 w- h-40 rounded-3xl overflow-hidden border-2 border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.3)] transform hover:scale-105 hover:z-30 transition-all duration-500 hover:-translate-y-2 cursor-pointer">
+                    <img src="https://blogger.googleusercontent.com/img/a/AVvXsEjnSA_kSDH7JjTzD2tBT9RJ59fAaljrVj5JjfzVRcGTAEAqAl564tZyolUlYBTiHNprhS30Qzr4CY_S8OPxO11hS0OQLA3KCzbTyPEKflu5rYcZbV5AFaeTWxZhUyDq3TcNnJF_k9dhGo2dOfvF7S0l2JflE_mICT-UQCZSXAtjUeqcBLWcNk40_QscxfjR" alt="Ảnh 1" class="w-full h-full object-cover">
+                </div>
+
+
+                <div class="absolute -top-10 right-4  w-64 h-36 rounded-3xl overflow-hidden border-2 border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.3)] transform hover:scale-105 hover:z-30 transition-all duration-500 hover:-translate-y-2 cursor-pointer">
+                    <img src="https://blogger.googleusercontent.com/img/a/AVvXsEgl9oOaeLmHmi46zS90wVRJ1SaLaWfp2lUYXJT17b1FeNV6yp3l_jOQbA9F4Xpo6fKoKBIzFjKYbJn_uuTYPbrjB9vke-imZT7b7OS356gmCYk-SWecpwyCBhjsrX5d8itW9IsOWRNTTbK8c78cCJMYmeTLZfKfhtQMGPl31cr3_Ef94LPuGxMApn4UzHPb" alt="Ảnh 2" class="w-full h-full object-cover">
+                </div>
+
+
+                <div class="absolute top-48 left-16 w-36 h-48 rounded-3xl overflow-hidden border-2 border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.3)] transform hover:scale-105 hover:z-30 transition-all duration-500 hover:-translate-y-2 cursor-pointer z-10">
+                    <img src="https://blogger.googleusercontent.com/img/a/AVvXsEhQsUl4HNLc74_tNYCuLiNnv-IU42fav2QhCUL3MLU9UN2NjSgIJ8xOmA9pYlW5nmwPn_84-IyCM8xciBv5eT7CteNhm6tO7AwfJ59ufVp_GWuRfjl3UOnmi5J1jka9rTiu3o4NN8TEU1w88HFN77G4Ltoi1E7zhMd0HBR-oog9Taht4BUB7Tpq7kaB9F_M" alt="Ảnh 3" class="w-full h-full object-cover">
+                </div>
+
+
+                <div class="absolute top-36 right-10 w-48 h-48 rounded-3xl overflow-hidden border-2 border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.3)] transform hover:scale-105 hover:z-30 transition-all duration-500 hover:-translate-y-2 cursor-pointer z-20">
+                    <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiuHwaV-GAlbW97ze46Xh957juGR56ohx1e9RPBvUiTCCw420qBH-oyTE3T-fS6BtZzXpTjrc7oARQF7q-7utkV9zQRELRFNjAVuWaFBnFf1S-frvwmqqtB1yeB9KnlzmQxgMOjPhGQMeLmBXSMCbXUCTJD-372mDK0naV7owcj5yuW9Ll7wlQe-cU1QgXr" alt="Ảnh 4" class="w-full h-full object-cover">
+                </div>
+
+                <div class="absolute bottom-[-10px] left-36 w-60 h-32 rounded-3xl overflow-hidden border-2 border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.3)] transform hover:scale-105 hover:z-30 transition-all duration-500 hover:-translate-y-2 cursor-pointer z-10">
+                    <img src="https://blogger.googleusercontent.com/img/a/AVvXsEgDzXFxvXqM7Fn285yu3WbACJ-naFaAK7h307tTsmYSOLtZysYW1tyzEXDU-3fYlLKMAN68filfTCdX3cVZ0ttiJVhLanlP4dKFZQOv6oOrY01gl3LoLE_JgSwy7zDB42Gm1_lGz6YFbWL1g2mcpXQBd1Fce_3ji1AxLilYfmdZhyHhZHfOYkuWy0wbDnpd" alt="Ảnh 5" class="w-full h-full object-cover">
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <section id="pinned-section" class="max-w-[1400px] mx-auto px-4 md:px-8 py-10 relative transition-all duration-300">
+        
+
+        <div class="mb-6 px-2">
+            <div class="flex items-center gap-2">
+                <h2 class="text-2xl font-bold text-slate-800 tracking-tight">Bài Viết Nổi Bật</h2>
+            </div>
+            <p class="text-slate-500 text-sm mt-1">Những thông báo và bài viết được ghim</p>
+        </div>
+        
+        <div class="relative group">
+            
+            <button onclick="scrollPinned('left')" class="absolute left-0 md:-left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center bg-white border border-slate-200 text-slate-800 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all hover:scale-110 focus:outline-none hidden md:flex">
+                <i class="ph-bold ph-caret-left text-xl"></i>
+            </button>
+
+            <div id="pinned-articles-container" class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 gap-6" style="scrollbar-width: none;">
+            </div>
+
+            <button onclick="scrollPinned('right')" class="absolute right-0 md:-right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center bg-white border border-slate-200 text-slate-800 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all hover:scale-110 focus:outline-none hidden md:flex">
+                <i class="ph-bold ph-caret-right text-xl"></i>
+            </button>
+
+            <div id="carousel-dots" class="flex justify-center items-center gap-3 mt-6"> 
+        </div>
+    </section>
+
+    <main class="flex-1 w-full max-w-[1500px] mx-auto px-4 md:px-8 py-10 relative">
+        <div class="flex flex-col lg:flex-row gap-8">
+            
+            <div class="flex-1 space-y-6">
+                <div class="flex justify-between items-end mb-2 px-2">
+                    <div>
+                        <h2 id="main-title" class="text-2xl font-bold text-slate-800 tracking-tight">Kiến thức mới xuất bản</h2>
+                        <p id="main-subtitle" class="text-slate-500 text-sm mt-1">Những quy trình và tài liệu mới nhất được cập nhật</p>
+                    </div>
+                </div>
+                
+                <div id="article-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="col-span-full text-center py-10 text-slate-400 font-medium animate-pulse">
+                        Đang tải tri thức từ hệ thống...
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full lg:w-[350px] xl:w-[400px] shrink-0 flex flex-col gap-6 sticky top-24 h-fit">
+
+                <div class="bg-white border border-slate-200 rounded-[2rem] p-5 shadow-sm flex flex-col h-[450px]">
+                    
+                    <div class="flex items-center justify-between mb-4 shrink-0">
                         <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
                             <i class="ph-bold ph-notepad text-blue-500"></i> Ghi chú của tôi
                         </h3>
                         <span id="note-count" class="text-xs font-bold bg-blue-50 text-blue-600 px-2.5 py-1 rounded-full border border-blue-100">0</span>
                     </div>
 
-                    <div class="flex items-center gap-2 mb-3 bg-slate-50 p-1.5 rounded-xl border border-slate-100">
-                        <select id="note-category-select" onchange="changeNoteCategory()" class="flex-1 bg-transparent text-xs font-bold text-slate-700 px-2 py-1 focus:outline-none cursor-pointer">
-                            </select>
+                    <div class="flex items-center gap-2 mb-3 bg-slate-50 p-1.5 rounded-xl border border-slate-100 shrink-0">
+                        <select id="note-category-select" onchange="changeNoteCategory()" class="flex-1 bg-transparent text-xs font-bold text-slate-700 px-2 py-1 focus:outline-none cursor-pointer"></select>
                         <button onclick="createNewNoteCategory()" class="p-1.5 bg-white hover:bg-blue-50 text-blue-600 rounded-lg shadow-sm border border-slate-200 transition-colors" title="Tạo hạng mục mới">
                             <i class="ph-bold ph-folder-plus text-sm"></i>
                         </button>
@@ -282,32 +319,16 @@
                         </button>
                     </div>
 
-                    <div class="relative mb-4">
+                    <div class="relative mb-4 shrink-0">
                         <textarea id="quick-note-input" rows="2" placeholder="Nhập công việc vào hạng mục này..." class="w-full text-sm p-3 pr-12 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all resize-none placeholder-slate-400 font-medium"></textarea>
                         <button onclick="addQuickNote()" class="absolute bottom-2 right-2 p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all shadow-md cursor-pointer" title="Lưu (Enter)">
                             <i class="ph-bold ph-paper-plane-right"></i>
                         </button>
                     </div>
 
-                    <div id="quick-note-list" class="space-y-2 overflow-y-auto pr-2 custom-scrollbar flex-1 max-h-[300px]"></div>
-                </div>
-                    </div>
+                    <div id="quick-note-list" class="space-y-2 overflow-y-auto pr-2 custom-scrollbar flex-1"></div>
                 </div>
 
-                <div>
-                    <div class="flex justify-between items-end mb-6 px-2">
-                        <div>
-                            <h2 id="main-title" class="text-2xl font-bold text-slate-800 tracking-tight">Kiến thức mới xuất bản</h2>
-                            <p id="main-subtitle" class="text-slate-500 text-sm mt-1">Những quy trình và tài liệu mới nhất được cập nhật</p>
-                        </div>
-                    </div>
-                    
-                    <div id="article-list" class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div class="col-span-3 text-center py-10 text-slate-400 font-medium animate-pulse">
-                            Đang tải tri thức từ hệ thống...
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </main>
@@ -497,19 +518,11 @@
         </div>
     </div>       
     <div class="fixed bottom-6 right-4 md:right-6 z-[100] flex flex-col items-end gap-3 pointer-events-none">
-    
-    <div class="pointer-events-auto">
-        <button onclick="openSuggestionModal()" class="flex items-center gap-2.5 bg-white/95 backdrop-blur-md border border-amber-200/50 text-slate-700 px-4 py-2.5 rounded-2xl shadow-xl shadow-amber-500/10 hover:shadow-amber-500/20 hover:-translate-y-1 hover:border-amber-300 transition-all cursor-pointer group">
-            <div class="w-7 h-7 rounded-full bg-amber-50 flex items-center justify-center text-amber-500 group-hover:scale-110 group-hover:bg-amber-100 transition-all">
-                <i class="ph-fill ph-envelope-simple text-lg"></i>
-            </div>
-            <span class="font-bold text-sm tracking-wide">Hộp Thư Góp Ý</span>
-        </button>
-    </div>
+
 
     <div id="ai-greeting-badge" class="pointer-events-auto animate-bounce flex items-center gap-1.5 md:gap-2 bg-slate-900/80 backdrop-blur-md border border-cyan-400/50 text-cyan-300 px-3 py-1.5 md:px-4 md:py-2 rounded-2xl rounded-br-none shadow-[0_0_20px_rgba(34,211,238,0.3)] cursor-pointer" onclick="toggleAIChat()">
         <i class="ph-fill ph-sparkle animate-pulse text-amber-300 text-xs md:text-base"></i>
-        <span class="font-black tracking-wider text-[9px] md:text-sm bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">T-LOGI AI ĐANG LẮNG NGHE</span>
+        <span class="font-black tracking-wider text-[9px] md:text-sm bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">T-LOGI AI</span>
     </div>
 
     <div class="pointer-events-auto relative group cursor-pointer mt-2" onclick="toggleAIChat()">
