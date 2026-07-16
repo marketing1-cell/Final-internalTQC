@@ -357,11 +357,11 @@ async function buildExcelBuffer(monthKey) {
                 let val = cell.value;
                 if (val !== '') { 
                     if (val <= 2) {
-                        cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFEF4444' } }; // Đỏ
+                        cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFEF4444' } };
                         cell.font = { color: { argb: 'FFFFFFFF' }, bold: true };
                         hasBadScore = true;
                     } else if (val === 3) {
-                        cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFF59E0B' } }; // Cam
+                        cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFF59E0B' } };
                         cell.font = { color: { argb: 'FFFFFFFF' }, bold: true };
                         hasBadScore = true;
                     }
@@ -574,11 +574,14 @@ function renderFeedbackSynthesis(data) {
             'rose': 'border-rose-200 text-rose-900 bg-rose-50/50',
             'blue': 'border-blue-200 text-blue-900 bg-blue-50/50'
         };
-        
         return `
-        <div class="w-[280px] md:w-[320px] shrink-0 snap-start p-5 rounded-2xl border ${themeClasses[themeColor]} flex flex-col justify-between shadow-sm">
-            <p class="text-sm font-semibold mb-4 leading-relaxed break-words">"${text}"</p>
-            <div class="pt-4 border-t border-slate-200/60 mt-auto">
+        <div class="w-[280px] md:w-[320px] h-[350px] shrink-0 snap-start p-5 rounded-2xl border ${themeClasses[themeColor]} flex flex-col shadow-sm">
+            
+            <div class="flex-1 overflow-y-auto pr-2 mb-4">
+                <p class="text-sm font-semibold leading-relaxed break-words">"${text}"</p>
+            </div>
+
+            <div class="pt-4 border-t border-slate-200/60 mt-auto shrink-0">
                 <span class="text-[10px] md:text-[11px] font-black uppercase text-slate-600 tracking-wider flex items-start gap-1.5 leading-tight"><i class="ph-fill ph-buildings text-sm mt-0.5"></i> ${companyName}</span>
                 <span class="text-[10px] font-bold text-slate-400 pl-5 mt-1 block">${date}</span>
             </div>
@@ -996,6 +999,23 @@ window.downloadAllAsSingleExcel = async function() {
         alert("Có lỗi xảy ra khi xuất dữ liệu. Vui lòng thử lại!");
     }
 }
+
+window.scrollFeedback = function(direction) {
+    const containerBox = document.getElementById('feedback-horizontal-container');
+    
+
+    const activeList = containerBox.querySelector('div[id^="list-cat-"]:not(.hidden)');
+    
+    if (!activeList) return;
+
+    const scrollAmount = 320; 
+    
+    if (direction === 'left') {
+        activeList.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    } else {
+        activeList.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+};
 
 function switchDashView(view) {
     const views = ['dept', 'cust'];
