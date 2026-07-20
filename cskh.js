@@ -8,6 +8,7 @@ const DEPARTMENTS = ['P. Chứng từ', 'P. Khai báo', 'P. Giao nhận - Vận 
 let RAW_DATA = [];
 let filteredDataGlobal = [];
 let monthlyGroupedData = {}; 
+let customerGroups = JSON.parse(localStorage.getItem('tqc_customer_groups') || '{}');
 
 document.addEventListener('DOMContentLoaded', async () => {
     const { data: { session } } = await window.supabaseClient.auth.getSession();
@@ -76,17 +77,32 @@ function getSafeTime(dateStr) {
 function applyFilter() {
     const startVal = document.getElementById('filter-start').value;
     const endVal = document.getElementById('filter-end').value;
-    filteredDataGlobal = RAW_DATA;
+    const groupVal = document.getElementById('filter-group').value;
+    const custVal = document.getElementById('filter-customer').value;
+    
+    filteredDataGlobal = RAW_DATA; 
 
-    if (startVal || endVal) {
-        const startDate = startVal ? new Date(startVal).setHours(0,0,0,0) : 0;
-        const endDate = endVal ? new Date(endVal).setHours(23,59,59,999) : Infinity;
-        filteredDataGlobal = RAW_DATA.filter(row => {
-            const rowTime = getSafeTime(row[COL_DATE]); return rowTime >= startDate && rowTime <= endDate;
-        });
-    }
+    const startDate = startVal ? new Date(startVal).setHours(0,0,0,0) : 0;
+    const endDate = endVal ? new Date(endVal).setHours(23,59,59,999) : Infinity;
+    
+    filteredDataGlobal = RAW_DATA.filter(row => {
+        const rowTime = getSafeTime(row[COL_DATE]);
+        if (rowTime < startDate || rowTime > endDate) return false;
+        
+        const compName = row[COL_COMPANY] ? row[COL_COMPANY].trim() : "Khách Hàng Ẩn Danh";
+        
+  
+        if (groupVal !== 'all') {
+            const compGroup = customerGroups[compName] || 'vanglai';
+            if (compGroup !== groupVal) return false;
+        }
 
-    monthlyGroupedData = {};
+        if (custVal !== 'all' && compName !== custVal) return false;
+        
+        return true;
+    });
+
+    monthlyGroupedData = {}; 
     filteredDataGlobal.forEach(row => {
         let d = new Date(row[COL_DATE]);
         if (isNaN(d.getTime())) return;
@@ -107,12 +123,19 @@ function applyFilter() {
         monthlyGroupedData[sortKey].totalReviews++;
     });
 
-    renderMonthFolders();
+    renderMonthFolders(); 
     analyzeDashboard(filteredDataGlobal);
-    analyzeCompanyTrend(filteredDataGlobal);
+    analyzeCompanyTrend(filteredDataGlobal); 
     renderFeedbackSynthesis(filteredDataGlobal);
-    populateCustomerDropdown(filteredDataGlobal);
-    document.getElementById('customer-trend-container').innerHTML = '<p class="text-slate-400 text-sm font-medium w-full text-center mt-10">Vui lòng chọn khách hàng để xem biểu đồ</p>';
+    
+    if (typeof renderOverallDistribution === "function") renderOverallDistribution(filteredDataGlobal);
+    if (typeof renderNPS === "function") renderNPS(filteredDataGlobal);
+    if (typeof renderGroupPieChart === "function") renderGroupPieChart(filteredDataGlobal);
+    if (typeof renderCustomerHeatmap === "function") renderCustomerHeatmap(filteredDataGlobal);
+    
+    if (document.getElementById('filter-customer').options.length <= 1) {
+        populateFilterDropdowns();
+    }
 }
 
 
@@ -128,7 +151,7 @@ function renderMonthFolders() {
 
     const viewedRecords = JSON.parse(localStorage.getItem('tqc_viewed_feedbacks') || '[]');
     
-    // ZIP
+
   let html = `
     <div class="flex justify-end mb-6 relative group z-20">
 
@@ -464,23 +487,49 @@ function analyzeCompanyTrend(data) {
 
 function openDeptModal(deptName) { 
     const modalBody = document.getElementById('modal-dept-body');
-    document.getElementById('modal-dept-title').innerText = deptName;
-    let deptReviews = filteredDataGlobal.filter(row => { let score = parseFloat(row[deptName]); return !isNaN(score) && score >= 1 && score <= 5; }).sort((a,b) => getSafeTime(b[COL_DATE]) - getSafeTime(a[COL_DATE])); 
-    document.getElementById('modal-dept-stats').innerText = `${deptReviews.length} lượt đánh giá trong kỳ`;
+    const modalTitle = document.getElementById('modal-dept-title');
+    const modalStats = document.getElementById('modal-dept-stats');
+    const modal = document.getElementById('dept-detail-modal'); 
+    const box = document.getElementById('dept-detail-box');
 
-    if(deptReviews.length === 0) modalBody.innerHTML = '<div class="text-center py-10 text-slate-400 font-bold">Chưa có khách hàng nào đánh giá phòng ban này.</div>';
-    else {
+    if (!modal || !modalBody || !modalTitle || !modalStats || !box) {
+        alert("Lỗi hiển thị: Không tìm thấy khung HTML của Modal 'Chi tiết phòng ban'! Vui lòng kiểm tra lại file bao-cao-cskh.html.");
+        return;
+    }
+
+    modalTitle.innerText = deptName;
+    let deptReviews = filteredDataGlobal.filter(row => { 
+        let score = parseFloat(row[deptName]); 
+        return !isNaN(score) && score >= 1 && score <= 5; 
+    }).sort((a,b) => getSafeTime(b[COL_DATE]) - getSafeTime(a[COL_DATE])); 
+    
+    modalStats.innerText = `${deptReviews.length} lượt đánh giá trong kỳ`;
+
+    if(deptReviews.length === 0) {
+        modalBody.innerHTML = '<div class="text-center py-10 text-slate-400 font-bold">Chưa có khách hàng nào đánh giá phòng ban này.</div>';
+    } else {
         modalBody.innerHTML = deptReviews.map(record => {
-            let dateStr = "Chưa rõ"; if(record[COL_DATE]) { const d = new Date(record[COL_DATE]); if(!isNaN(d.getTime())) dateStr = `${d.getHours()}:${d.getMinutes()} - ${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`; }
-            let company = record[COL_COMPANY] || "Khách ẩn danh"; let repName = record[COL_REP] || ""; let score = parseFloat(record[deptName]);
+            let dateStr = "Chưa rõ"; 
+            if(record[COL_DATE]) { 
+                const d = new Date(record[COL_DATE]); 
+                if(!isNaN(d.getTime())) dateStr = `${d.getHours()}:${d.getMinutes()} - ${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`; 
+            }
+            let company = record[COL_COMPANY] || "Khách ẩn danh"; 
+            let repName = record[COL_REP] || ""; 
+            let score = parseFloat(record[deptName]);
             let feedback = record[COL_FEEDBACK] ? `<div class="mt-3 bg-blue-50/50 p-3 rounded-xl border border-blue-100 text-sm text-slate-700 italic">" ${record[COL_FEEDBACK]} "</div>` : '';
-            let isBad = score <= 3; let badgeColor = isBad ? 'bg-red-100 text-red-600 border-red-200' : 'bg-emerald-100 text-emerald-700 border-emerald-200';
+            let isBad = score <= 3; 
+            let badgeColor = isBad ? 'bg-red-100 text-red-600 border-red-200' : 'bg-emerald-100 text-emerald-700 border-emerald-200';
 
             return `<div class="bg-white p-4 md:p-5 rounded-2xl border ${isBad ? 'border-red-200 shadow-sm' : 'border-slate-200'}"><div class="flex justify-between items-start gap-3"><div><h4 class="font-black text-slate-800 text-base">${company}</h4><p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mt-1"><i class="ph-bold ph-user"></i> ${repName} &bull; <i class="ph-bold ph-clock"></i> ${dateStr}</p></div><div class="${badgeColor} border px-3 py-1 rounded-xl text-lg font-black shrink-0">${score}/5</div></div>${feedback}</div>`;
         }).join('');
     }
-    const modal = document.getElementById('dept-detail-modal'); const box = document.getElementById('dept-detail-box');
-    modal.classList.remove('hidden'); setTimeout(() => { modal.classList.remove('opacity-0'); box.classList.remove('scale-95'); }, 10);
+    
+    modal.classList.remove('hidden'); 
+    setTimeout(() => { 
+        modal.classList.remove('opacity-0'); 
+        box.classList.remove('scale-95'); 
+    }, 10);
 }
 
 function closeDeptModal() {
@@ -631,21 +680,7 @@ window.switchFeedbackCategory = function(cat) {
     });
 }
 
-function populateCustomerDropdown(data) {
-    const select = document.getElementById('customer-select');
-    let companies = new Set();
-    data.forEach(row => {
-        let comp = row[COL_COMPANY];
-        if (comp && comp.trim() !== '') companies.add(comp.trim());
-    });
-    
-    let sortedCompanies = Array.from(companies).sort();
-    select.innerHTML = '<option value="">-- Chọn khách hàng --</option>' + 
-                       sortedCompanies.map(c => `<option value="${c}">${c}</option>`).join('');
-    
 
-    renderOverallDistribution(data);
-}
 
 function renderOverallDistribution(data) {
     let globalStats = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, total: 0 };
@@ -743,61 +778,90 @@ function standardizeCompanyNames() {
     });
 }
 
-window.renderCustomerTrend = function() {
-    const selectedCompany = document.getElementById('customer-select').value;
-    const container = document.getElementById('customer-trend-container');
 
-    if (!selectedCompany) {
-        container.innerHTML = '<p class="text-slate-400 text-sm font-medium w-full text-center mt-10">Vui lòng chọn khách hàng để xem biểu đồ</p>';
+function renderCustomerHeatmap(data) {
+    const container = document.getElementById('customer-heatmap-container');
+    if (data.length === 0) {
+        container.innerHTML = '<p class="text-slate-400 text-sm font-medium w-full text-center mt-10 p-4">Chưa có dữ liệu để vẽ bản đồ nhiệt.</p>';
         return;
     }
 
+    let heatData = {};
+    let monthsSet = new Set();
 
-    let compData = filteredDataGlobal.filter(row => row[COL_COMPANY] && row[COL_COMPANY].trim() === selectedCompany);
-    
 
-    let monthlyData = {};
-    compData.forEach(row => {
+    data.forEach(row => {
+        let comp = row[COL_COMPANY] || "Khách Hàng Ẩn Danh";
         let d = new Date(row[COL_DATE]);
-        if(isNaN(d.getTime())) return;
-        let monthKey = `${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+        if (isNaN(d.getTime())) return;
         
-        if(!monthlyData[monthKey]) monthlyData[monthKey] = { sum: 0, count: 0, timestamp: new Date(d.getFullYear(), d.getMonth(), 1).getTime() };
+        let monthKey = `${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+        let timestamp = new Date(d.getFullYear(), d.getMonth(), 1).getTime();
+        
+        monthsSet.add(JSON.stringify({key: monthKey, ts: timestamp}));
+        
+        if (!heatData[comp]) heatData[comp] = {};
+        if (!heatData[comp][monthKey]) heatData[comp][monthKey] = { sum: 0, count: 0 };
         
         DEPARTMENTS.forEach(dep => {
             let score = parseFloat(row[dep]);
             if (!isNaN(score) && score >= 1 && score <= 5) {
-                monthlyData[monthKey].sum += score;
-                monthlyData[monthKey].count++;
+                heatData[comp][monthKey].sum += score;
+                heatData[comp][monthKey].count++;
             }
         });
     });
 
-    let trendArr = Object.keys(monthlyData).map(key => ({
-        month: key,
-        avg: monthlyData[key].count > 0 ? (monthlyData[key].sum / monthlyData[key].count).toFixed(2) : 0,
-        timestamp: monthlyData[key].timestamp
-    })).filter(item => item.avg > 0).sort((a, b) => a.timestamp - b.timestamp);
-
-    if(trendArr.length === 0) { 
-        container.innerHTML = '<p class="text-slate-400 text-sm font-medium w-full text-center mt-10">Khách hàng này chưa chấm điểm hợp lệ.</p>'; 
-        return; 
+    let sortedMonths = Array.from(monthsSet)
+        .map(m => JSON.parse(m))
+        .sort((a,b) => a.ts - b.ts)
+        .map(m => m.key);
+    
+    if (sortedMonths.length === 0) {
+        container.innerHTML = '<p class="text-slate-400 text-sm p-4 text-center">Không có dữ liệu thời gian hợp lệ.</p>';
+        return;
     }
 
+    let tableHTML = `<table class="w-full text-left border-collapse text-sm min-w-max">
+        <thead class="bg-slate-50 sticky top-0 z-10 shadow-sm">
+            <tr>
+                <th class="p-3 font-black text-slate-600 border-b border-slate-200 sticky left-0 bg-slate-50 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">Khách hàng</th>`;
+    
+    sortedMonths.forEach(m => {
+        tableHTML += `<th class="p-3 font-black text-slate-600 border-b border-slate-200 text-center w-20">${m}</th>`;
+    });
+    tableHTML += `</tr></thead><tbody class="divide-y divide-slate-100">`;
 
-    container.innerHTML = trendArr.map(item => {
-        let percent = (item.avg / 5) * 100;
-        let barColor = item.avg <= 3.5 ? 'bg-red-400' : (item.avg <= 4.2 ? 'bg-amber-400' : 'bg-brand-500');
-        return `
-        <div class="relative flex flex-col items-center justify-end h-full w-10 group chart-bar cursor-pointer">
-            <div class="chart-tooltip absolute -top-10 bg-slate-800 text-white text-[10px] font-bold px-2 py-1 rounded-lg opacity-0 invisible transition-all z-10 shadow-lg whitespace-nowrap">
-                ${item.avg}
-                <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-800 rotate-45"></div>
-            </div>
-            <div class="w-full ${barColor} rounded-t-lg transition-all duration-1000 shadow-sm" style="height: ${percent}%;"></div>
-            <div class="text-[9px] font-bold text-slate-400 mt-2">${item.month.split('/')[0]}</div>
-        </div>`;
-    }).join('');
+
+    let sortedCompanies = Object.keys(heatData).sort();
+
+    sortedCompanies.forEach(comp => {
+        tableHTML += `<tr><td class="p-3 font-bold text-slate-700 max-w-[200px] truncate sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.05)]" title="${comp}">${comp}</td>`;
+        
+        sortedMonths.forEach(m => {
+            let cellData = heatData[comp][m];
+            if (cellData && cellData.count > 0) {
+                let avg = (cellData.sum / cellData.count).toFixed(1);
+                
+                let bgClass = '';
+                if (avg < 3) bgClass = 'bg-red-500 text-white shadow-inner'; 
+                else if (avg < 4) bgClass = 'bg-orange-400 text-white shadow-sm'; 
+                else bgClass = 'bg-emerald-500 text-white shadow-sm';
+                
+                tableHTML += `<td class="p-1.5">
+                    <div class="w-full h-full py-1.5 text-center rounded-lg font-bold text-xs ${bgClass} transition-transform hover:scale-110 cursor-default" title="${comp} - ${m}: ${avg} điểm">
+                        ${avg}
+                    </div>
+                </td>`;
+            } else {
+                tableHTML += `<td class="p-1.5"><div class="w-full h-full py-1.5 text-center rounded-lg bg-slate-50 text-slate-300 font-medium text-xs">-</div></td>`;
+            }
+        });
+        tableHTML += `</tr>`;
+    });
+
+    tableHTML += `</tbody></table>`;
+    container.innerHTML = tableHTML;
 }
 
 async function summarizeFeedbackWithAI() {
@@ -1042,5 +1106,183 @@ function switchDashView(view) {
 
             btnEl.className = "px-6 py-2.5 rounded-xl text-sm font-bold transition-all text-slate-500 hover:text-slate-800 hover:bg-slate-200/50";
         }
+    });
+}
+
+function renderNPS(data) {
+    let promoters = 0;
+    let passives = 0;
+    let detractors = 0;
+    let total = 0;
+
+
+    data.forEach(row => {
+        let score = parseFloat(row['Mức độ giới thiệu']); 
+        if (!isNaN(score) && score >= 1 && score <= 5) {
+            total++;
+            if (score === 5) promoters++;
+            else if (score >= 3) passives++;
+            else detractors++;
+        }
+    });
+
+    const container = document.getElementById('dash-nps-container');
+    
+    if (total === 0) {
+        container.innerHTML = '<p class="text-slate-400 font-medium">Chưa có dữ liệu NPS.</p>';
+        return;
+    }
+
+
+    let pctPromoters = Math.round((promoters / total) * 100);
+    let pctDetractors = Math.round((detractors / total) * 100);
+    
+
+    let npsScore = pctPromoters - pctDetractors; 
+
+    let npsColor = npsScore >= 30 ? 'text-emerald-500' : (npsScore > 0 ? 'text-amber-500' : 'text-red-500');
+    let npsBg = npsScore >= 30 ? 'bg-emerald-50' : (npsScore > 0 ? 'bg-amber-50' : 'bg-red-50');
+    let npsBorder = npsScore >= 30 ? 'border-emerald-200' : (npsScore > 0 ? 'border-amber-200' : 'border-red-200');
+    let npsStatus = npsScore >= 30 ? 'Tuyệt vời' : (npsScore > 0 ? 'Trung bình' : 'Báo động đỏ');
+
+    container.innerHTML = `
+        <div class="relative w-32 h-32 flex items-center justify-center rounded-full ${npsBg} border-[6px] ${npsBorder} mb-3 shadow-inner">
+            <div class="text-center">
+                <div class="text-4xl font-black ${npsColor}">${npsScore > 0 ? '+'+npsScore : npsScore}</div>
+                <div class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-1">Điểm NPS</div>
+            </div>
+        </div>
+        <h4 class="font-black ${npsColor} uppercase tracking-wider mb-6 text-sm bg-white px-3 py-1 rounded-full border border-slate-100 shadow-sm">${npsStatus}</h4>
+        
+        <div class="w-full space-y-3 bg-slate-50 p-3 rounded-xl border border-slate-100">
+            <div class="flex justify-between items-center text-xs font-bold">
+                <span class="text-emerald-600 flex items-center gap-1.5"><i class="ph-fill ph-smiley text-lg"></i> Ủng hộ (5đ)</span>
+                <span class="bg-white px-2 py-0.5 rounded shadow-sm">${pctPromoters}%</span>
+            </div>
+            <div class="flex justify-between items-center text-xs font-bold">
+                <span class="text-amber-500 flex items-center gap-1.5"><i class="ph-fill ph-smiley-meh text-lg"></i> Thụ động (3-4đ)</span>
+                <span class="bg-white px-2 py-0.5 rounded shadow-sm">${Math.round((passives / total) * 100)}%</span>
+            </div>
+            <div class="flex justify-between items-center text-xs font-bold">
+                <span class="text-red-500 flex items-center gap-1.5"><i class="ph-fill ph-smiley-sad text-lg"></i> Rủi ro (1-2đ)</span>
+                <span class="bg-white px-2 py-0.5 rounded shadow-sm">${pctDetractors}%</span>
+            </div>
+        </div>
+    `;
+}
+
+
+function populateFilterDropdowns() {
+    const groupVal = document.getElementById('filter-group').value;
+    const custSelect = document.getElementById('filter-customer');
+    
+
+    let uniqueCompanies = [...new Set(RAW_DATA.map(r => r[COL_COMPANY] || "Khách Hàng Ẩn Danh"))].sort();
+    
+
+    if (groupVal !== 'all') {
+        uniqueCompanies = uniqueCompanies.filter(comp => {
+            let g = customerGroups[comp] || 'vanglai'; 
+            return g === groupVal;
+        });
+    }
+
+
+    custSelect.innerHTML = '<option value="all">Tất cả khách hàng trong danh sách này</option>' + 
+        uniqueCompanies.map(c => `<option value="${c}">${c}</option>`).join('');
+}
+
+function openGroupModal() {
+    const listContainer = document.getElementById('group-management-list');
+    let uniqueCompanies = [...new Set(RAW_DATA.map(r => r[COL_COMPANY] || "Khách Hàng Ẩn Danh"))].sort();
+    
+    listContainer.innerHTML = uniqueCompanies.map(comp => {
+        let currentGroup = customerGroups[comp] || 'vanglai';
+        return `
+        <div class="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-brand-300 transition-colors">
+            <span class="text-sm font-bold text-slate-800 truncate w-1/2 pr-4" title="${comp}">${comp}</span>
+            <select onchange="customerGroups['${comp}'] = this.value" class="w-1/2 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs font-bold text-slate-700 outline-none focus:border-brand-500 cursor-pointer">
+                <option value="chuluc" ${currentGroup === 'chuluc' ? 'selected' : ''}>Chủ lực</option>
+                <option value="tiemnang" ${currentGroup === 'tiemnang' ? 'selected' : ''}>Tiềm năng</option>
+                <option value="vanglai" ${currentGroup === 'vanglai' ? 'selected' : ''}>Vãng lai</option>
+            </select>
+        </div>
+        `;
+    }).join('');
+    
+    const modal = document.getElementById('group-manage-modal');
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        document.getElementById('group-manage-box').classList.remove('scale-95');
+    }, 10);
+}
+
+function closeGroupModal() {
+    const modal = document.getElementById('group-manage-modal');
+    modal.classList.add('opacity-0');
+    document.getElementById('group-manage-box').classList.add('scale-95');
+    setTimeout(() => { modal.classList.add('hidden'); }, 300);
+}
+
+function saveGroupManagement() {
+    localStorage.setItem('tqc_customer_groups', JSON.stringify(customerGroups));
+    closeGroupModal();
+    populateFilterDropdowns(); 
+    applyFilter(); 
+}
+
+
+function downloadDashboardPDF() {
+    const dashboard = document.getElementById('tab-content-dashboard');
+    const heatmapContainer = document.getElementById('customer-heatmap-container');
+    const pdfActionBar = document.getElementById('pdf-action-bar');
+    const loadingIndicator = document.getElementById('loading-indicator');
+
+    if (loadingIndicator) loadingIndicator.classList.remove('hidden');
+    if (pdfActionBar) pdfActionBar.style.display = 'none';
+
+    let originalHeatmapMaxHeight = '';
+    if (heatmapContainer) {
+        originalHeatmapMaxHeight = heatmapContainer.style.maxHeight;
+        heatmapContainer.style.maxHeight = 'none';
+        heatmapContainer.classList.remove('overflow-y-auto'); 
+    }
+
+    const printHeader = document.createElement('div');
+    printHeader.id = 'pdf-print-header';
+    const currentDate = new Date().toLocaleDateString('vi-VN');
+    printHeader.innerHTML = `
+        <div style="text-align: center; margin-bottom: 30px; padding-top: 20px;">
+            <h1 style="font-size: 28px; font-weight: 900; color: #0f172a; text-transform: uppercase;">Báo Cáo Tổng Hợp Đánh Giá CSKH</h1>
+            <p style="font-size: 14px; color: #64748b; margin-top: 5px;">Trích xuất từ Hệ thống Nội bộ Thông Quan Logistics - Ngày: ${currentDate}</p>
+            <div style="width: 50px; height: 3px; background-color: #0ea5e9; margin: 15px auto;"></div>
+        </div>
+    `;
+    dashboard.insertBefore(printHeader, dashboard.firstChild);
+
+   const opt = {
+        margin:       [0.5, 0.3, 0.5, 0.3], 
+        filename:     'Bao_Cao_Dashboard_CSKH.pdf',
+        image:        { type: 'jpeg', quality: 1 }, 
+        html2canvas:  { scale: 2, useCORS: true, logging: false }, 
+        jsPDF:        { unit: 'in', format: 'a3', orientation: 'landscape' },
+        pagebreak:    { mode: 'avoid-all', avoid: '.bg-white' } 
+    };
+
+  
+    html2pdf().set(opt).from(dashboard).save().then(() => {
+
+        if (pdfActionBar) pdfActionBar.style.display = 'flex';
+        if (heatmapContainer) {
+            heatmapContainer.style.maxHeight = originalHeatmapMaxHeight || '400px';
+            heatmapContainer.classList.add('overflow-y-auto');
+        }
+        if (printHeader) printHeader.remove(); 
+        if (loadingIndicator) loadingIndicator.classList.add('hidden'); 
+    }).catch(err => {
+        console.error("Lỗi khi tạo PDF:", err);
+        alert("Có lỗi xảy ra khi tạo file PDF.");
+        if (loadingIndicator) loadingIndicator.classList.add('hidden');
     });
 }
