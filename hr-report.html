@@ -18,7 +18,7 @@
     <header class="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-xl border-b border-slate-200 shadow-sm transition-all h-16 md:h-20">
         <div class="w-full h-full max-w-[1400px] mx-auto px-4 md:px-8 flex items-center justify-between">
             <a href="hr.html" class="flex items-center gap-3 cursor-pointer group shrink-0">
-                <img src="../QUOCTHINH-TQC/logo.png" alt="Logo" class="w-10 h-10 md:w-14 md:h-14 object-contain rounded-lg group-hover:scale-105 transition-transform duration-300">
+                <img src="logo.png" alt="Logo" class="w-10 h-10 md:w-14 md:h-14 object-contain rounded-lg group-hover:scale-105 transition-transform duration-300">
                 <span class="hidden sm:block font-bold text-xl md:text-2xl text-slate-800 tracking-tight">THÔNG QUAN</span>
             </a>
             <div class="flex items-center gap-5 md:gap-6">
@@ -131,13 +131,13 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="../QUOCTHINH-TQC/cfg.js"></script>
+    <script src="cfg.js"></script>
     <script src="hr-report.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             try {
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
-                if (!session) { window.location.href = '../QUOCTHINH-TQC/login.html'; return; }
+                if (!session) { window.location.href = 'login.html'; return; }
 
                 const { data: profile } = await window.supabaseClient
                     .from('profiles')
