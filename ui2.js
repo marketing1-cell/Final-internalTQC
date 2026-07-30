@@ -353,3 +353,80 @@ async function saveNotesData() {
         console.error("Lỗi đồng bộ ghi chú lên cloud:", err.message);
     }
 }
+
+    
+    function checkAndShowBirthday(fullName, dateOfBirth) {
+        if (!dateOfBirth) return; 
+        
+        const today = new Date();
+        const dob = new Date(dateOfBirth);
+        
+
+        if (today.getDate() === dob.getDate() && today.getMonth() === dob.getMonth()) {
+            
+
+            document.getElementById('bd-user-name').innerText = fullName;
+            
+            const modal = document.getElementById('birthday-modal');
+            const box = document.getElementById('birthday-box');
+            
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.classList.add('opacity-100'); 
+                
+
+                setTimeout(() => {
+                    box.classList.remove('scale-50', 'opacity-0');
+                    box.classList.add('scale-100', 'opacity-100');
+                }, 500); 
+            }, 1000); 
+        }
+    }
+
+
+    function closeBirthdayModal() {
+        const modal = document.getElementById('birthday-modal');
+        const box = document.getElementById('birthday-box');
+        
+
+        box.classList.remove('scale-100', 'opacity-100');
+        box.classList.add('scale-50', 'opacity-0');
+        
+
+        setTimeout(() => {
+            modal.classList.remove('opacity-100');
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 1000);
+        }, 500);
+    }
+
+
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        const supabase = window.supabaseClient || window.supabase; 
+        
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        if (session && session.user) {
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('full_name, date_of_birth')
+                .eq('id', session.user.id)
+                .single();
+                
+            if (profile && profile.date_of_birth) {
+                checkAndShowBirthday(profile.full_name, profile.date_of_birth);
+            }
+        }
+    } catch (err) {
+        console.error("Lỗi khi tải dữ liệu sinh nhật:", err);
+    }
+});
