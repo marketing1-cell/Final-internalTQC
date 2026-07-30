@@ -1,0 +1,59 @@
+@media print {
+    @page {
+        size: A4 portrait;
+        margin: 0; 
+    }
+    body * {
+        visibility: hidden;
+    }
+    header, main, footer, .fixed {
+        display: none !important;
+    }
+    #print-leave-container, #print-leave-container *,
+    #print-bt-container, #print-bt-container *,
+    #print-fp-container, #print-fp-container *,
+    #print-pr-container, #print-pr-container *,
+    #print-ot-container, #print-ot-container *,
+    #print-recruit-container, #print-recruit-container *,
+    #print-stationery-container, #print-stationery-container *,
+    #print-interview-container, #print-interview-container *,
+    #print-resign-container, #print-resign-container *,
+    #print-monthly-bt-container, #print-monthly-bt-container * {
+        visibility: visible; 
+    }
+    #print-leave-container, #print-bt-container,
+    #print-fp-container, #print-pr-container,
+    #print-ot-container, #print-recruit-container,
+    #print-stationery-container, #print-interview-container,
+    #print-resign-container, #print-monthly-bt-container {
+        position: absolute; 
+        left: 0; 
+        top: 0; 
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    .page-break {
+        page-break-after: always;
+    }
+}
+
+.half-a4 {
+    height: 14.85cm; 
+    padding: 1.2cm 1.5cm 1cm 1.5cm;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.full-a4 {
+    min-height: 29.7cm; 
+    padding: 1.2cm 1.5cm 1.2cm 1.5cm;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }

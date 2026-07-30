@@ -1,0 +1,54 @@
+.active-tab {
+    border-bottom-width: 2px !important;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.block {
+    display: block;
+}
+
+.cal-cell {
+    min-height: 100px;
+    border-right: 1px solid #f1f5f9;
+    border-bottom: 1px solid #f1f5f9;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.cal-cell:nth-child(7n) {
+    border-right: none;
+}
+
+.cal-cell.other-month {
+    background-color: #f8fafc;
+    color: #94a3b8;
+}
+
+.cal-event {
+    font-size: 10px;
+    padding: 2px 4px;
+    margin-bottom: 2px;
+    border-radius: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 600;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}

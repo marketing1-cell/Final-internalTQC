@@ -16,26 +16,48 @@ async function fetchUserProfile(userId) {
         const cskhMenu = document.getElementById('menu-cskh-report');
         if (cskhMenu) cskhMenu.classList.remove('hidden');
     }
-        document.getElementById('current-user-name').innerText = profile.full_name;
+
+    
+    
+    const isKinhDoanh = profile.department_id === '2546211e-48e2-495f-883d-290ee463213f';
+    const isBOD = profile.role === 'bod' || profile.department === 'BOD';
+    const isAdmin = profile.role === 'admin';
+
+    if (isKinhDoanh || isBOD || isAdmin) {
+        const container = document.getElementById('menu-quotation-container');
+        if (container) {
+            container.innerHTML = `
+                <a href="../Sales/sales-history.html" class="flex items-center gap-2 text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-blue-600 rounded-lg lg:rounded-md transition-colors duration-200">
+                    <i class="ph-bold ph-receipt text-sky-500 text-lg"></i> Lịch sử Báo Giá
+                </a>
+            `;
+        }
+    }
+       document.getElementById('current-user-name').innerText = profile.full_name;
         const roleNames = {
             'admin': 'Admin',
-            'bod': 'BOD',
+            'bod': 'Ban Giám Đốc',
+            'manager': 'Trưởng Phòng',
+            'deputy': 'Phó Phòng',
+            'hr': 'Nhân Sự',
             'cskh': 'CSKH',
-            'staff': 'Staff'
+            'staff': 'Nhân Viên'
         };
         document.getElementById('current-user-role').innerText = roleNames[profile.role] || 'Nhân viên';
+
+        const userIdElem = document.getElementById('current-user-id');
+        if (userIdElem) {
+            if (profile.user_id && profile.user_id.trim() !== '') {
+                userIdElem.innerText = `Số Thẻ: ${profile.user_id}`;
+                userIdElem.classList.remove('hidden');
+            } else {
+                userIdElem.classList.add('hidden');
+            }
+        }
+        
         if (profile.role === 'admin') {
             document.getElementById('admin-menu-section').classList.remove('hidden');
         }
-
-        const nameParts = profile.full_name.trim().split(' ');
-        const lastName = nameParts[nameParts.length - 1];
-        document.getElementById('welcome-message').innerText = `Chúc ${lastName} một ngày tốt lành!`;
-
-        const today = new Date();
-        document.getElementById('system-date').innerText = `Ngày: ${today.toLocaleDateString('vi-VN', {day: '2-digit', month: '2-digit', year: 'numeric'})}`;
-    } else if (error) {
-        console.error("Profile Fetch Error:", error);
     }
 }
 

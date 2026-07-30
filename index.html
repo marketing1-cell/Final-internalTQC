@@ -88,7 +88,6 @@
                     <button onclick="loadArticles('all', 'Kiến thức mới xuất bản')" class="nav-item h-full px-3 text-sm font-medium text-slate-600 hover:text-slate-900 border-b-2 border-transparent transition-colors">Trang Chủ</button>
                     <button onclick="loadArticles('tin-tuc', 'Bảng tin tức công ty')" class="nav-item h-full px-3 text-sm font-medium text-slate-600 hover:text-slate-900 border-b-2 border-transparent transition-colors">Tin tức</button>
                     
-                    <!-- Nhóm Phòng ban -->
                     <div class="relative group h-full flex flex-col lg:flex-row items-center w-full lg:w-auto">
                         <button onclick="toggleMobileSubMenu(this)" class="nav-item h-full flex items-center justify-between lg:justify-start gap-1.5 px-3 text-sm font-medium text-slate-600 hover:text-slate-900 border-b-2 border-transparent transition-colors">
                             Phòng ban <i class="ph-bold ph-caret-down text-xs transition-transform duration-300"></i>
@@ -96,11 +95,15 @@
 
                         <div class="sub-menu-container hidden lg:group-hover:flex flex-col lg:absolute lg:top-full lg:left-0 w-full lg:w-48 z-50">
 
+                            <div class="sub-menu-container hidden lg:group-hover:flex flex-col lg:absolute lg:top-full lg:left-0 w-full lg:w-48 z-50">
                             <div class="flex flex-col bg-slate-50 lg:bg-white rounded-xl lg:shadow-lg border-none lg:border lg:border-slate-100 overflow-hidden mt-1 p-2 lg:p-0">
                                 <button onclick="loadArticles('sales-dept', 'Tài liệu: Kinh Doanh')" class="text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-blue-600 rounded-lg lg:rounded-none transition-colors lg:border-b lg:border-slate-50">Kinh Doanh</button>
                                 <button onclick="loadArticles('nghiep-vu-xnk', 'Tài liệu: Nghiệp Vụ')" class="text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-blue-600 rounded-lg lg:rounded-none transition-colors lg:border-b lg:border-slate-50">Nghiệp Vụ</button>
-                                <button onclick="loadArticles('ke-toan', 'Tài liệu: Kế Toán')" class="text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-blue-600 rounded-lg lg:rounded-none transition-colors">Kế Toán</button>
+                                <button onclick="loadArticles('ke-toan', 'Tài liệu: Kế Toán')" class="text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-blue-600 rounded-lg lg:rounded-none transition-colors lg:border-b lg:border-slate-50">Kế Toán</button>
+                                
+                                <a href="../HR/hr.html" class="text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-blue-600 rounded-lg lg:rounded-none transition-colors">Hành Chính Nhân Sự</a>
                             </div>
+                        </div>
                         </div>
                     </div>
 
@@ -118,6 +121,7 @@
                                 <a href="gioi-thieu.html" class="text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-blue-600 rounded-lg lg:rounded-none transition-colors lg:border-b lg:border-slate-50">Giới thiệu</a>
                                 <a href="TQC-AI.html" class="text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-blue-600 rounded-lg lg:rounded-none transition-colors lg:border-b lg:border-slate-50">T-logi AI</a>
                                 <a href="bao-cao-cskh.html" class="text-left px-5 py-3 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-blue-600 rounded-lg lg:rounded-none transition-colors"><i class="ph-bold ph-chart-bar text-brand-500 mr-1"></i> Báo cáo CSKH</a>
+                                <div id="menu-quotation-container"></div>
                             </div>
                         </div>
                     </div>
@@ -143,6 +147,8 @@
                     <span class="absolute -top-1.5 -right-1.5 px-1.5 py-0.5 bg-red-500 text-white text-[8px] font-black uppercase rounded shadow-sm">Trợ lý</span>
                 </a>
 
+                
+
                 <div class="relative group cursor-pointer z-50 ml-1">
                     <div class="h-9 w-9 rounded-full border border-slate-200 bg-white flex items-center justify-center text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-colors shadow-sm">
                       <i class="ph-bold ph-user text-lg"></i>
@@ -151,7 +157,10 @@
                     <div class="absolute top-full right-0 mt-2 w-56 bg-white rounded-2xl shadow-lg border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 p-2 z-50">
                         <div class="px-4 py-3 border-b border-slate-100 mb-2">
                             <p id="current-user-name" class="text-sm font-bold text-slate-800 truncate">Đang tải...</p>
-                            <p id="current-user-role" class="text-xs font-medium text-blue-600 capitalize">...</p>
+                            <div class="flex items-center gap-2 mt-1">
+                                <p id="current-user-role" class="text-xs font-bold text-blue-600 capitalize">...</p>
+                                <p id="current-user-id" class="text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded hidden">Thẻ: ...</p>
+                            </div>
                         </div>
                         <div id="admin-menu-section" class="hidden pb-2 mb-2 border-b border-slate-100 space-y-1">
                             <button onclick="openAdminModal()" class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-xl transition-colors"><i class="ph-bold ph-plus-circle text-lg"></i> Ban hành tài liệu</button>
@@ -721,6 +730,42 @@
                     </button>
                 </div>
             </form>
+        </div>
+    </div>
+
+
+    <!-- MODAL CHÚC MỪNG SINH NHẬT -->
+    <!-- ========================================== -->
+    <div id="birthday-modal" class="fixed inset-0 z-[200] hidden items-center justify-center opacity-0 transition-opacity duration-1000">
+
+        <div class="absolute inset-0 bg-slate-900/90 backdrop-blur-md"></div>
+        
+
+        <div id="birthday-box" class="relative z-10 bg-white/10 backdrop-blur-xl border border-white/20 p-10 md:p-14 rounded-[3rem] shadow-[0_0_100px_rgba(34,211,238,0.4)] text-center transform scale-50 opacity-0 transition-all duration-1000">
+            
+
+            <div class="w-24 h-24 mx-auto mb-6 bg-gradient-to-tr from-amber-300 to-orange-500 rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(245,158,11,0.6)] animate-bounce">
+                <i class="ph-fill ph-cake text-5xl text-white"></i>
+            </div>
+            
+
+            <h2 class="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-500 mb-4 tracking-tight">Chúc Mừng Sinh Nhật!</h2>
+            <h3 id="bd-user-name" class="text-2xl md:text-4xl font-bold text-white mb-6 uppercase tracking-wide">Tên Nhân Viên</h3>
+            
+            <p class="text-blue-100/90 text-base md:text-lg max-w-md mx-auto mb-10 font-medium leading-relaxed">
+                Chúc bạn một tuổi mới ngập tràn niềm vui, sức khỏe dồi dào và gặt hái được nhiều thành công rực rỡ cùng Thông Quan nhé! 🎉
+            </p>
+            
+
+            <button onclick="closeBirthdayModal()" class="px-8 py-3.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-full font-bold shadow-[0_0_20px_rgba(14,165,233,0.4)] transition-all hover:scale-105 active:scale-95 text-lg">
+                Cảm ơn!
+            </button>
+
+
+            <div class="absolute -top-10 -left-10 text-4xl animate-[spin_3s_linear_infinite] opacity-50 select-none">✨</div>
+            <div class="absolute -bottom-10 -right-10 text-4xl animate-[spin_4s_linear_infinite] opacity-50 select-none">🌟</div>
+            <div class="absolute top-10 -right-5 text-3xl animate-[bounce_2s_infinite] opacity-50 select-none">🎉</div>
+            <div class="absolute bottom-10 -left-5 text-3xl animate-[bounce_3s_infinite] opacity-50 select-none">🎈</div>
         </div>
     </div>
 

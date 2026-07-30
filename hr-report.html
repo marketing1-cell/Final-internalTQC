@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo Cáo Nhân Sự | TQC INTERNAL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = { theme: { extend: { colors: { brand: { 50: '#f0f9ff', 500: '#0ea5e9', 600: '#0284c7', 900: '#0c4a6e' } }, fontFamily: { sans: ['Inter', 'sans-serif'] } } } }
+    </script>
+    <link rel="stylesheet" href="hr-report.css">
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 antialiased min-h-screen flex flex-col overflow-x-hidden">
+
+    <header class="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-xl border-b border-slate-200 shadow-sm transition-all h-16 md:h-20">
+        <div class="w-full h-full max-w-[1400px] mx-auto px-4 md:px-8 flex items-center justify-between">
+            <a href="hr.html" class="flex items-center gap-3 cursor-pointer group shrink-0">
+                <img src="../QUOCTHINH-TQC/logo.png" alt="Logo" class="w-10 h-10 md:w-14 md:h-14 object-contain rounded-lg group-hover:scale-105 transition-transform duration-300">
+                <span class="hidden sm:block font-bold text-xl md:text-2xl text-slate-800 tracking-tight">THÔNG QUAN</span>
+            </a>
+            <div class="flex items-center gap-5 md:gap-6">
+                <a href="hr.html" class="flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 bg-slate-100 hover:bg-brand-50 hover:text-brand-600 text-slate-700 rounded-xl text-sm font-bold transition-all shadow-sm">
+                    <i class="ph-bold ph-arrow-left text-lg"></i>
+                    <span class="hidden sm:inline">Quay lại Hệ thống</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-[1400px] w-full mx-auto px-4 md:px-8 py-6 md:py-10 space-y-8">
+        <div class="mb-4">
+            <h1 class="text-2xl md:text-3xl font-black text-slate-800 tracking-tight">Hệ Thống Báo Cáo Nhân Sự</h1>
+            <p class="text-sm text-slate-500 mt-1">Quản lý, phân tích và xuất dữ liệu nội bộ.</p>
+        </div>
+
+        <div class="border-b border-slate-200 mb-6">
+            <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                <button onclick="switchTab('reports')" id="tab-btn-reports" class="tab-btn active-tab border-purple-500 text-purple-600 whitespace-nowrap py-4 px-1 border-b-2 font-bold text-sm transition-colors">
+                    <i class="ph-fill ph-chart-pie-slice mr-2"></i> BÁO CÁO (REPORTS)
+                </button>
+                <button onclick="switchTab('calendar')" id="tab-btn-calendar" class="tab-btn border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors">
+                    <i class="ph-fill ph-calendar mr-2"></i> KẾ HOẠCH NGHỈ PHÉP
+                </button>
+            </nav>
+        </div>
+
+        <div id="tab-content-reports" class="tab-content block">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                <div>
+                    <h2 class="text-xl font-black text-slate-800">Dữ Liệu Đơn Từ</h2>
+                </div>
+                <div class="flex flex-wrap items-center gap-3 w-full md:w-auto bg-slate-50 p-2 rounded-2xl border border-slate-200 shadow-sm">
+                    <input type="month" id="report-month" onchange="generateReport()" class="bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-purple-500 cursor-pointer text-slate-700">
+                    <select id="report-type" onchange="generateReport()" class="bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-purple-500 cursor-pointer text-slate-700">
+                        <option value="all">Tất cả biểu mẫu</option>
+                        <option value="leave">Đơn xin nghỉ phép (Sắp xếp theo Thẻ)</option>
+                        <option value="business_trip">Giấy đi công tác</option>
+                        <option value="overtime">Phiếu tăng ca</option>
+                        <option value="forgot_punch">Quên chấm công</option>
+                        <option value="resign">Đơn xin thôi việc</option>
+                    </select>
+                    <select id="report-dept" onchange="generateReport()" class="bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-purple-500 cursor-pointer text-slate-700">
+                        <option value="all">Tất cả phòng ban</option>
+                    </select>
+                    <button onclick="generateReport()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-2 rounded-xl transition-colors shadow-sm text-sm font-bold flex items-center gap-2">
+                        <i class="ph-bold ph-funnel"></i> Lọc
+                    </button>
+                    <button onclick="exportToExcel()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl transition-colors shadow-sm text-sm font-bold flex items-center gap-2">
+                        <i class="ph-bold ph-microsoft-excel-logo"></i> Xuất Excel
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+                <div class="overflow-x-auto max-h-[600px] overflow-y-auto custom-scrollbar">
+                    <table class="w-full text-sm text-left whitespace-nowrap" id="report-table">
+                        <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 uppercase tracking-wider text-[11px] sticky top-0 z-10">
+                            <tr>
+                                <th class="px-4 py-3 font-bold">STT</th>
+                                <th class="px-4 py-3 font-bold">Số Thẻ</th>
+                                <th class="px-4 py-3 font-bold">Họ và Tên</th>
+                                <th class="px-4 py-3 font-bold">Phòng Ban</th>
+                                <th class="px-4 py-3 font-bold">Loại Đơn</th>
+                                <th class="px-4 py-3 font-bold">Chi Tiết</th>
+                                <th class="px-4 py-3 font-bold text-center">Mã Đơn</th>
+                            </tr>
+                        </thead>
+                        <tbody id="report-tbody" class="divide-y divide-slate-100">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="report-stats" class="mt-4 text-sm font-semibold text-slate-600 text-right"></div>
+        </div>
+
+        <div id="tab-content-calendar" class="tab-content hidden">
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex items-center gap-4">
+                    <button onclick="changeCalendarMonth(-1)" class="p-2 bg-white border border-slate-200 rounded-lg hover:bg-slate-50"><i class="ph-bold ph-caret-left"></i></button>
+                    <h2 id="calendar-title" class="text-xl font-black text-slate-800 w-48 text-center uppercase">Tháng ...</h2>
+                    <button onclick="changeCalendarMonth(1)" class="p-2 bg-white border border-slate-200 rounded-lg hover:bg-slate-50"><i class="ph-bold ph-caret-right"></i></button>
+                </div>
+                <div class="flex items-center gap-3 text-xs font-semibold">
+                    <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-blue-100 border border-blue-300"></span> Nghỉ phép</span>
+                    <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-emerald-100 border border-emerald-300"></span> Công tác</span>
+                </div>
+            </div>
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+                <div class="grid grid-cols-7 bg-slate-50 border-b border-slate-200 text-center py-3 text-sm font-bold text-slate-600">
+                    <div>T2</div><div>T3</div><div>T4</div><div>T5</div><div>T6</div><div class="text-red-500">T7</div><div class="text-red-500">CN</div>
+                </div>
+                <div id="calendar-grid" class="grid grid-cols-7 auto-rows-fr">
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="day-detail-modal" class="fixed inset-0 z-[100] hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('day-detail-modal')"></div>
+        <div id="day-detail-box" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white rounded-3xl shadow-2xl flex flex-col transform scale-95 transition-transform duration-300">
+            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center rounded-t-3xl">
+                <h3 id="day-detail-title" class="text-lg font-black text-slate-800">Chi tiết ngày...</h3>
+                <button onclick="closeModal('day-detail-modal')" class="text-slate-400 hover:text-red-500 bg-white rounded-full p-1"><i class="ph-bold ph-x text-lg"></i></button>
+            </div>
+            <div id="day-detail-content" class="p-6 max-h-[60vh] overflow-y-auto space-y-3">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../QUOCTHINH-TQC/cfg.js"></script>
+    <script src="hr-report.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) { window.location.href = '../QUOCTHINH-TQC/login.html'; return; }
+
+                const { data: profile } = await window.supabaseClient
+                    .from('profiles')
+                    .select('*, departments(name)')
+                    .eq('id', session.user.id)
+                    .single();
+                
+                if (profile) {
+                    window.currentUser = profile;
+                }
+            } catch (err) { 
+                console.error(err); 
+                document.getElementById('report-container').innerHTML = '<div class="text-center p-10 text-red-500 font-bold">Lỗi kết nối máy chủ dữ liệu!</div>';
+            }
+        });
+        
+        function openModal(modalId) { alert("Vui lòng quay lại hệ thống để xem chi tiết form."); }
+    </script>
+</body>
+</html>

@@ -1,0 +1,2033 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phòng Nhân Sự & Hành Chính | TQC INTERNAL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = { theme: { extend: { colors: { brand: { 50: '#f0f9ff', 500: '#0ea5e9', 600: '#0284c7', 900: '#0c4a6e' } }, fontFamily: { sans: ['Inter', 'sans-serif'] } } } }
+    </script>
+    <link rel="stylesheet" href="hr.css">
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 antialiased min-h-screen flex flex-col overflow-x-hidden">
+
+    <header class="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-xl border-b border-slate-200 shadow-sm transition-all h-16 md:h-20">
+        <div class="w-full h-full max-w-[1400px] mx-auto px-4 md:px-8 flex items-center justify-between">
+            
+            <a href="../QUOCTHINH-TQC/index.html" class="flex items-center gap-3 cursor-pointer group shrink-0">
+                <img src="../QUOCTHINH-TQC/logo.png" alt="Logo" class="w-10 h-10 md:w-14 md:h-14 object-contain rounded-lg group-hover:scale-105 transition-transform duration-300">
+                <span class="hidden sm:block font-bold text-xl md:text-2xl text-slate-800 tracking-tight">THÔNG QUAN</span>
+            </a>
+                
+            <div class="flex items-center gap-5 md:gap-6">
+                <a href="hr-report.html" class="flex items-center gap-2 px-3 md:px-4 py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 rounded-xl text-sm font-bold transition-all shadow-sm">
+                    <i class="ph-bold ph-chart-pie-slice text-lg"></i>
+                    <span class="hidden sm:inline">Báo Cáo</span>
+                </a>
+
+                <div class="relative cursor-pointer group" onclick="document.getElementById('approval-section').scrollIntoView({behavior: 'smooth'})" title="Xem đơn chờ duyệt">
+                    <div class="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center group-hover:bg-blue-100 transition-colors">
+                        <i class="ph-fill ph-bell text-xl text-slate-500 group-hover:text-blue-600 transition-colors"></i>
+                    </div>
+                    <span id="notif-badge" class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white shadow-sm border-2 border-white hidden">0</span>
+                </div>
+
+                <a href="../QUOCTHINH-TQC/index.html" class="flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 bg-slate-100 hover:bg-brand-50 hover:text-brand-600 text-slate-700 rounded-xl text-sm font-bold transition-all shadow-sm">
+                    <i class="ph-bold ph-arrow-left text-lg"></i>
+                    <span class="hidden sm:inline">Quay lại</span>
+                </a>
+            </div>
+            
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-[1400px] w-full mx-auto px-4 md:px-8 py-6 md:py-10 space-y-10 md:space-y-14">
+        
+        <div class="bg-gradient-to-br from-slate-900 via-blue-900 to-brand-900 rounded-[2rem] p-6 md:p-10 lg:p-12 text-white shadow-2xl flex flex-col md:flex-row items-center justify-between relative overflow-hidden gap-8">
+            <div class="absolute -right-10 -top-10 opacity-5 pointer-events-none transform rotate-12">
+                <i class="ph-fill ph-users-three text-[10rem] md:text-[20rem]"></i>
+            </div>
+            
+            <div class="w-full md:w-3/5 relative z-10 text-center md:text-left">
+                <span class="bg-white/10 border border-white/20 px-3 py-1 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest backdrop-blur-md mb-4 inline-block shadow-sm">
+                    Nhân Sự Nội Bộ
+                </span>
+                <h1 class="text-2xl md:text-4xl lg:text-5xl font-black mb-3 tracking-tight">Hành Chính Nhân Sự</h1>
+                <p class="text-blue-100 text-sm md:text-base lg:text-lg max-w-xl mx-auto md:mx-0 leading-relaxed mb-6">
+                    Tra cứu nội quy, chính sách và khởi tạo các biểu mẫu của công ty.
+                </p>
+                
+                <div class="flex flex-wrap gap-2 md:gap-3 justify-center md:justify-start">
+                    <div class="px-4 py-2 bg-white text-blue-900 font-black rounded-xl shadow-lg text-sm uppercase flex items-center gap-1.5">Tử Tế</div>
+                    <div class="px-4 py-2 bg-white text-blue-900 font-black rounded-xl shadow-lg text-sm uppercase flex items-center gap-1.5">Tận Tâm</div>
+                    <div class="px-4 py-2 bg-white text-blue-900 font-black rounded-xl shadow-lg text-sm uppercase flex items-center gap-1.5">Chia Sẻ</div>
+                    <div class="px-4 py-2 bg-white text-blue-900 font-black rounded-xl shadow-lg text-sm uppercase flex items-center gap-1.5">Trung Thực</div>
+                </div>
+            </div>
+
+            <div class="w-full md:w-2/5 relative z-10 flex flex-col gap-4">
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4 md:p-5 hover:bg-white/10 transition-all shadow-xl">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-white shrink-0">
+                            <i class="ph-fill ph-chats-teardrop text-xl"></i>
+                        </div>
+                        <h3 class="font-bold text-white text-sm md:text-base uppercase">Văn hóa Giao tiếp</h3>
+                    </div>
+                    <p class="text-blue-100/80 text-[13px] leading-relaxed">
+                        Chủ động chào hỏi, thân thiện và lịch sự. Ngôn ngữ mạch lạc, tôn trọng, không ngắt lời. Ưu tiên cấp trên và khách hàng.
+                    </p>
+                </div>
+                
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4 md:p-5 hover:bg-white/10 transition-all shadow-xl">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-white shrink-0">
+                            <i class="ph-fill ph-buildings text-xl"></i>
+                        </div>
+                        <h3 class="font-bold text-white text-sm md:text-base uppercase">Nơi làm việc & Hội họp</h3>
+                    </div>
+                    <p class="text-blue-100/80 text-[13px] leading-relaxed">
+                        Giữ gìn vệ sinh, tiết kiệm điện nước. Đi họp đúng giờ, chuẩn bị đầy đủ, tắt điện thoại, tập trung lắng nghe và bảo mật.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <section>
+            <div class="mb-5 md:mb-6">
+                <h2 class="text-xl md:text-2xl font-black text-slate-800 flex items-center gap-2 tracking-tight">
+                    <i class="ph-bold ph-shield-check text-emerald-500"></i> Nội Quy & Chính Sách
+                </h2>
+                <p class="text-xs md:text-sm text-slate-500 mt-1">Các quy định cốt lõi dành cho cán bộ nhân viên công ty</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-start">
+                
+                <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden transition-all">
+                    <button onclick="togglePolicy('policy-time')" class="w-full p-4 md:p-5 flex items-center gap-4 text-left group focus:outline-none hover:bg-slate-50">
+                        <div class="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center group-hover:bg-emerald-50 transition-colors shrink-0">
+                            <i class="ph-fill ph-clock text-2xl text-slate-400 group-hover:text-emerald-500 transition-colors"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-slate-800 text-sm md:text-base group-hover:text-emerald-600 transition-colors">Thời giờ làm việc</h3>
+                            <p class="text-[11px] text-slate-500 mt-0.5">Giờ giấc, chấm công...</p>
+                        </div>
+                        <i id="icon-policy-time" class="ph-bold ph-caret-down text-slate-400 transition-transform duration-300"></i>
+                    </button>
+                    <div id="policy-time" class="hidden px-5 pb-5 text-sm text-slate-700 border-t border-slate-100 bg-slate-50/50 pt-4">
+                        <ul class="space-y-3">
+                            <li class="flex gap-2">
+                                <i class="ph-fill ph-check-circle text-emerald-500 mt-0.5 shrink-0"></i>
+                                <div><strong class="text-slate-800">Thứ 2 - Thứ 6:</strong><br>07h30 - 16h30 <span class="text-xs text-slate-500 block">(Nghỉ trưa: 11h30 - 12h30)</span></div>
+                            </li>
+                            <li class="flex gap-2">
+                                <i class="ph-fill ph-check-circle text-emerald-500 mt-0.5 shrink-0"></i>
+                                <div><strong class="text-slate-800">Thứ 7:</strong><br>08h00 - Đến khi xong việc</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden transition-all">
+                    <button onclick="togglePolicy('policy-uniform')" class="w-full p-4 md:p-5 flex items-center gap-4 text-left group focus:outline-none hover:bg-slate-50">
+                        <div class="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center group-hover:bg-emerald-50 transition-colors shrink-0">
+                            <i class="ph-fill ph-t-shirt text-2xl text-slate-400 group-hover:text-emerald-500 transition-colors"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-slate-800 text-sm md:text-base group-hover:text-emerald-600 transition-colors">Quy định Đồng phục</h3>
+                            <p class="text-[11px] text-slate-500 mt-0.5">Tiêu chuẩn trang phục...</p>
+                        </div>
+                        <i id="icon-policy-uniform" class="ph-bold ph-caret-down text-slate-400 transition-transform duration-300"></i>
+                    </button>
+                    <div id="policy-uniform" class="hidden px-5 pb-5 text-sm text-slate-700 border-t border-slate-100 bg-slate-50/50 pt-4">
+                        <ul class="space-y-3 mb-4">
+                            <li class="flex gap-2">
+                                <i class="ph-fill ph-star text-emerald-500 mt-0.5 shrink-0"></i>
+                                <div><strong class="text-slate-800">Thứ 2 & Thứ 6:</strong> Đồng phục công ty<br><span class="text-xs text-slate-500">(Áo sơ mi trắng, Quần tây - Váy)</span></div>
+                            </li>
+                            <li class="flex gap-2">
+                                <i class="ph-fill ph-star text-emerald-500 mt-0.5 shrink-0"></i>
+                                <div><strong class="text-slate-800">Thứ 3 - Thứ 5:</strong> Đồ tự do<br><span class="text-xs text-slate-500">(Bắt buộc lịch sự: quần dài, áo có cổ hoặc đầm cho nữ)</span></div>
+                            </li>
+                            <li class="flex gap-2">
+                                <i class="ph-fill ph-star text-emerald-500 mt-0.5 shrink-0"></i>
+                                <div><strong class="text-slate-800">Thứ 7:</strong> Đồ tự do<br><span class="text-xs text-slate-500">(Bắt buộc: quần dài hoặc đầm cho nữ)</span></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <button onclick="openModal('policy-modal')" class="bg-white border border-slate-200 p-4 md:p-5 rounded-2xl shadow-sm hover:shadow-md hover:border-emerald-300 transition-all flex items-center gap-4 text-left group">
+                    <div class="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center group-hover:bg-emerald-50 transition-colors shrink-0">
+                        <i class="ph-fill ph-confetti text-2xl text-slate-400 group-hover:text-emerald-500 transition-colors"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-slate-800 text-sm md:text-base group-hover:text-emerald-600 transition-colors">Chính sách chung</h3>
+                        <p class="text-[11px] text-slate-500 mt-0.5">Lương thưởng, hiếu hỉ, thai sản...</p>
+                    </div>
+                    <i class="ph-bold ph-arrow-square-out text-slate-400 group-hover:text-emerald-500 transition-colors"></i>
+                </button>
+
+                <button onclick="openModal('rules-modal')" class="bg-white border border-slate-200 p-4 md:p-5 rounded-2xl shadow-sm hover:shadow-md hover:border-emerald-300 transition-all flex items-center gap-4 text-left group">
+                    <div class="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center group-hover:bg-emerald-50 transition-colors shrink-0">
+                        <i class="ph-fill ph-book-bookmark text-2xl text-slate-400 group-hover:text-emerald-500 transition-colors"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-slate-800 text-sm md:text-base group-hover:text-emerald-600 transition-colors">Nội quy lao động chung</h3>
+                        <p class="text-[11px] text-slate-500 mt-0.5">Kỷ luật, an toàn, bảo vệ tài sản...</p>
+                    </div>
+                    <i class="ph-bold ph-arrow-square-out text-slate-400 group-hover:text-emerald-500 transition-colors"></i>
+                </button>
+
+            </div>
+        </section>
+
+        <section>
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 border-t border-slate-200 pt-8 gap-4">
+                <div>
+                    <h2 class="text-xl md:text-2xl font-black text-slate-800 flex items-center gap-2">
+                        <i class="ph-bold ph-files text-brand-600"></i> Biểu Mẫu Hành Chính
+                    </h2>
+                    <p class="text-xs md:text-sm text-slate-500 mt-1">Tìm và chọn biểu mẫu bạn cần thực hiện</p>
+                </div>
+                <div class="relative w-full md:w-72">
+                    <i class="ph-bold ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input type="text" id="searchInput" onkeyup="filterForms()" class="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all" placeholder="Tìm kiếm biểu mẫu...">
+                </div>
+            </div>
+
+            <div id="formsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+                
+                <button onclick="openModal('leave-form-modal')" class="form-card bg-white border border-slate-200 p-5 rounded-3xl shadow-sm hover:shadow-md hover:border-blue-300 transition-all text-left group">
+                    <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors"><i class="ph-fill ph-calendar-minus"></i></div>
+                    <h3 class="font-bold text-slate-800 text-base mb-1 group-hover:text-blue-600 transition-colors form-title">Đơn Xin Nghỉ Phép</h3>
+                    <p class="text-xs text-slate-500 font-medium">Phép năm, việc riêng, nghỉ ốm...</p>
+                </button>
+
+                <div class="form-card bg-white border border-slate-200 p-4 rounded-3xl shadow-sm hover:shadow-md transition-all flex flex-col">
+                    <div class="mb-3 px-1">
+                        <h3 class="font-bold text-slate-800 text-base form-title">Đi Công Tác</h3>
+                        <p class="text-[11px] text-slate-500 font-medium mt-0.5">Chọn loại hình công tác</p>
+                    </div>
+                    <div class="flex gap-2 mt-auto">
+                        <button onclick="openModal('business-trip-modal')" class="flex-1 bg-emerald-50 hover:bg-emerald-500 text-emerald-600 hover:text-white rounded-2xl p-3 flex flex-col items-center justify-center transition-colors group">
+                            <i class="ph-fill ph-airplane-tilt text-2xl mb-1"></i>
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-center">Ngắn ngày</span>
+                        </button>
+                        <button onclick="openModal('monthly-bt-modal')" class="flex-1 bg-teal-50 hover:bg-teal-500 text-teal-600 hover:text-white rounded-2xl p-3 flex flex-col items-center justify-center transition-colors group">
+                            <i class="ph-fill ph-calendar-check text-2xl mb-1"></i>
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-center">Hàng ngày</span>
+                        </button>
+                    </div>
+                </div>
+
+                <button onclick="openModal('forgot-punch-modal')" class="form-card bg-white border border-slate-200 p-5 rounded-3xl shadow-sm hover:shadow-md transition-all text-left group">
+                    <div class="w-12 h-12 bg-slate-100 text-slate-600 rounded-2xl flex items-center justify-center text-2xl mb-4"><i class="ph-fill ph-clock-counter-clockwise"></i></div>
+                    <h3 class="font-bold text-slate-800 text-base mb-1 form-title">Xác Nhận Quên Chấm Công</h3>
+                </button>
+
+                <button onclick="openModal('purchase-modal')" class="form-card bg-white border border-slate-200 p-5 rounded-3xl shadow-sm hover:shadow-md hover:border-emerald-300 transition-all text-left group">
+                    <div class="w-12 h-12 bg-slate-100 text-slate-600 rounded-2xl flex items-center justify-center text-2xl mb-4"><i class="ph-fill ph-shopping-cart"></i></div>
+                    <h3 class="font-bold text-slate-800 text-base mb-1 form-title">Đề Xuất Mua Hàng</h3>
+                </button>
+
+                <button onclick="openModal('overtime-modal')" class="form-card bg-white border border-slate-200 p-5 rounded-3xl shadow-sm hover:shadow-md transition-all text-left group">
+                    <div class="w-12 h-12 bg-slate-100 text-slate-600 rounded-2xl flex items-center justify-center text-2xl mb-4"><i class="ph-fill ph-moon-stars"></i></div>
+                    <h3 class="font-bold text-slate-800 text-base mb-1 form-title">Phiếu Tăng Ca</h3>
+                </button>
+
+                <button onclick="openModal('recruit-modal')" class="form-card bg-white border border-slate-200 p-5 rounded-3xl shadow-sm hover:shadow-md hover:border-sky-300 transition-all text-left group">
+                    <div class="w-12 h-12 bg-sky-50 text-sky-600 rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:bg-sky-600 group-hover:text-white transition-colors"><i class="ph-fill ph-user-plus"></i></div>
+                    <h3 class="font-bold text-slate-800 text-base mb-1 group-hover:text-sky-600 transition-colors form-title">Yêu Cầu Tuyển Dụng</h3>
+                </button>
+
+                <button onclick="openModal('stationery-modal')" class="form-card bg-white border border-slate-200 p-5 rounded-3xl shadow-sm hover:shadow-md hover:border-fuchsia-300 transition-all text-left group">
+                    <div class="w-12 h-12 bg-fuchsia-50 text-fuchsia-600 rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:bg-fuchsia-600 group-hover:text-white transition-colors"><i class="ph-fill ph-paperclip"></i></div>
+                    <h3 class="font-bold text-slate-800 text-base mb-1 group-hover:text-fuchsia-600 transition-colors form-title">Mua Văn Phòng Phẩm</h3>
+                </button>
+
+                <button onclick="openModal('resign-modal')" class="form-card bg-white border border-slate-200 p-5 rounded-3xl shadow-sm hover:shadow-md hover:border-red-300 transition-all text-left group">
+                    <div class="w-12 h-12 bg-red-50 text-red-600 rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:bg-red-600 group-hover:text-white transition-colors"><i class="ph-fill ph-sign-out"></i></div>
+                    <h3 class="font-bold text-slate-800 text-base mb-1 group-hover:text-red-600 transition-colors form-title">Đơn Xin Nghỉ Việc</h3>
+                </button>
+            </div>
+        </section>
+
+        <section class="mt-12 border-t border-slate-200 pt-10">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                <div>
+                    <h2 class="text-xl md:text-2xl font-black text-slate-800 flex items-center gap-2">
+                        <i class="ph-bold ph-clock-counter-clockwise text-blue-600"></i> Lịch sử đơn từ của tôi
+                    </h2>
+                    <p class="text-xs md:text-sm text-slate-500 mt-1">Theo dõi trạng thái và xem lại các biểu mẫu bạn đã gửi lên hệ thống</p>
+                </div>
+                
+                <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                    <div class="relative">
+                        <i class="ph-bold ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input type="text" id="filter-code" onkeyup="fetchMyRequests()" class="bg-white border border-slate-200 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 text-slate-700 w-full md:w-48 placeholder-slate-400" placeholder="Tìm theo mã đơn...">
+                    </div>
+
+                    <select id="filter-type" onchange="fetchMyRequests()" class="bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 font-medium cursor-pointer text-slate-700">
+                        <option value="all">Tất cả loại đơn</option>
+                        <option value="leave">Đơn xin nghỉ phép</option>
+                        <option value="business_trip">Đi công tác</option>
+                        <option value="overtime">Phiếu tăng ca</option>
+                        <option value="purchase">Đề xuất mua hàng</option>
+                        <option value="stationery">Mua văn phòng phẩm</option>
+                        <option value="forgot_punch">Quên chấm công</option>
+                        <option value="recruit">Yêu cầu tuyển dụng</option>
+                    </select>
+                    
+                    <input type="date" id="filter-date" onchange="fetchMyRequests()" class="bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 cursor-pointer text-slate-700" title="Lọc theo ngày nộp đơn">
+                    
+                    <button onclick="fetchMyRequests()" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-2.5 rounded-xl transition-colors shadow-sm" title="Tải lại làm mới">
+                        <i class="ph-bold ph-arrows-clockwise text-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+                <div class="overflow-x-auto max-h-[380px] overflow-y-auto custom-scrollbar">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 uppercase tracking-wider text-[11px] sticky top-0 z-10">
+                            <tr>
+                                <th class="px-6 py-4 font-bold">Ngày gửi</th>
+                                <th class="px-6 py-4 font-bold">Loại biểu mẫu</th>
+                                <th class="px-6 py-4 font-bold">Tóm tắt nội dung</th>
+                                <th class="px-6 py-4 font-bold text-center">Trạng thái</th>
+                                <th class="px-6 py-4 font-bold text-center">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="my-requests-tbody" class="divide-y divide-slate-100">
+                            <tr>
+                                <td colspan="5" class="px-6 py-12 text-center text-slate-400">
+                                    <i class="ph-bold ph-spinner animate-spin text-3xl mb-3 inline-block text-blue-500"></i>
+                                    <p class="font-medium">Đang tải dữ liệu từ hệ thống...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="approval-section" class="mt-12 border-t border-slate-200 pt-10 hidden">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                <div>
+                    <h2 class="text-xl md:text-2xl font-black text-slate-800 flex items-center gap-2">
+                        <i class="ph-bold ph-clipboard-text text-amber-500"></i> Cần xử lý / Phê duyệt
+                    </h2>
+                    <p class="text-xs md:text-sm text-slate-500 mt-1">Danh sách các biểu mẫu đang chờ bạn phê duyệt</p>
+                </div>
+
+                <button onclick="fetchPendingApprovals()" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-2.5 rounded-xl transition-colors shadow-sm" title="Tải lại làm mới">
+                    <i class="ph-bold ph-arrows-clockwise text-lg"></i> Lấy dữ liệu mới
+                </button>
+
+               <div class="relative">
+                    <i class="ph-bold ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input type="text" id="pending-filter-code" onkeyup="fetchPendingApprovals()" class="bg-white border border-slate-200 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 text-slate-700 w-full md:w-48 placeholder-slate-400" placeholder="Tìm theo mã đơn...">
+                </div>
+            </div>
+            
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+                <div class="overflow-x-auto max-h-[380px] overflow-y-auto custom-scrollbar">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 uppercase tracking-wider text-[11px] sticky top-0 z-10">
+                            <tr>
+                                <th class="px-6 py-4 font-bold">Ngày gửi</th>
+                                <th class="px-6 py-4 font-bold">Loại biểu mẫu</th>
+                                <th class="px-6 py-4 font-bold">Tóm tắt nội dung</th>
+                                <th class="px-6 py-4 font-bold text-center">Trạng thái</th>
+                                <th class="px-6 py-4 font-bold text-center">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="approval-tbody" class="divide-y divide-slate-100">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="processed-section" class="mt-12 border-t border-slate-200 pt-10 hidden">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                <div>
+                    <h2 class="text-xl md:text-2xl font-black text-slate-800 flex items-center gap-2">
+                        <i class="ph-bold ph-archive text-emerald-600"></i> Lịch sử phê duyệt
+                    </h2>
+                    <p class="text-xs md:text-sm text-slate-500 mt-1">Tra cứu, xem lại và thống kê các biểu mẫu đã được xử lý</p>
+                </div>
+                
+                <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                    <div class="relative">
+                        <i class="ph-bold ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input type="text" id="processed-filter-code" onkeyup="fetchProcessedRequests()" class="bg-white border border-slate-200 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:border-emerald-500 text-slate-700 w-full md:w-48 placeholder-slate-400" placeholder="Tìm theo mã đơn...">
+                    </div>
+
+                    <select id="processed-filter-type" onchange="fetchProcessedRequests()" class="bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-emerald-500 font-medium cursor-pointer text-slate-700">
+                        <option value="all">Tất cả loại đơn</option>
+                        <option value="leave">Đơn xin nghỉ phép</option>
+                        <option value="business_trip">Đi công tác</option>
+                        <option value="overtime">Phiếu tăng ca</option>
+                        <option value="purchase">Đề xuất mua hàng</option>
+                        <option value="stationery">Mua văn phòng phẩm</option>
+                        <option value="forgot_punch">Quên chấm công</option>
+                        <option value="recruit">Yêu cầu tuyển dụng</option>
+                    </select>
+                    
+                    <select id="processed-filter-status" onchange="fetchProcessedRequests()" class="bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-emerald-500 font-medium cursor-pointer text-slate-700">
+                        <option value="all">Tất cả trạng thái</option>
+                        <option value="approved">Đã phê duyệt</option>
+                        <option value="rejected">Đã từ chối</option>
+                    </select>
+                    
+                    <div class="flex items-center gap-2 bg-white border border-slate-200 rounded-xl px-3 py-1.5 focus-within:border-emerald-500 shadow-sm transition-colors">
+                        <input type="date" id="processed-filter-from-date" onchange="fetchProcessedRequests()" class="bg-transparent border-none text-sm focus:outline-none cursor-pointer text-slate-700 w-[115px]" title="Từ ngày">
+                        <span class="text-slate-400 font-bold">-</span>
+                        <input type="date" id="processed-filter-to-date" onchange="fetchProcessedRequests()" class="bg-transparent border-none text-sm focus:outline-none cursor-pointer text-slate-700 w-[115px]" title="Đến ngày">
+                    </div>
+                    <button onclick="fetchProcessedRequests()" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-2.5 rounded-xl transition-colors shadow-sm" title="Tải lại làm mới">
+                        <i class="ph-bold ph-arrows-clockwise text-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+                <div class="overflow-x-auto max-h-[380px] overflow-y-auto custom-scrollbar">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 uppercase tracking-wider text-[11px] sticky top-0 z-10">
+                            <tr>
+                                <th class="px-6 py-4 font-bold">Ngày gửi</th>
+                                <th class="px-6 py-4 font-bold">Loại biểu mẫu</th>
+                                <th class="px-6 py-4 font-bold">Tóm tắt nội dung</th>
+                                <th class="px-6 py-4 font-bold text-center">Trạng thái</th>
+                                <th class="px-6 py-4 font-bold text-center">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="processed-tbody" class="divide-y divide-slate-100">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="w-full bg-transparent mt-12 pb-8 relative z-10 border-t border-slate-200/60 pt-6">
+        <div class="max-w-[1400px] mx-auto px-4 text-center">
+            <p class="text-sm text-slate-500 font-medium tracking-wide">
+                © <span id="current-year">2026</span> Thông Quan Logistics. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+
+    <div id="rules-modal" class="fixed inset-0 z-[100] hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('rules-modal')"></div>
+        <div id="rules-box" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl bg-white rounded-[2rem] shadow-2xl flex flex-col transform scale-95 transition-transform duration-300 max-h-[85vh]">
+            <div class="px-6 md:px-8 py-5 border-b border-slate-100 bg-slate-50 flex justify-between items-center shrink-0 rounded-t-[2rem]">
+                <h3 class="text-lg md:text-xl font-black text-slate-800 flex items-center gap-2">
+                    <i class="ph-bold ph-book-bookmark text-emerald-600"></i> Nội Quy Lao Động Chung
+                </h3>
+                <button onclick="closeModal('rules-modal')" class="text-slate-400 hover:text-red-500 bg-white border border-slate-200 rounded-full p-2 shadow-sm transition-colors"><i class="ph-bold ph-x text-lg"></i></button>
+            </div>
+            <div id="dynamic-rules-container" class="p-6 md:p-8 overflow-y-auto bg-white custom-scrollbar flex-1">
+                <div class="py-10 text-center animate-pulse">
+                    <i class="ph-bold ph-spinner-gap animate-spin text-3xl text-emerald-500 mb-3 inline-block"></i>
+                    <p class="text-sm font-bold text-slate-400">Đang tải dữ liệu Nội quy từ hệ thống...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="policy-modal" class="fixed inset-0 z-[100] hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('policy-modal')"></div>
+        <div id="policy-box" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl bg-white rounded-[2rem] shadow-2xl flex flex-col transform scale-95 transition-transform duration-300 max-h-[85vh]">
+            <div class="px-6 md:px-8 py-5 border-b border-slate-100 bg-slate-50 flex justify-between items-center shrink-0 rounded-t-[2rem]">
+                <h3 class="text-lg md:text-xl font-black text-slate-800 flex items-center gap-2">
+                    <i class="ph-bold ph-confetti text-emerald-600"></i> Chính Sách Chung
+                </h3>
+                <button onclick="closeModal('policy-modal')" class="text-slate-400 hover:text-red-500 bg-white border border-slate-200 rounded-full p-2 shadow-sm transition-colors"><i class="ph-bold ph-x text-lg"></i></button>
+            </div>
+            <div id="dynamic-policies-container" class="p-6 md:p-8 overflow-y-auto bg-white custom-scrollbar flex-1">
+                <div class="py-10 text-center animate-pulse">
+                    <i class="ph-bold ph-spinner-gap animate-spin text-3xl text-emerald-500 mb-3 inline-block"></i>
+                    <p class="text-sm font-bold text-slate-400">Đang tải dữ liệu Chính sách từ hệ thống...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="leave-form-modal" class="fixed inset-0 z-[100] hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('leave-form-modal')"></div>
+        <div id="leave-form-box" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-white rounded-[2rem] shadow-2xl flex flex-col transform scale-95 transition-transform duration-300 max-h-[90vh]">
+            <div class="px-6 py-5 border-b border-slate-100 bg-blue-50 flex justify-between items-center rounded-t-[2rem]">
+                <h3 class="text-lg font-black text-blue-800 flex items-center gap-2"><i class="ph-bold ph-pencil-simple"></i> Điền Đơn Xin Nghỉ Phép</h3>
+                <button onclick="closeModal('leave-form-modal')" class="text-slate-400 hover:text-red-500 bg-white rounded-full p-2 shadow-sm"><i class="ph-bold ph-x text-lg"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-4 custom-scrollbar">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Họ và tên</label>
+                        <input type="text" id="inp-name" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-blue-500 outline-none" value="Nguyễn Văn A">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-1">Số thẻ</label>
+                            <input type="text" id="inp-id" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-blue-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-1">Bộ phận</label>
+                            <input type="text" id="inp-dept" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-blue-500 outline-none">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-1">Người thay thế</label>
+                    <input type="text" id="inp-sub" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-blue-500 outline-none">
+                </div>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+                    <p class="text-sm font-bold text-slate-700">Thời gian nghỉ</p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs text-slate-500 mb-1">Từ (Ngày - Giờ)</label>
+                            <div class="flex gap-2">
+                                <input type="date" id="inp-from-date" onchange="calculateLeave()" class="w-full border border-slate-200 rounded-lg p-2 text-sm outline-none">
+                                <select id="inp-from-time" onchange="calculateLeave()" data-default="07:30" class="time-select-24h w-28 border border-slate-200 rounded-lg p-2 text-sm outline-none bg-white font-medium cursor-pointer"></select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-500 mb-1">Đến (Ngày - Giờ)</label>
+                            <div class="flex gap-2">
+                                <input type="date" id="inp-to-date" onchange="calculateLeave()" class="w-full border border-slate-200 rounded-lg p-2 text-sm outline-none">
+                                <select id="inp-to-time" onchange="calculateLeave()" data-default="16:30" class="time-select-24h w-28 border border-slate-200 rounded-lg p-2 text-sm outline-none bg-white font-medium cursor-pointer"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 pt-2 border-t border-slate-200">
+                        <div>
+                            <label class="block text-xs font-bold text-blue-600 mb-1">Tổng cộng (Ngày)</label>
+                            <input type="number" step="0.5" id="inp-total-days" class="w-full bg-blue-50 border border-blue-200 rounded-lg p-2 text-sm font-bold text-blue-800 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-blue-600 mb-1">Tổng cộng (Giờ)</label>
+                            <input type="number" step="0.5" id="inp-total-hours" class="w-full bg-blue-50 border border-blue-200 rounded-lg p-2 text-sm font-bold text-blue-800 outline-none">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-2">Loại phép</label>
+                    <div class="grid grid-cols-3 gap-2 text-sm">
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="leavetype" value="P.Năm" checked> P.Năm</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="leavetype" value="V.Riêng"> V.Riêng</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="leavetype" value="P.Bệnh"> P.Bệnh</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="leavetype" value="TNLĐ"> TNLĐ</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="leavetype" value="P.Cưới"> P.Cưới</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="leavetype" value="P.Tang"> P.Tang</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="leavetype" value="P.Khác"> P.Khác</label>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-1">Lý do nghỉ phép</label>
+                    <textarea id="inp-reason" rows="2" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-blue-500 outline-none"></textarea>
+                </div>
+            </div>
+            <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 rounded-b-[2rem] flex justify-end gap-3">
+                <button onclick="closeModal('leave-form-modal')" class="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl">Hủy</button>
+                <button id="btn-submit-leave" onclick="submitLeaveForm()" class="px-6 py-2.5 text-sm font-bold text-white bg-amber-500 hover:bg-amber-600 rounded-xl shadow-md flex items-center gap-2 transition-colors">
+                    <i class="ph-bold ph-paper-plane-right"></i> Lưu & Gửi
+                </button>
+                <button onclick="generateLeavePrintView()" class="px-6 py-2.5 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-md flex items-center gap-2">
+                    <i class="ph-bold ph-printer"></i> Xem và In
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="print-leave-container" class="hidden bg-white text-black">
+        <div class="half-a4">
+            <div class="text-right text-[11px] leading-tight mb-2 font-medium">
+                BM-QT08-01<br>BH: 02/04/2018<br>
+                <span class="font-bold text-red-600 text-[13px]">Số: <span id="out-leave-code">..................</span></span>
+            </div>
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-black">
+                <div class="w-1/4 flex justify-start items-center pl-2">
+                    <img src="../QUOCTHINH-TQC/logo.png" alt="Logo" class="h-10 object-contain">
+                </div>
+                <div class="w-3/4 text-center pr-8">
+                    <h1 class="text-2xl font-black uppercase tracking-wide">Đơn Xin Nghỉ Phép</h1>
+                </div>
+            </div>
+            <table class="w-full border-collapse border border-black text-sm text-left mb-2">
+                <tbody>
+                    <tr>
+                        <td class="border border-black p-2 w-1/5 font-semibold">Họ và tên</td>
+                        <td colspan="2" class="border border-black p-2 font-bold" id="out-name"></td>
+                        <td class="border border-black p-2 w-1/12 font-semibold text-center">Số thẻ</td>
+                        <td class="border border-black p-2 font-bold" id="out-id"></td>
+                        <td class="border border-black p-2 w-1/12 font-semibold text-center">Bộ phận</td>
+                        <td class="border border-black p-2 font-bold" id="out-dept"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-black p-2 font-semibold">Người thay thế</td>
+                        <td colspan="6" class="border border-black p-2" id="out-sub"></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="border border-black p-2 font-semibold">(Thời gian nghỉ)</td>
+                        <td colspan="6" class="border border-black p-2 text-center">
+                            Từ: <span class="font-bold" id="out-from-time"></span>, <span class="font-bold" id="out-from-date"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                            Đến: <span class="font-bold" id="out-to-time"></span>, <span class="font-bold" id="out-to-date"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-black p-2 font-semibold text-center">Tổng cộng</td>
+                        <td colspan="3" class="border border-black p-2 text-center"><span class="font-bold" id="out-total-days"></span> (Ngày)</td>
+                        <td colspan="2" class="border border-black p-2 text-center"><span class="font-bold" id="out-total-hours"></span> (Giờ)</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="border border-black p-2 font-semibold">Loại phép</td>
+                        <td colspan="2" class="border border-black p-2">[<span id="ck-P.Năm"> </span>] (P.Năm)</td>
+                        <td colspan="2" class="border border-black p-2">[<span id="ck-V.Riêng"> </span>] (V.Riêng)</td>
+                        <td class="border border-black p-2">[<span id="ck-P.Bệnh"> </span>] (P.Bệnh)</td>
+                        <td class="border border-black p-2">[<span id="ck-TNLĐ"> </span>] (TNLĐ)</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="border border-black p-2">[<span id="ck-P.Cưới"> </span>] (P.Cưới)</td>
+                        <td colspan="2" class="border border-black p-2">[<span id="ck-P.Tang"> </span>] (P.Tang)</td>
+                        <td colspan="2" class="border border-black p-2">[<span id="ck-P.Khác"> </span>] (P.Khác)</td>
+                    </tr>
+                    <tr>
+                        <td class="border border-black p-2 font-semibold h-12 align-top">(Lý do nghỉ phép)</td>
+                        <td colspan="6" class="border border-black p-2 align-top" id="out-reason"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="text-xs font-bold italic underline my-2">Lưu ý: Đề nghị các bộ phận "Đơn xin nghỉ phép" cho BP: Nhân sự hàng ngày. Trễ nhất là 9h ngày hôm sau.</p>
+            <div class="w-full mt-auto">
+                <table class="w-full border-collapse border border-black text-sm text-center table-fixed">
+                    <thead>
+                        <tr>
+                            <td class="border border-black p-2 font-semibold w-1/5">Người lập</td>
+                            <td class="border border-black p-2 font-semibold w-1/5">Quản lý phòng ban</td>
+                            <td class="border border-black p-2 font-semibold w-1/5">Nhân sự</td>
+                            <td class="border border-black p-2 font-semibold w-1/5">Phó Tổng Giám Đốc</td>
+                            <td class="border border-black p-2 font-semibold w-1/5">Tổng Giám Đốc</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-black p-2 h-20 align-bottom pb-1 font-normal" id="out-creator"></td>
+                            <td class="border border-black p-2"></td>
+                            <td class="border border-black p-2"></td>
+                            <td class="border border-black p-2"></td>
+                            <td class="border border-black p-2"></td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="business-trip-modal" class="fixed inset-0 z-[100] hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('business-trip-modal')"></div>
+        <div id="business-trip-box" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-white rounded-[2rem] shadow-2xl flex flex-col transform scale-95 transition-transform duration-300 max-h-[90vh]">
+            <div class="px-6 py-5 border-b border-slate-100 bg-emerald-50 flex justify-between items-center rounded-t-[2rem]">
+                <h3 class="text-lg font-black text-emerald-800 flex items-center gap-2"><i class="ph-bold ph-airplane-tilt"></i> Điền Giấy Đi Công Tác</h3>
+                <button onclick="closeModal('business-trip-modal')" class="text-slate-400 hover:text-red-500 bg-white rounded-full p-2 shadow-sm"><i class="ph-bold ph-x text-lg"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-4 custom-scrollbar">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-1">Ngày đi công tác</label>
+                    <input type="date" id="inp-bt-date" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-emerald-500 outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Họ và tên</label>
+                        <input type="text" id="inp-bt-name" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-emerald-500 outline-none" value="Nguyễn Văn A">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-1">Số thẻ</label>
+                            <input type="text" id="inp-bt-id" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-emerald-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-1">Bộ phận</label>
+                            <input type="text" id="inp-bt-dept" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-emerald-500 outline-none">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-1">Lý do đi công tác</label>
+                    <input type="text" id="inp-bt-reason" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-emerald-500 outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <label class="block text-sm font-bold text-slate-700">Đăng ký giờ</label>
+                        <div class="flex gap-2 items-center">
+                            <span class="text-xs font-semibold w-8">Ra:</span>
+                            <select id="inp-bt-reg-out" data-default="07:30" class="time-select-24h w-full border border-slate-200 rounded-lg p-2 text-sm outline-none bg-white font-medium cursor-pointer"></select>
+                        </div>
+                        <div class="flex gap-2 items-center">
+                            <span class="text-xs font-semibold w-8">Vào:</span>
+                            <select id="inp-bt-reg-in" data-default="11:30" class="time-select-24h w-full border border-slate-200 rounded-lg p-2 text-sm outline-none bg-white font-medium cursor-pointer"></select>
+                        </div>
+                    </div>
+                    <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <label class="block text-sm font-bold text-slate-700">Thực tế giờ</label>
+                        <div class="flex gap-2 items-center">
+                            <span class="text-xs font-semibold w-8">Ra:</span>
+                            <select id="inp-bt-act-out" data-default="12:30" class="time-select-24h w-full border border-slate-200 rounded-lg p-2 text-sm outline-none bg-white font-medium cursor-pointer"></select>
+                        </div>
+                        <div class="flex gap-2 items-center">
+                            <span class="text-xs font-semibold w-8">Vào:</span>
+                            <select id="inp-bt-act-in" data-default="16:30" class="time-select-24h w-full border border-slate-200 rounded-lg p-2 text-sm outline-none bg-white font-medium cursor-pointer"></select>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-1">Phương tiện sử dụng</label>
+                    <input type="text" id="inp-bt-vehicle" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-emerald-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-1">Ghi chú</label>
+                    <textarea id="inp-bt-note" rows="2" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-emerald-500 outline-none"></textarea>
+                </div>
+            </div>
+            <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 rounded-b-[2rem] flex justify-end gap-3">
+                <button onclick="closeModal('business-trip-modal')" class="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl">Hủy</button>
+                <button id="btn-submit-bt" onclick="submitBusinessTripForm()" class="px-6 py-2.5 text-sm font-bold text-white bg-amber-500 hover:bg-amber-600 rounded-xl shadow-md flex items-center gap-2 transition-colors">
+                    <i class="ph-bold ph-paper-plane-right"></i> Lưu & Gửi
+                </button>
+                <button onclick="generateBusinessTripPrintView()" class="px-6 py-2.5 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-md flex items-center gap-2">
+                    <i class="ph-bold ph-printer"></i> Xem và In
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="print-bt-container" class="hidden bg-white text-black">
+        <div class="half-a4">
+            <div class="text-right text-[11px] leading-tight mb-2 font-medium">BM-QT08-02<br>BH: 02/04/2018</div>
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-black">
+                <div class="w-1/4 flex justify-start items-center">
+                    <img src="../QUOCTHINH-TQC/logo.png" alt="Logo" class="h-10 object-contain">
+                </div>
+                <div class="w-3/4 text-center pr-8">
+                    <h1 class="text-2xl font-black uppercase tracking-wide">Xác Nhận Đi Công Tác Hàng Ngày</h1>
+                </div>
+            </div>
+            <div class="font-bold mb-2 text-sm">Ngày đi công tác: &nbsp;&nbsp;&nbsp;&nbsp; <span id="out-bt-header-date" class="font-normal"></span></div>
+            <table class="w-full border-collapse border border-black text-sm text-left mb-2">
+                <tbody>
+                    <tr>
+                        <td class="border border-black p-2 w-1/5 font-semibold text-center">Họ Và tên</td>
+                        <td colspan="2" class="border border-black p-2 font-bold" id="out-bt-name"></td>
+                        <td class="border border-black p-2 w-1/12 font-semibold text-center">Số thẻ</td>
+                        <td class="border border-black p-2 font-bold" id="out-bt-id"></td>
+                        <td class="border border-black p-2 w-1/12 font-semibold text-center">Bộ phận</td>
+                        <td class="border border-black p-2 font-bold" id="out-bt-dept"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-black p-2 font-semibold text-center">Lý do đi<br>công tác</td>
+                        <td colspan="6" class="border border-black p-2 h-10" id="out-bt-reason"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-black p-2 font-semibold text-center">Đăng ký<br>giờ Ra</td>
+                        <td colspan="2" class="border border-black p-2 text-center font-bold" id="out-bt-reg-out"></td>
+                        <td colspan="2" class="border border-black p-2 font-semibold text-center">Thực tế giờ<br>Ra</td>
+                        <td colspan="2" class="border border-black p-2 text-center font-bold" id="out-bt-act-out"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-black p-2 font-semibold text-center">Đăng ký<br>giờ Vào</td>
+                        <td colspan="2" class="border border-black p-2 text-center font-bold" id="out-bt-reg-in"></td>
+                        <td colspan="2" class="border border-black p-2 font-semibold text-center">Thực tế giờ<br>Vào</td>
+                        <td colspan="2" class="border border-black p-2 text-center font-bold" id="out-bt-act-in"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-black p-2 font-semibold text-center">Phương tiện<br>sử dụng</td>
+                        <td colspan="6" class="border border-black p-2" id="out-bt-vehicle"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-black p-2 font-semibold text-center">Ghi chú</td>
+                        <td colspan="6" class="border border-black p-2 h-10" id="out-bt-note"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="text-xs font-bold italic underline my-2">Lưu ý: Đề nghị các bộ phận "Giấy xác nhận đi công tác hàng ngày" cho BP: Nhân sự hàng ngày. Trễ nhất là 9h ngày hôm sau.</p>
+            <div class="w-full mt-auto">
+                <table class="w-full border-collapse border border-black text-sm text-center table-fixed">
+                    <thead>
+                        <tr>
+                            <td class="border border-black p-2 font-semibold w-1/5">Người lập</td>
+                            <td class="border border-black p-2 font-semibold w-1/5">Quản lý phòng ban</td>
+                            <td class="border border-black p-2 font-semibold w-1/5">Nhân sự</td>
+                            <td class="border border-black p-2 font-semibold w-1/5">Phó Tổng Giám Đốc</td>
+                            <td class="border border-black p-2 font-semibold w-1/5">Tổng Giám Đốc</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-black p-2 h-20 align-bottom pb-1 font-normal" id="out-bt-creator"></td>
+                            <td class="border border-black p-2"></td>
+                            <td class="border border-black p-2"></td>
+                            <td class="border border-black p-2"></td>
+                            <td class="border border-black p-2"></td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="forgot-punch-modal" class="fixed inset-0 z-[100] hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('forgot-punch-modal')"></div>
+        <div id="forgot-punch-box" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-white rounded-[2rem] shadow-2xl flex flex-col transform scale-95 transition-transform duration-300 max-h-[90vh]">
+            <div class="px-6 py-5 border-b border-slate-100 bg-slate-100 flex justify-between items-center rounded-t-[2rem]">
+                <h3 class="text-lg font-black text-slate-800 flex items-center gap-2"><i class="ph-bold ph-clock-counter-clockwise"></i> Điền Xác Nhận Quên Bấm Thẻ</h3>
+                <button onclick="closeModal('forgot-punch-modal')" class="text-slate-400 hover:text-red-500 bg-white rounded-full p-2 shadow-sm"><i class="ph-bold ph-x text-lg"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-4 custom-scrollbar">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Họ và tên</label>
+                        <input type="text" id="inp-fp-name" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-slate-500 outline-none" value="Nguyễn Văn A">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-1">Số thẻ</label>
+                            <input type="text" id="inp-fp-id" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-slate-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-1">Bộ phận</label>
+                            <input type="text" id="inp-fp-dept" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-slate-500 outline-none">
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Ngày quên bấm thẻ</label>
+                        <input type="date" id="inp-fp-date" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-slate-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Thời gian quên bấm thẻ</label>
+                        <select id="inp-fp-time" data-default="07:30" class="time-select-24h w-full border border-slate-200 rounded-lg p-2.5 text-sm outline-none bg-white font-medium cursor-pointer"></select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-2">Loại quên chấm công</label>
+                    <div class="flex gap-6 text-sm">
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="fptype" value="in" checked> Quên bấm vào</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="fptype" value="out"> Quên bấm ra</label>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-1">Ghi chú</label>
+                    <textarea id="inp-fp-note" rows="2" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-slate-500 outline-none"></textarea>
+                </div>
+            </div>
+            <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 rounded-b-[2rem] flex justify-end gap-3">
+                <button onclick="closeModal('forgot-punch-modal')" class="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl">Hủy</button>
+                <button id="btn-submit-fp" onclick="submitForgotPunchForm()" class="px-6 py-2.5 text-sm font-bold text-white bg-amber-500 hover:bg-amber-600 rounded-xl shadow-md flex items-center gap-2 transition-colors">
+                    <i class="ph-bold ph-paper-plane-right"></i> Lưu & Gửi
+                </button>
+                <button onclick="generateForgotPunchPrintView()" class="px-6 py-2.5 text-sm font-bold text-white bg-slate-800 hover:bg-slate-900 rounded-xl shadow-md flex items-center gap-2">
+                    <i class="ph-bold ph-printer"></i> Xem và In
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="print-fp-container" class="hidden bg-white text-black">
+        <div class="half-a4">
+            <div class="text-right text-[11px] leading-tight mb-2 font-medium">BM-QT08-03<br>BH: 02/04/2018</div>
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-black">
+                <div class="w-1/4 flex justify-start items-center">
+                    <img src="../QUOCTHINH-TQC/logo.png" alt="Logo" class="h-10 object-contain">
+                </div>
+                <div class="w-3/4 text-center pr-8">
+                    <h1 class="text-2xl font-black uppercase tracking-wide">Xác Nhận Quên Chấm Công</h1>
+                </div>
+            </div>
+            <table class="w-full border-collapse border border-black text-sm text-left mb-2">
+                <tbody>
+                    <tr>
+                        <td class="border border-black p-3 w-1/5 font-bold text-center">Họ và tên</td>
+                        <td colspan="2" class="border border-black p-3 font-bold" id="out-fp-name"></td>
+                        <td class="border border-black p-3 w-1/12 font-bold text-center">Số thẻ</td>
+                        <td class="border border-black p-3 font-bold w-1/6" id="out-fp-id"></td>
+                        <td class="border border-black p-3 w-1/12 font-bold text-center">Bộ phận</td>
+                        <td class="border border-black p-3 font-bold w-1/6" id="out-fp-dept"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="border border-black p-3 font-bold">Ngày quên bấm thẻ : <span id="out-fp-date" class="font-normal ml-2"></span></td>
+                        <td colspan="4" rowspan="2" class="border border-black p-3 align-middle text-center font-bold">
+                            Quên bấm vào: <span class="inline-block w-6 h-6 border border-black text-center leading-5 mr-4 font-normal" id="out-fp-ck-in"></span> 
+                            Quên bấm ra: <span class="inline-block w-6 h-6 border border-black text-center leading-5 font-normal" id="out-fp-ck-out"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="border border-black p-3 font-bold">Thời gian quên bấm thẻ : <span id="out-fp-time" class="font-normal ml-2"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-black p-3 font-bold text-center">Ghi chú</td>
+                        <td colspan="6" class="border border-black p-3 h-12 align-top" id="out-fp-note"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="text-xs font-bold italic underline my-2">Lưu ý : Đề nghị các bộ phận "Giấy xác nhận quên bấm thẻ vân tay" cho BP: Nhân sự hàng ngày. Trễ nhất là 9h ngày hôm sau.</p>
+            <div class="w-full mt-auto">
+                <table class="w-full border-collapse border border-black text-sm text-center table-fixed">
+                    <thead>
+                        <tr>
+                            <td class="border border-black p-2 font-semibold w-1/5">Người lập</td>
+                            <td class="border border-black p-2 font-semibold w-1/5">Quản lý phòng ban</td>
+                            <td class="border border-black p-2 font-semibold w-1/5">Nhân sự</td>
+                            <td class="border border-black p-2 font-semibold w-1/5">Phó Tổng Giám Đốc</td>
+                            <td class="border border-black p-2 font-semibold w-1/5">Tổng Giám Đốc</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-black p-2 h-20 align-bottom pb-1 font-normal" id="out-fp-creator"></td>
+                            <td class="border border-black p-2"></td>
+                            <td class="border border-black p-2"></td>
+                            <td class="border border-black p-2"></td>
+                            <td class="border border-black p-2"></td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="purchase-modal" class="fixed inset-0 z-[100] hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('purchase-modal')"></div>
+        <div id="purchase-box" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl bg-white rounded-[2rem] shadow-2xl flex flex-col transform scale-95 transition-transform duration-300 max-h-[90vh]">
+            <div class="px-6 py-5 border-b border-slate-100 bg-emerald-50 flex justify-between items-center rounded-t-[2rem]">
+                <h3 class="text-lg font-black text-emerald-800 flex items-center gap-2"><i class="ph-bold ph-shopping-cart"></i> Lập Phiếu Đề Xuất Mua Hàng</h3>
+                <button onclick="closeModal('purchase-modal')" class="text-slate-400 hover:text-red-500 bg-white rounded-full p-2 shadow-sm"><i class="ph-bold ph-x text-lg"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-4 custom-scrollbar">
+                <div class="grid grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Bộ phận</label>
+                        <input type="text" id="inp-pr-dept" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-emerald-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Người đề nghị</label>
+                        <input type="text" id="inp-pr-name" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-emerald-500 outline-none" value="Nguyễn Văn A">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Ngày lập phiếu</label>
+                        <input type="date" id="inp-pr-date" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-emerald-500 outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-2">Danh sách hàng hóa cần mua</label>
+                    <div class="overflow-x-auto border border-slate-200 rounded-xl">
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-slate-50 border-b border-slate-200 text-xs">
+                                <tr>
+                                    <th class="p-2 border-r border-slate-200 text-center w-10">Stt</th>
+                                    <th class="p-2 border-r border-slate-200">Tên hàng</th>
+                                    <th class="p-2 border-r border-slate-200 w-16">Đvt</th>
+                                    <th class="p-2 border-r border-slate-200 w-16">SL</th>
+                                    <th class="p-2 border-r border-slate-200">Qui cách</th>
+                                    <th class="p-2 border-r border-slate-200 w-24">Thành tiền</th>
+                                    <th class="p-2 border-r border-slate-200">Mục đích</th>
+                                    <th class="p-2">Ghi chú</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-slate-100">
+                                    <td class="p-1 border-r border-slate-200 text-center font-bold text-slate-400">1</td>
+                                    <td class="p-1 border-r border-slate-200"><input type="text" id="pr-n-1" class="w-full outline-none bg-transparent"></td>
+                                    <td class="p-1 border-r border-slate-200"><input type="text" id="pr-u-1" class="w-full outline-none bg-transparent text-center"></td>
+                                    <td class="p-1 border-r border-slate-200"><input type="number" id="pr-q-1" class="w-full outline-none bg-transparent text-center"></td>
+                                    <td class="p-1 border-r border-slate-200"><input type="text" id="pr-s-1" class="w-full outline-none bg-transparent"></td>
+                                    <td class="p-1 border-r border-slate-200"><input type="text" id="pr-t-1" class="w-full outline-none bg-transparent"></td>
+                                    <td class="p-1 border-r border-slate-200"><input type="text" id="pr-p-1" class="w-full outline-none bg-transparent"></td>
+                                    <td class="p-1"><input type="text" id="pr-note-1" class="w-full outline-none bg-transparent"></td>
+                                </tr>
+                                <tr class="border-b border-slate-100">
+                                    <td class="p-1 border-r border-slate-200 text-center font-bold text-slate-400">2</td>
+                                    <td class="p-1 border-r border-slate-200"><input type="text" id="pr-n-2" class="w-full outline-none bg-transparent"></td>
+                                    <td class="p-1 border-r border-slate-200"><input type="text" id="pr-u-2" class="w-full outline-none bg-transparent text-center"></td>
+                                    <td class="p-1 border-r border-slate-200"><input type="number" id="pr-q-2" class="w-full outline-none bg-transparent text-center"></td>
+                                    <td class="p-1 border-r border-slate-200"><input type="text" id="pr-s-2" class="w-full outline-none bg-transparent"></td>
+                                    <td class="p-1 border-r border-slate-200"><input type="text" id="pr-t-2" class="w-full outline-none bg-transparent"></td>
+                                    <td class="p-1 border-r border-slate-200"><input type="text" id="pr-p-2" class="w-full outline-none bg-transparent"></td>
+                                    <td class="p-1"><input type="text" id="pr-note-2" class="w-full outline-none bg-transparent"></td>
+                                </tr>
+                                <tr class="border-b border-slate-100">
+                                    <td class="p-1 border-r border-slate-200 text-center font-bold text-slate-400">3</td>
+                                    <td class="p-1 border-r border-slate-200"><input type="text" id="pr-n-3" class="w-full outline-none bg-transparent"></td>
+                                    <td class="p-1 border-r border-slate-200"><input type="text" id="pr-u-3" class="w-full outline-none bg-transparent text-center"></td>
+                                    <td class="p-1 border-r border-slate-200"><input type="number" id="pr-q-3" class="w-full outline-none bg-transparent text-center"></td>
+                                    <td class="p-1 border-r border-slate-200"><input type="text" id="pr-s-3" class="w-full outline-none bg-transparent"></td>
+                                    <td class="p-1 border-r border-slate-200"><input type="text" id="pr-t-3" class="w-full outline-none bg-transparent"></td>
+                                    <td class="p-1 border-r border-slate-200"><input type="text" id="pr-p-3" class="w-full outline-none bg-transparent"></td>
+                                    <td class="p-1"><input type="text" id="pr-note-3" class="w-full outline-none bg-transparent"></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-1 border-r border-slate-200 text-center font-bold text-slate-400">4</td>
+                                    <td class="p-1 border-r border-slate-200"><input type="text" id="pr-n-4" class="w-full outline-none bg-transparent"></td>
+                                    <td class="p-1 border-r border-slate-200"><input type="text" id="pr-u-4" class="w-full outline-none bg-transparent text-center"></td>
+                                    <td class="p-1 border-r border-slate-200"><input type="number" id="pr-q-4" class="w-full outline-none bg-transparent text-center"></td>
+                                    <td class="p-1 border-r border-slate-200"><input type="text" id="pr-s-4" class="w-full outline-none bg-transparent"></td>
+                                    <td class="p-1 border-r border-slate-200"><input type="text" id="pr-t-4" class="w-full outline-none bg-transparent"></td>
+                                    <td class="p-1 border-r border-slate-200"><input type="text" id="pr-p-4" class="w-full outline-none bg-transparent"></td>
+                                    <td class="p-1"><input type="text" id="pr-note-4" class="w-full outline-none bg-transparent"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 rounded-b-[2rem] flex justify-end gap-3">
+                <button onclick="closeModal('purchase-modal')" class="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl">Hủy</button>
+                <button id="btn-submit-pr" onclick="submitPurchaseForm()" class="px-6 py-2.5 text-sm font-bold text-white bg-amber-500 hover:bg-amber-600 rounded-xl shadow-md flex items-center gap-2 transition-colors">
+                    <i class="ph-bold ph-paper-plane-right"></i> Lưu & Gửi
+                </button>
+                <button onclick="generatePurchasePrintView()" class="px-6 py-2.5 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-md flex items-center gap-2">
+                    <i class="ph-bold ph-printer"></i> Xem và In
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="print-pr-container" class="hidden bg-white text-black">
+        <div class="half-a4">
+            <div class="text-right text-[11px] leading-tight mb-2 font-medium">BM-QT06-02<br>BH: 02/04/2018</div>
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-black">
+                <div class="w-1/4">
+                    <img src="../QUOCTHINH-TQC/logo.png" alt="Logo" class="h-10 object-contain">
+                </div>
+                <div class="w-3/4 text-center pr-10">
+                    <h1 class="text-2xl font-black uppercase tracking-wide">Phiếu Đề Xuất Mua Hàng</h1>
+                </div>
+            </div>
+            <div class="space-y-1 mb-2 text-sm">
+                <p>Bộ phận : <span id="out-pr-dept" class="font-medium ml-2"></span></p>
+                <p>Người đề nghị: <span id="out-pr-requester" class="font-medium ml-2"></span></p>
+                <p id="out-pr-date" class="font-medium"></p>
+            </div>
+            <table class="w-full border-collapse border border-black text-sm text-center mb-4">
+                <thead>
+                    <tr class="font-bold bg-slate-50">
+                        <td class="border border-black p-2 w-8">Stt</td>
+                        <td class="border border-black p-2">Tên hàng</td>
+                        <td class="border border-black p-2 w-10">Đvt</td>
+                        <td class="border border-black p-2 w-12">Số lượng</td>
+                        <td class="border border-black p-2">Qui cách</td>
+                        <td class="border border-black p-2">Đơn giá</td>
+                        <td class="border border-black p-2">Thành tiền</td>
+                        <td class="border border-black p-2">Mục đích sử dụng</td>
+                        <td class="border border-black p-2">Ghi chú</td>
+                    </tr>
+                </thead>
+                <tbody id="out-pr-table-body">
+                </tbody>
+            </table>
+            <div class="w-full mt-auto">
+                <table class="w-full border-collapse border border-black text-sm text-center table-fixed">
+                    <thead>
+                        <tr>
+                            <td class="border border-black p-2 font-semibold w-1/5">Người lập</td>
+                            <td class="border border-black p-2 font-semibold w-1/5">Quản lý phòng ban</td>
+                            <td class="border border-black p-2 font-semibold w-1/5">Nhân sự</td>
+                            <td class="border border-black p-2 font-semibold w-1/5">Phó Tổng Giám Đốc</td>
+                            <td class="border border-black p-2 font-semibold w-1/5">Tổng Giám Đốc</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-black p-2 h-20 align-bottom pb-1 font-normal" id="out-pr-creator"></td>
+                            <td class="border border-black p-2"></td>
+                            <td class="border border-black p-2"></td>
+                            <td class="border border-black p-2"></td>
+                            <td class="border border-black p-2"></td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="overtime-modal" class="fixed inset-0 z-[100] hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('overtime-modal')"></div>
+        <div id="overtime-box" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl bg-white rounded-[2rem] shadow-2xl flex flex-col transform scale-95 transition-transform duration-300 max-h-[90vh]">
+            <div class="px-6 py-5 border-b border-slate-100 bg-indigo-50 flex justify-between items-center rounded-t-[2rem] shrink-0">
+                <h3 class="text-lg font-black text-indigo-800 flex items-center gap-2"><i class="ph-bold ph-moon-stars"></i> Đơn Xin Đăng Ký Tăng Ca</h3>
+                <button onclick="closeModal('overtime-modal')" class="text-slate-400 hover:text-red-500 bg-white rounded-full p-2 shadow-sm"><i class="ph-bold ph-x text-lg"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-4 custom-scrollbar">
+                <div class="grid grid-cols-4 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Ngày đề nghị</label>
+                        <input type="date" id="inp-ot-req-date" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-indigo-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Ngày tăng ca</label>
+                        <input type="date" id="inp-ot-date" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-indigo-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Bộ phận</label>
+                        <input type="text" id="inp-ot-dept" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-indigo-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Người lập đơn</label>
+                        <input type="text" id="inp-ot-creator" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-indigo-500 outline-none" value="Nguyễn Văn A">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-2">Danh sách nhân viên tăng ca</label>
+                    <div class="overflow-x-auto border border-slate-200 rounded-xl">
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-slate-50 border-b border-slate-200 text-xs text-center">
+                                <tr>
+                                    <th class="p-2 border-r border-slate-200 w-10">STT</th>
+                                    <th class="p-2 border-r border-slate-200 w-20">Số thẻ</th>
+                                    <th class="p-2 border-r border-slate-200 w-40">Họ và tên</th>
+                                    <th class="p-2 border-r border-slate-200">Lý do tăng ca</th>
+                                    <th class="p-2 border-r border-slate-200 w-24">Từ (In)</th>
+                                    <th class="p-2 border-r border-slate-200 w-24">Đến (Out)</th>
+                                    <th class="p-2 border-r border-slate-200 w-20">Tổng giờ</th>
+                                    <th class="p-2">Ghi chú</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ot-input-tbody">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 rounded-b-[2rem] flex justify-end gap-3 shrink-0">
+                <button onclick="closeModal('overtime-modal')" class="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl">Hủy</button>
+                <button id="btn-submit-ot" onclick="submitOvertimeForm()" class="px-6 py-2.5 text-sm font-bold text-white bg-amber-500 hover:bg-amber-600 rounded-xl shadow-md flex items-center gap-2 transition-colors">
+                    <i class="ph-bold ph-paper-plane-right"></i> Lưu & Gửi
+                </button>
+                <button onclick="generateOvertimePrintView()" class="px-6 py-2.5 text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-md flex items-center gap-2">
+                    <i class="ph-bold ph-printer"></i> Xem và In
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="print-ot-container" class="hidden bg-white text-black">
+        <div class="half-a4">
+            <div class="text-right text-[11px] leading-tight mb-2 font-medium">BM-QT08-01<br>BH: 02/04/2018</div>
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-black">
+                <div class="w-1/4">
+                    <img src="../QUOCTHINH-TQC/logo.png" alt="Logo" class="h-10 object-contain">
+                </div>
+                <div class="w-3/4 text-center pr-10">
+                    <h1 class="text-2xl font-black uppercase tracking-wide">Đơn Xin Đăng Ký Tăng Ca</h1>
+                </div>
+            </div>
+            <div class="flex justify-between items-center mb-2 text-sm font-medium">
+                <div>Ngày đề nghị: <span id="out-ot-req-date" class="px-2">___/___/_____</span> &nbsp;&nbsp;&nbsp; Ngày tăng ca: <span id="out-ot-date" class="px-2">___/___/_____</span></div>
+                <div>Bộ phận: <span id="out-ot-dept" class="px-2">_____________________</span></div>
+            </div>
+            <table class="w-full border-collapse border border-black text-sm text-center mb-2">
+                <thead>
+                    <tr class="font-bold">
+                        <td rowspan="2" class="border border-black p-1 w-8">STT<br>No</td>
+                        <td rowspan="2" class="border border-black p-1 w-16">Số<br>thẻ</td>
+                        <td rowspan="2" class="border border-black p-1 w-32">Họ và tên</td>
+                        <td rowspan="2" class="border border-black p-1">Lý do tăng ca</td>
+                        <td colspan="2" class="border border-black p-1">Thời gian</td>
+                        <td rowspan="2" class="border border-black p-1 w-16">Tổng giờ</td>
+                        <td rowspan="2" class="border border-black p-1 w-20">CNV tăng ca<br>Ký tên</td>
+                        <td rowspan="2" class="border border-black p-1 w-20">Ghi chú</td>
+                    </tr>
+                    <tr class="font-bold">
+                        <td class="border border-black p-1 w-16">Từ (In)</td>
+                        <td class="border border-black p-1 w-16">Đến (Out)</td>
+                    </tr>
+                </thead>
+                <tbody id="out-ot-table-body">
+
+                </tbody>
+            </table>
+            <p class="text-[13px] font-bold italic my-1">* Ghi chú : Yêu cầu gửi đơn xin đăng ký tăng ca đến BP : Nhân sự</p>
+            <div class="w-full mt-auto">
+                <table class="w-full border-collapse border border-black text-sm text-center table-fixed">
+                    <thead>
+                        <tr>
+                            <td class="border border-black p-2 font-semibold w-1/5">Người lập</td>
+                            <td class="border border-black p-2 font-semibold w-1/5">Quản lý phòng ban</td>
+                            <td class="border border-black p-2 font-semibold w-1/5">Nhân sự</td>
+                            <td class="border border-black p-2 font-semibold w-1/5">Phó Tổng Giám Đốc</td>
+                            <td class="border border-black p-2 font-semibold w-1/5">Tổng Giám Đốc</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-black p-2 h-20 align-bottom pb-1 font-normal" id="out-ot-creator"></td>
+                            <td class="border border-black p-2"></td>
+                            <td class="border border-black p-2"></td>
+                            <td class="border border-black p-2"></td>
+                            <td class="border border-black p-2"></td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="recruit-modal" class="fixed inset-0 z-[100] hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('recruit-modal')"></div>
+        <div id="recruit-box" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl bg-white rounded-[2rem] shadow-2xl flex flex-col transform scale-95 transition-transform duration-300 max-h-[90vh]">
+            <div class="px-6 py-5 border-b border-slate-100 bg-sky-50 flex justify-between items-center rounded-t-[2rem] shrink-0">
+                <h3 class="text-lg font-black text-sky-800 flex items-center gap-2"><i class="ph-bold ph-user-plus"></i> Phiếu Đề Nghị Tuyển Dụng Nhân Sự</h3>
+                <button onclick="closeModal('recruit-modal')" class="text-slate-400 hover:text-red-500 bg-white rounded-full p-2 shadow-sm"><i class="ph-bold ph-x text-lg"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-5 custom-scrollbar">
+                <div class="grid grid-cols-3 gap-4 border-b border-slate-100 pb-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Phòng ban đề nghị</label>
+                        <input type="text" id="inp-rec-dept" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-sky-500 outline-none bg-slate-50" readonly>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Vị trí tuyển dụng</label>
+                        <input type="text" id="inp-rec-position" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-sky-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Số lượng</label>
+                        <input type="text" id="inp-rec-qty" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-sky-500 outline-none">
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-4 border-b border-slate-100 pb-4">
+                    <div class="col-span-3 md:col-span-1">
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Lý do tuyển dụng</label>
+                        <input type="text" id="inp-rec-reason" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-sky-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Giới tính</label>
+                        <select id="inp-rec-gender" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-sky-500 outline-none bg-white cursor-pointer">
+                            <option value="Nam/Nữ">Nam/Nữ</option>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Độ tuổi</label>
+                        <input type="text" id="inp-rec-age" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-sky-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Ngày cần nhân sự</label>
+                        <input type="date" id="inp-rec-date-needed" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-sky-500 outline-none">
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-6 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <div>
+                        <label class="block text-sm font-bold text-sky-700 mb-2">Trình độ học vấn</label>
+                        <div class="space-y-1.5 text-sm">
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="recedu" value="12/12" class="accent-sky-600"> 12/12</label>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="recedu" value="Trung cấp" class="accent-sky-600"> Trung cấp</label>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="recedu" value="Cao đẳng" class="accent-sky-600"> Cao đẳng</label>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="recedu" value="Đại học" class="accent-sky-600"> Đại học</label>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="recedu" value="Trên đại học" class="accent-sky-600"> Trên đại học</label>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="recedu" value="Khác" class="accent-sky-600"> Khác</label>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-bold text-sky-700 mb-2">Tình trạng hôn nhân</label>
+                            <div class="space-y-1.5 text-sm">
+                                <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="recmarital" value="Độc thân" class="accent-sky-600"> Độc thân</label>
+                                <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="recmarital" value="Đã lập gia đình" class="accent-sky-600"> Đã lập gia đình</label>
+                                <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="recmarital" value="Không cần" class="accent-sky-600" checked> Không cần</label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-sky-700 mb-2">Thời gian làm việc</label>
+                            <div class="space-y-1.5 text-sm">
+                                <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="rectime" value="Toàn thời gian" class="accent-sky-600" checked> Toàn thời gian</label>
+                                <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="rectime" value="Bán thời gian" class="accent-sky-600"> Bán thời gian</label>
+                                <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="rectime" value="Thời vụ" class="accent-sky-600"> Thời vụ</label>
+                                <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="rectime" value="Theo ca" class="accent-sky-600"> Theo ca</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-bold text-sky-700 mb-2">Ngoại hình</label>
+                            <div class="space-y-1.5 text-sm">
+                                <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="recapp" value="Cần" class="accent-sky-600"> Cần</label>
+                                <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="recapp" value="Tương đối" class="accent-sky-600"> Tương đối</label>
+                                <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="recapp" value="Không cần" class="accent-sky-600" checked> Không cần</label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-sky-700 mb-2">Kỹ năng ngoại ngữ</label>
+                            <div class="grid grid-cols-2 gap-2 text-[13px]">
+                                <div>
+                                    <span class="font-semibold block mb-1">Tiếng Trung</span>
+                                    <div class="space-y-1">
+                                        <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="reccn" value="Giao tiếp" class="accent-sky-600"> Giao tiếp</label>
+                                        <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="reccn" value="Chuyên ngành" class="accent-sky-600"> Chuyên ngành</label>
+                                        <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="reccn" value="Không cần" class="accent-sky-600" checked> Không cần</label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="font-semibold block mb-1">Tiếng Anh</span>
+                                    <div class="space-y-1">
+                                        <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="recen" value="Giao tiếp" class="accent-sky-600"> Giao tiếp</label>
+                                        <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="recen" value="Chuyên ngành" class="accent-sky-600"> Chuyên ngành</label>
+                                        <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="recen" value="Không cần" class="accent-sky-600" checked> Không cần</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Yêu cầu kinh nghiệm</label>
+                        <textarea id="inp-rec-exp" rows="2" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-sky-500 outline-none"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Chuyên môn</label>
+                        <textarea id="inp-rec-spec" rows="2" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-sky-500 outline-none"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Yêu cầu khác</label>
+                        <textarea id="inp-rec-other" rows="2" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-sky-500 outline-none"></textarea>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-1">Mô tả công việc cơ bản</label>
+                    <textarea id="inp-rec-job-desc" rows="3" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-sky-500 outline-none"></textarea>
+                </div>
+                <input type="hidden" id="inp-rec-creator">
+            </div>
+            <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 rounded-b-[2rem] flex justify-end gap-3 shrink-0">
+                <button onclick="closeModal('recruit-modal')" class="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl">Hủy</button>
+                <button id="btn-submit-rec" onclick="submitRecruitForm()" class="px-6 py-2.5 text-sm font-bold text-white bg-amber-500 hover:bg-amber-600 rounded-xl shadow-md flex items-center gap-2 transition-colors">
+                    <i class="ph-bold ph-paper-plane-right"></i> Lưu & Gửi
+                </button>
+                <button onclick="generateRecruitPrintView()" class="px-6 py-2.5 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-md flex items-center gap-2">
+                    <i class="ph-bold ph-printer"></i> Xem và In
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="print-recruit-container" class="hidden bg-white text-black">
+        <div class="full-a4">
+            <table class="w-full border-collapse border-2 border-black text-[13px] text-left align-top">
+                <tbody>
+                    <tr>
+                        <td colspan="1" class="border border-black p-2 w-1/4 text-center align-middle">
+                            <img src="../QUOCTHINH-TQC/logo.png" alt="Logo" class="h-10 object-contain mx-auto">
+                        </td>
+                        <td colspan="2" class="border border-black p-2 text-center align-middle">
+                            <h1 class="text-xl font-black uppercase">PHIẾU ĐỀ NGHỊ TUYỂN<br>DỤNG NHÂN SỰ</h1>
+                        </td>
+                        <td colspan="1" class="border border-black p-2 w-1/3 leading-relaxed">
+                            Ngày ban hành: 01/01/2025<br>
+                            <span class="text-red-600">Số phiếu:.........................................</span><br>
+                            <span class="text-red-600">Ngày:......../......../.............</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="border border-black p-2">
+                            Phòng ban đề nghị: <span class="font-bold border-b border-dotted border-black px-2 inline-block min-w-[200px]" id="out-rec-dept"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="border border-black p-2 w-1/2">
+                            Vị trí tuyển dụng: <span class="font-bold border-b border-dotted border-black px-2 inline-block min-w-[150px]" id="out-rec-position"></span>
+                        </td>
+                        <td colspan="1" class="border border-black p-2 w-1/4">
+                            Số lượng: <span class="font-bold border-b border-dotted border-black px-2" id="out-rec-qty"></span>
+                        </td>
+                        <td colspan="1" class="border border-black p-2 w-1/4">
+                            Lý do tuyển dụng: <span class="font-bold border-b border-dotted border-black px-2 inline-block min-w-[100px]" id="out-rec-reason"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="border border-black p-2">
+                            Giới tính: <span class="font-bold border-b border-dotted border-black px-2" id="out-rec-gender"></span>
+                        </td>
+                        <td colspan="1" class="border border-black p-2">
+                            Độ tuổi: <span class="font-bold border-b border-dotted border-black px-2" id="out-rec-age"></span>
+                        </td>
+                        <td colspan="1" class="border border-black p-2">
+                            Ngày cần nhân sự: <span class="font-bold border-b border-dotted border-black px-2" id="out-rec-date-needed"></span>
+                        </td>
+                    </tr>
+                    <tr class="text-center font-bold bg-slate-50">
+                        <td colspan="1" class="border border-black p-1">Trình độ học vấn</td>
+                        <td colspan="2" class="border border-black p-1">Tình trạng hôn nhân:</td>
+                        <td colspan="1" class="border border-black p-1">Ngoại hình:</td>
+                    </tr>
+                    <tr>
+                        <td colspan="1" class="border border-black p-2">
+                            <div class="space-y-1">
+                                <div><span class="inline-block w-3 h-3 border border-black text-center text-[10px] leading-3" id="ck-rec-edu-1"></span> 12/12</div>
+                                <div><span class="inline-block w-3 h-3 border border-black text-center text-[10px] leading-3" id="ck-rec-edu-2"></span> Trung cấp</div>
+                                <div><span class="inline-block w-3 h-3 border border-black text-center text-[10px] leading-3" id="ck-rec-edu-3"></span> Cao đẳng</div>
+                                <div><span class="inline-block w-3 h-3 border border-black text-center text-[10px] leading-3" id="ck-rec-edu-4"></span> Đại học</div>
+                                <div><span class="inline-block w-3 h-3 border border-black text-center text-[10px] leading-3" id="ck-rec-edu-5"></span> Trên đại học</div>
+                                <div><span class="inline-block w-3 h-3 border border-black text-center text-[10px] leading-3" id="ck-rec-edu-6"></span> Khác</div>
+                            </div>
+                        </td>
+                        <td colspan="2" class="border border-black p-2 align-top">
+                            <div class="space-y-2 flex flex-col items-center">
+                                <div class="w-2/3 text-left"><span class="inline-block w-3 h-3 border border-black text-center text-[10px] leading-3" id="ck-rec-mar-1"></span> độc thân</div>
+                                <div class="w-2/3 text-left"><span class="inline-block w-3 h-3 border border-black text-center text-[10px] leading-3" id="ck-rec-mar-2"></span> đã lập gia đình</div>
+                                <div class="w-2/3 text-left"><span class="inline-block w-3 h-3 border border-black text-center text-[10px] leading-3" id="ck-rec-mar-3"></span> Không cần</div>
+                            </div>
+                        </td>
+                        <td colspan="1" class="border border-black p-2 align-top text-center">
+                            <div class="space-y-2 flex flex-col items-center">
+                                <div class="w-2/3 text-left"><span class="inline-block w-3 h-3 border border-black text-center text-[10px] leading-3" id="ck-rec-app-1"></span> Cần</div>
+                                <div class="w-2/3 text-left"><span class="inline-block w-3 h-3 border border-black text-center text-[10px] leading-3" id="ck-rec-app-2"></span> Tương đối</div>
+                                <div class="w-2/3 text-left"><span class="inline-block w-3 h-3 border border-black text-center text-[10px] leading-3" id="ck-rec-app-3"></span> Không cần</div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="text-center font-bold bg-slate-50">
+                        <td colspan="1" class="border border-black p-1">Thời gian làm việc:</td>
+                        <td colspan="2" class="border border-black p-1">
+                            <div>Kỹ năng ngoại ngữ:</div>
+                            <div class="flex border-t border-black mt-1 pt-1">
+                                <div class="flex-1 border-r border-black">Tiếng trung</div>
+                                <div class="flex-1">Tiếng anh</div>
+                            </div>
+                        </td>
+                        <td colspan="1" class="border border-black p-1">Ngoại hình:</td>
+                    </tr>
+                    <tr>
+                        <td colspan="1" class="border border-black p-2">
+                            <div class="space-y-2">
+                                <div><span class="inline-block w-3 h-3 border border-black text-center text-[10px] leading-3" id="ck-rec-time-1"></span> Toàn thời gian</div>
+                                <div><span class="inline-block w-3 h-3 border border-black text-center text-[10px] leading-3" id="ck-rec-time-2"></span> Bán thời gian</div>
+                                <div><span class="inline-block w-3 h-3 border border-black text-center text-[10px] leading-3" id="ck-rec-time-3"></span> Thời vụ</div>
+                                <div><span class="inline-block w-3 h-3 border border-black text-center text-[10px] leading-3" id="ck-rec-time-4"></span> Theo ca</div>
+                            </div>
+                        </td>
+                        <td colspan="2" class="border border-black p-0">
+                            <div class="flex h-full text-[12px]">
+                                <div class="flex-1 border-r border-black p-2 space-y-2">
+                                    <div><span class="inline-block w-3 h-3 border border-black text-center text-[10px] leading-3" id="ck-rec-cn-1"></span> Giao tiếp</div>
+                                    <div><span class="inline-block w-3 h-3 border border-black text-center text-[10px] leading-3" id="ck-rec-cn-2"></span> Chuyên ngành</div>
+                                    <div><span class="inline-block w-3 h-3 border border-black text-center text-[10px] leading-3" id="ck-rec-cn-3"></span> Không cần</div>
+                                </div>
+                                <div class="flex-1 p-2 space-y-2">
+                                    <div><span class="inline-block w-3 h-3 border border-black text-center text-[10px] leading-3" id="ck-rec-en-1"></span> Giao tiếp</div>
+                                    <div><span class="inline-block w-3 h-3 border border-black text-center text-[10px] leading-3" id="ck-rec-en-2"></span> Chuyên ngành</div>
+                                    <div><span class="inline-block w-3 h-3 border border-black text-center text-[10px] leading-3" id="ck-rec-en-3"></span> Không cần</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td colspan="1" class="border border-black p-2 align-top text-center">
+                            <div class="space-y-2 flex flex-col items-center">
+                                <div class="w-2/3 text-left"><span class="inline-block w-3 h-3 border border-black text-center text-[10px] leading-3" id="ck-rec-app-dup-1"></span> Cần</div>
+                                <div class="w-2/3 text-left"><span class="inline-block w-3 h-3 border border-black text-center text-[10px] leading-3" id="ck-rec-app-dup-2"></span> Tương đối</div>
+                                <div class="w-2/3 text-left"><span class="inline-block w-3 h-3 border border-black text-center text-[10px] leading-3" id="ck-rec-app-dup-3"></span> Không cần</div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="text-center font-bold bg-slate-50">
+                        <td colspan="1" class="border border-black p-1">Yêu cầu kinh nghiệm:</td>
+                        <td colspan="2" class="border border-black p-1">Chuyên môn:</td>
+                        <td colspan="1" class="border border-black p-1">Yêu cầu khác:</td>
+                    </tr>
+                    <tr>
+                        <td colspan="1" class="border border-black p-2 border-b-black border-b border-dashed font-medium" id="out-rec-exp"></td>
+                        <td colspan="2" class="border border-black p-2 border-b-black border-b border-dashed font-medium" id="out-rec-spec"></td>
+                        <td colspan="1" class="border border-black p-2 border-b-black border-b border-dashed font-medium" id="out-rec-other"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="1" class="border border-black border-t-0 p-2 border-b-black border-b border-dashed font-medium h-6"></td>
+                        <td colspan="2" class="border border-black border-t-0 p-2 border-b-black border-b border-dashed font-medium h-6"></td>
+                        <td colspan="1" class="border border-black border-t-0 p-2 border-b-black border-b border-dashed font-medium h-6"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="border border-black p-2 align-top">
+                            <div class="italic mb-1">Mô tả công việc cơ bản:</div>
+                            <div class="font-medium whitespace-pre-wrap leading-loose border-b border-dotted border-black min-h-[150px]" id="out-rec-job-desc"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="w-[80%] mx-auto mt-4">
+                <table class="w-full border-collapse border border-black text-xs text-center table-fixed">
+                    <thead>
+                        <tr>
+                            <td rowspan="2" class="border border-black p-1 w-12 align-middle font-bold">Ký duyệt</td>
+                            <td class="border border-black p-1 font-semibold">Người lập</td>
+                            <td class="border border-black p-1 font-semibold">Quản lý phòng ban</td>
+                            <td class="border border-black p-1 font-semibold">Nhân sự</td>
+                            <td class="border border-black p-1 font-semibold">Phó Tổng Giám Đốc</td>
+                            <td class="border border-black p-1 font-semibold">Tổng Giám Đốc</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-black p-1 h-16 align-bottom font-normal" id="out-rec-creator"></td>
+                            <td class="border border-black p-1"></td>
+                            <td class="border border-black p-1"></td>
+                            <td class="border border-black p-1"></td>
+                            <td class="border border-black p-1"></td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="stationery-modal" class="fixed inset-0 z-[100] hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('stationery-modal')"></div>
+        <div id="stationery-box" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl bg-white rounded-[2rem] shadow-2xl flex flex-col transform scale-95 transition-transform duration-300 max-h-[90vh]">
+            <div class="px-6 py-5 border-b border-slate-100 bg-fuchsia-50 flex justify-between items-center rounded-t-[2rem] shrink-0">
+                <h3 class="text-lg font-black text-fuchsia-800 flex items-center gap-2"><i class="ph-bold ph-paperclip"></i> Phiếu Yêu Cầu Văn Phòng Phẩm</h3>
+                <button onclick="closeModal('stationery-modal')" class="text-slate-400 hover:text-red-500 bg-white rounded-full p-2 shadow-sm"><i class="ph-bold ph-x text-lg"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-4 custom-scrollbar">
+                <div class="grid grid-cols-4 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Tháng yêu cầu</label>
+                        <input type="month" id="inp-sta-month" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-fuchsia-500 outline-none cursor-pointer">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Ngày lập phiếu</label>
+                        <input type="date" id="inp-sta-date" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-fuchsia-500 outline-none cursor-pointer">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Bộ phận</label>
+                        <input type="text" id="inp-sta-dept" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-fuchsia-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Người đề nghị</label>
+                        <input type="text" id="inp-sta-creator" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-fuchsia-500 outline-none bg-slate-50" readonly title="Hệ thống tự động lấy tên của bạn">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-2">Danh sách văn phòng phẩm</label>
+                    <div class="overflow-x-auto border border-slate-200 rounded-xl">
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-slate-50 border-b border-slate-200 text-xs text-center">
+                                <tr>
+                                    <th class="p-2 border-r border-slate-200 w-10">STT</th>
+                                    <th class="p-2 border-r border-slate-200">Tên hàng</th>
+                                    <th class="p-2 border-r border-slate-200">Quy cách</th>
+                                    <th class="p-2 border-r border-slate-200 w-20">Số lượng</th>
+                                    <th class="p-2 border-r border-slate-200 w-20">ĐVT</th>
+                                    <th class="p-2 border-r border-slate-200 w-24">Đơn giá</th>
+                                    <th class="p-2 border-r border-slate-200 w-24">Thành tiền</th>
+                                    <th class="p-2">Ghi Chú</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sta-input-tbody">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 rounded-b-[2rem] flex justify-end gap-3 shrink-0">
+                <button onclick="closeModal('stationery-modal')" class="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl">Hủy</button>
+                <button id="btn-submit-sta" onclick="submitStationeryForm()" class="px-6 py-2.5 text-sm font-bold text-white bg-fuchsia-600 hover:bg-fuchsia-700 rounded-xl shadow-md flex items-center gap-2 transition-colors">
+                    <i class="ph-bold ph-paper-plane-right"></i> Lưu & Gửi
+                </button>
+                <button onclick="generateStationeryPrintView()" class="px-6 py-2.5 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-md flex items-center gap-2">
+                    <i class="ph-bold ph-printer"></i> Xem và In
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="print-stationery-container" class="hidden bg-white text-black">
+        <div class="half-a4">
+            <div class="text-right text-[11px] leading-tight mb-2 font-medium">BM-HCNS- 02/04/2018</div>
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-black">
+                <div class="w-1/4">
+                    <img src="../QUOCTHINH-TQC/logo.png" alt="Logo" class="h-12 object-contain">
+                </div>
+                <div class="w-3/4 text-center pr-10">
+                    <h1 class="text-2xl font-black uppercase tracking-wide">Phiếu Yêu Cầu Văn Phòng Phẩm</h1>
+                    <h2 class="text-xl font-bold uppercase mt-1">Tháng <span id="out-sta-month">..../......</span></h2>
+                </div>
+            </div>
+            <div class="space-y-1.5 mb-3 text-[15px]">
+                <p>Bộ phận: <span id="out-sta-dept" class="font-medium ml-2"></span></p>
+                <p>Người đề nghị: <span id="out-sta-requester" class="font-medium ml-2"></span></p>
+                <p>Ngày: <span id="out-sta-date" class="font-medium ml-2"></span></p>
+            </div>
+            <table class="w-full border-collapse border-2 border-black text-sm text-center mb-2">
+                <thead>
+                    <tr class="font-bold">
+                        <td class="border border-black p-2 w-8">STT</td>
+                        <td class="border border-black p-2">Tên hàng</td>
+                        <td class="border border-black p-2">Quy cách</td>
+                        <td class="border border-black p-2 w-16">Số lượng</td>
+                        <td class="border border-black p-2 w-16">ĐVT</td>
+                        <td class="border border-black p-2 w-20">Đơn giá</td>
+                        <td class="border border-black p-2 w-24">Thành tiền</td>
+                        <td class="border border-black p-2 w-24">Ghi Chú</td>
+                    </tr>
+                </thead>
+                <tbody id="out-sta-table-body">
+
+                </tbody>
+            </table>
+            <div class="w-full mt-auto">
+                <table class="w-full border-collapse border-2 border-black text-sm text-center table-fixed">
+                    <thead>
+                        <tr>
+                            <td class="border border-black p-2 font-semibold w-1/5">Người lập</td>
+                            <td class="border border-black p-2 font-semibold w-1/5">Quản lý phòng ban</td>
+                            <td class="border border-black p-2 font-semibold w-1/5">Nhân sự</td>
+                            <td class="border border-black p-2 font-semibold w-1/5">Phó Tổng Giám Đốc</td>
+                            <td class="border border-black p-2 font-semibold w-1/5">Tổng Giám Đốc</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-black p-2 h-20 align-bottom pb-1 font-normal" id="out-sta-creator"></td>
+                            <td class="border border-black p-2"></td>
+                            <td class="border border-black p-2"></td>
+                            <td class="border border-black p-2"></td>
+                            <td class="border border-black p-2"></td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="resign-modal" class="fixed inset-0 z-[100] hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('resign-modal')"></div>
+        <div id="resign-box" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-white rounded-[2rem] shadow-2xl flex flex-col transform scale-95 transition-transform duration-300 max-h-[90vh]">
+            <div class="px-6 py-5 border-b border-slate-100 bg-red-50 flex justify-between items-center rounded-t-[2rem] shrink-0">
+                <h3 class="text-lg font-black text-red-800 flex items-center gap-2"><i class="ph-bold ph-sign-out"></i> Điền Đơn Xin Thôi Việc</h3>
+                <button onclick="closeModal('resign-modal')" class="text-slate-400 hover:text-red-500 bg-white rounded-full p-2 shadow-sm"><i class="ph-bold ph-x text-lg"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-5 custom-scrollbar">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Họ và tên</label>
+                        <input type="text" id="inp-res-name" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-red-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Số thẻ</label>
+                        <input type="text" id="inp-res-emp-id" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-red-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Chức vụ</label>
+                        <input type="text" id="inp-res-title" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-red-500 outline-none" value="Nhân viên">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Bộ phận</label>
+                        <input type="text" id="inp-res-dept" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-red-500 outline-none">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 border-t border-slate-100 pt-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Số điện thoại liên hệ</label>
+                        <input type="text" id="inp-res-phone" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-red-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Ngày vào làm</label>
+                        <input type="date" id="inp-res-join-date" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-red-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Ngày nộp đơn</label>
+                        <input type="date" id="inp-res-submit-date" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-red-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Ngày chính thức thôi việc</label>
+                        <input type="date" id="inp-res-end-date" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-red-500 outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-1">Thời gian báo trước</label>
+                    <div class="flex gap-4">
+                        <label class="flex items-center gap-2 text-sm cursor-pointer"><input type="radio" name="resnotice" value="03 ngày" class="accent-red-600"> 03 ngày</label>
+                        <label class="flex items-center gap-2 text-sm cursor-pointer"><input type="radio" name="resnotice" value="30 ngày" class="accent-red-600" checked> 30 ngày</label>
+                        <label class="flex items-center gap-2 text-sm cursor-pointer"><input type="radio" name="resnotice" value="45 ngày" class="accent-red-600"> 45 ngày</label>
+                        <label class="flex items-center gap-2 text-sm cursor-pointer"><input type="radio" name="resnotice" value="Khác" class="accent-red-600"> Khác</label>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-1">Lý do xin thôi việc</label>
+                    <textarea id="inp-res-reason" rows="2" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-red-500 outline-none"></textarea>
+                </div>
+                <div class="bg-red-50 p-4 rounded-xl border border-red-100">
+                    <h4 class="font-bold text-red-800 text-sm mb-3">Dành cho Bảng Cam Kết (Trang 2)</h4>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Ngày hoàn thành bàn giao (Hạn chót)</label>
+                        <input type="date" id="inp-res-handover-date" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-red-500 outline-none bg-white">
+                    </div>
+                </div>
+            </div>
+            <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 rounded-b-[2rem] flex justify-end gap-3 shrink-0">
+                <button onclick="closeModal('resign-modal')" class="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl">Hủy</button>
+                <button id="btn-submit-res" onclick="submitResignForm()" class="px-6 py-2.5 text-sm font-bold text-white bg-amber-500 hover:bg-amber-600 rounded-xl shadow-md flex items-center gap-2 transition-colors">
+                    <i class="ph-bold ph-paper-plane-right"></i> Lưu & Gửi
+                </button>
+                <button onclick="generateResignPrintView()" class="px-6 py-2.5 text-sm font-bold text-white bg-red-600 hover:bg-red-700 rounded-xl shadow-md flex items-center gap-2">
+                    <i class="ph-bold ph-printer"></i> Xem và In
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="print-resign-container" class="hidden bg-white text-black">
+        <div class="full-a4">
+            <div class="flex items-start justify-between mb-2">
+                <div class="w-2/3 flex items-center gap-4">
+                    <img src="../QUOCTHINH-TQC/logo.png" alt="Logo" class="h-10 object-contain ml-2">
+                </div>
+                <div class="w-1/3 text-right text-[11px] leading-tight font-medium text-red-600">
+                    <span class="text-black">BM-QT08-04</span><br>
+                    <span class="text-black">BH: 06/06/2025</span><br>
+                    Số:.....................
+                </div>
+            </div>
+            <h1 class="text-2xl font-bold uppercase tracking-widest text-center mt-2 mb-4">ĐƠN XIN THÔI VIỆC</h1>
+            <table class="w-full border-collapse border-2 border-black text-[12px] text-left align-middle mb-4">
+                <tbody>
+                    <tr>
+                        <td colspan="4" class="border border-black p-1 bg-gray-100 font-bold uppercase text-[13px]">I. Phần dành cho người làm đơn:</td>
+                    </tr>
+                    <tr>
+                        <td class="border border-black p-1 w-[20%]">Họ và tên:</td>
+                        <td class="border border-black p-1 w-[30%] font-bold" id="out-res-name"></td>
+                        <td class="border border-black p-1 w-[20%]">Ngày vào làm:</td>
+                        <td class="border border-black p-1 w-[30%]" id="out-res-join-date"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-black p-1">Chức vụ:</td>
+                        <td class="border border-black p-1" id="out-res-title"></td>
+                        <td class="border border-black p-1">Phòng ban:</td>
+                        <td class="border border-black p-1" id="out-res-dept"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-black p-1">Số điện thoại:</td>
+                        <td class="border border-black p-1" id="out-res-phone"></td>
+                        <td class="border border-black p-1">Số thẻ:</td>
+                        <td class="border border-black p-1" id="out-res-emp-id"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-black p-1">Ngày nộp đơn:</td>
+                        <td class="border border-black p-1 font-bold" id="out-res-submit-date"></td>
+                        <td class="border border-black p-1" colspan="2">
+                            Thời gian báo trước: &nbsp;
+                            <span class="inline-block w-3 h-3 border border-black align-middle text-center text-[10px] leading-[10px]" id="ck-res-3"></span> 03 ngày &nbsp;
+                            <span class="inline-block w-3 h-3 border border-black align-middle text-center text-[10px] leading-[10px]" id="ck-res-30"></span> 30 ngày &nbsp;
+                            <span class="inline-block w-3 h-3 border border-black align-middle text-center text-[10px] leading-[10px]" id="ck-res-45"></span> 45 ngày &nbsp;
+                            <span class="inline-block w-3 h-3 border border-black align-middle text-center text-[10px] leading-[10px]" id="ck-res-other"></span> Khác
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-black p-1">Ngày thôi việc:</td>
+                        <td class="border border-black p-1 font-bold" id="out-res-end-date"></td>
+                        <td class="border border-black p-1" colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-black p-1 font-bold text-center h-20">Lý do thôi việc</td>
+                        <td class="border border-black p-1 align-top" colspan="2" id="out-res-reason"></td>
+                        <td class="border border-black p-1 text-center align-top relative">
+                            <span class="font-bold">Người làm đơn</span><br><span class="text-[10px]">(Ký, ghi rõ họ tên)</span>
+                            <div class="absolute bottom-1 w-full text-center" id="out-res-sign-name"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="border border-black p-1 bg-gray-100 font-bold uppercase text-[12px]">II. Phần xác nhận công nợ và bàn giao <span class="font-normal normal-case">(Dành cho CNV thuộc các phòng ban thực hiện theo BB bàn giao)</span></td>
+                    </tr>
+                    <tr>
+                        <td class="border border-black p-1 font-bold text-center">Stt</td>
+                        <td class="border border-black p-1 font-bold text-center">Nội dung</td>
+                        <td class="border border-black p-1 font-bold text-center w-[20%]">Kiểm tra bởi</td>
+                        <td class="border border-black p-1 font-bold text-center">Ký, họ tên / Ghi chú</td>
+                    </tr>
+                    <tr><td class="border border-black p-1 text-center">1</td><td class="border border-black p-1">Thẻ nhân viên</td><td class="border border-black p-1 text-center">HCNS</td><td class="border border-black p-1"></td></tr>
+                    <tr><td class="border border-black p-1 text-center">2</td><td class="border border-black p-1">Chìa khóa tủ cá nhân (ngăn kéo, tủ hồ sơ...)</td><td class="border border-black p-1 text-center">QL phòng</td><td class="border border-black p-1"></td></tr>
+                    <tr><td class="border border-black p-1 text-center">3</td><td class="border border-black p-1">Vật dụng VP (máy tính, laptop, VPP...)</td><td class="border border-black p-1 text-center">HCNS</td><td class="border border-black p-1"></td></tr>
+                    <tr><td class="border border-black p-1 text-center">4</td><td class="border border-black p-1">Phương tiện di chuyển, đi lại</td><td class="border border-black p-1 text-center">QL phòng/HCNS</td><td class="border border-black p-1"></td></tr>
+                    <tr><td class="border border-black p-1 text-center">5</td><td class="border border-black p-1">Dụng cụ hoặc thiết bị làm việc</td><td class="border border-black p-1 text-center">QL phòng/HCNS</td><td class="border border-black p-1"></td></tr>
+                    <tr><td class="border border-black p-1 text-center">6</td><td class="border border-black p-1">Đồng phục, Bảo hộ lao động</td><td class="border border-black p-1 text-center">QL phòng/HCNS</td><td class="border border-black p-1"></td></tr>
+                    <tr><td class="border border-black p-1 text-center">7</td><td class="border border-black p-1">Hồ sơ lưu/Hướng dẫn công việc</td><td class="border border-black p-1 text-center">QL phòng</td><td class="border border-black p-1"></td></tr>
+                    <tr><td class="border border-black p-1 text-center">8</td><td class="border border-black p-1">Hoàn ứng công nợ tạm ứng/mượn Công ty</td><td class="border border-black p-1 text-center">Kế toán</td><td class="border border-black p-1"></td></tr>
+                    <tr><td class="border border-black p-1 text-center">9</td><td class="border border-black p-1">Mở khóa mật khẩu, mật khẩu đăng nhập</td><td class="border border-black p-1 text-center">HCNS(IT)</td><td class="border border-black p-1"></td></tr>
+                    <tr><td class="border border-black p-1 text-center">10</td><td class="border border-black p-1">Khác</td><td class="border border-black p-1 text-center">QL phòng/HCNS</td><td class="border border-black p-1"></td></tr>
+                    <tr>
+                        <td colspan="4" class="border border-black p-1 bg-gray-100 font-bold uppercase text-[13px]">III. Phần dành cho công ty:</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="w-full border-collapse border-2 border-black text-[12px] text-center mb-2">
+                <thead>
+                    <tr>
+                        <th class="border border-black p-1 w-1/5">QUẢN LÝ</th>
+                        <th class="border border-black p-1 w-1/5">PHÒNG HCNS</th>
+                        <th class="border border-black p-1 w-1/5">PHÒNG KẾ TOÁN</th>
+                        <th class="border border-black p-1 w-1/5">PHÓ TỔNG GĐ</th>
+                        <th class="border border-black p-1 w-1/5">TỔNG GIÁM ĐỐC</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="border border-black h-16"></td><td class="border border-black"></td><td class="border border-black"></td><td class="border border-black"></td><td class="border border-black"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-[11px] leading-snug">
+                <div class="font-bold text-red-600 underline mb-1">*** Lưu ý:</div>
+                1. Người lao động ký HĐLĐ có xác định thời hạn dưới 12 tháng khi nghỉ phải báo trước: 03 ngày.<br>
+                2. Người lao động ký HĐLĐ có xác định thời hạn từ 12 tháng khi nghỉ phải báo trước: 30 ngày.<br>
+                3. Người lao động ký HĐLĐ không xác định thời hạn khi nghỉ phải báo trước: 45 ngày.<br>
+                (Nếu vi phạm thời gian báo trước sẽ bị trừ vào lương những ngày không báo trước đó).<br>
+                4. Thủ tục xin nghỉ: Nhân viên điền đơn thôi việc và xác nhận công nợ, bàn giao công việc, công cụ... trình các cấp ký duyệt để hoàn thành thủ tục thôi việc.<br>
+                5. Thủ tục Các bước Người lao động xin nghỉ việc:<br>
+                - Bước 1: Viết và nộp đơn xin nghỉ việc đúng quy định luật LĐ.<br>
+                - Bước 2: Viết bảng cam kết sau khi thôi việc.<br>
+                - Bước 3: Quản lý nhận đơn và xem xét lý do.<br>
+                - Bước 4: Xin xác nhận của bộ phận nhân sự.<br>
+                - Bước 5: Duyệt và bàn giao công việc.<br>
+                - Bước 6: Thanh lý hợp đồng.<br>
+                - Bước 7: Quyết định cho nghỉ việc.<br>
+                - Bước 8: Thanh toán các chế độ còn lại.
+            </div>
+            <div class="mt-8 pt-8 border-t border-dashed border-black">
+                <h1 class="text-2xl font-bold uppercase tracking-widest text-center mb-1">BẢNG CAM KẾT</h1>
+                <p class="text-center italic mb-8">(V/v: Sau khi thôi việc tại Công ty Cổ phần Thông Quan)</p>
+                <div class="text-[14px] leading-loose space-y-2">
+                    <div class="flex gap-4">
+                        <div class="flex-1">Họ và tên: <span class="font-bold border-b border-dotted border-black inline-block min-w-[200px] px-2" id="out-res-c-name"></span></div>
+                        <div class="w-[40%]">Số thẻ: <span class="font-bold border-b border-dotted border-black inline-block min-w-[100px] px-2" id="out-res-c-id"></span></div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="flex-1">Chức vụ: <span class="border-b border-dotted border-black inline-block min-w-[200px] px-2" id="out-res-c-title"></span></div>
+                        <div class="w-[40%]">Phòng ban: <span class="border-b border-dotted border-black inline-block min-w-[150px] px-2" id="out-res-c-dept"></span></div>
+                    </div>
+                    <div class="mt-4" id="out-res-c-today"></div>
+                    <div>Tôi có nộp đơn xin thôi việc số: ....................... ngày <span class="font-bold border-b border-dotted border-black px-2" id="out-res-c-submit"></span></div>
+                    <div>Và chính thức nghỉ việc tại Công ty Cổ phần Thông Quan kể từ ngày <span class="font-bold border-b border-dotted border-black px-2" id="out-res-c-end"></span></div>
+                    <div class="font-bold underline mt-4 mb-2">Tôi cam kết:</div>
+                    <div class="text-justify space-y-2">
+                        <p><strong>1.</strong> Không tiết lộ bất kỳ thông tin mật của Công ty bao gồm bí mật kinh doanh, chính sách giá, thông tin khách hàng, thông tin tài chính, thông tin lương, kế hoạch kinh doanh... và những thông tin liên quan khác tôi có được khi làm việc tại Công ty Cổ phần Thông Quan và không dùng những tài liệu đó để liên lạc, chào mời hợp tác liên quan đến dịch vụ của Công ty.</p>
+                        <p><strong>2.</strong> Cả hai bên đã giải quyết tất cả các thủ tục liên quan đến việc kết thúc hợp đồng lao động và đồng ý không xảy ra tranh chấp khiếu nại về sau.</p>
+                        <p><strong>3.</strong> Chịu trách nhiệm quyết toán, thanh toán các khoản nợ, bàn giao các trang thiết bị, công cụ, tài liệu, hồ sơ... cho Công ty/Cá nhân/Phòng ban tiếp quản bằng: "Biên bản bàn giao đính kèm" trước ngày <span class="font-bold border-b border-dotted border-black inline-block px-2" id="out-res-c-handover"></span>.</p>
+                        <p><strong>4.</strong> Thực hiện bàn giao và hướng dẫn công việc cho Cá nhân/Phòng ban tiếp quản, cam kết phòng ban tiếp quản thực hiện được công việc bàn giao. Chịu trách nhiệm hỗ trợ, giải đáp, hướng dẫn Công ty/Cá nhân/Phòng ban tiếp quản nếu có thắc mắc hoặc cần giải đáp về những công việc mà tôi đã làm trước thời gian nghỉ việc.</p>
+                        <p><strong>5.</strong> Chịu trách nhiệm về các kết quả công việc mà tôi đã làm ra trong thời gian làm việc tại công ty nếu có xảy ra tranh chấp, khiếu kiện. Khi cần thiết giải quyết xử lý các công việc liên quan mà Công ty cần mời tôi đến để giải quyết hoặc trả lời những thông tin cần thiết có liên quan khác thì tôi hoàn toàn đồng ý với thái độ hợp tác và đáp ứng về thời gian cũng như nội dung sự việc một cách trung thực.</p>
+                        <p><strong>6.</strong> Chịu trách nhiệm bằng các hình thức xử lý vi phạm của Công ty khi tôi không thực hiện đúng nội dung của bản cam kết này.</p>
+                        <p><strong>7.</strong> Bản cam kết này là một phần không thể thiếu của đơn xin việc Số:.......... ngày <span class="border-b border-dotted border-black px-2" id="out-res-c-submit2"></span>.</p>
+                    </div>
+                </div>
+                <div class="mt-8 text-right pr-20" style="page-break-inside: avoid;">
+                    <div class="font-bold text-[15px]">Người cam kết</div>
+                    <div class="text-[13px]">(Ký và ghi rõ họ tên)</div>
+                    <div class="h-20"></div>
+                    <div class="font-bold text-[15px]" id="out-res-c-sign"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="monthly-bt-modal" class="fixed inset-0 z-[100] hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('monthly-bt-modal')"></div>
+        <div id="monthly-bt-box" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl bg-white rounded-[2rem] shadow-2xl flex flex-col transform scale-95 transition-transform duration-300 max-h-[90vh]">
+            <div class="px-6 py-5 border-b border-slate-100 bg-teal-50 flex justify-between items-center rounded-t-[2rem] shrink-0">
+                <h3 class="text-lg font-black text-teal-800 flex items-center gap-2"><i class="ph-bold ph-calendar-check"></i> Lập Bảng Xác Nhận Đi Công Tác Hàng Ngày</h3>
+                <button onclick="closeModal('monthly-bt-modal')" class="text-slate-400 hover:text-red-500 bg-white rounded-full p-2 shadow-sm"><i class="ph-bold ph-x text-lg"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-4 custom-scrollbar">
+                <div class="grid grid-cols-4 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Tháng đi công tác</label>
+                        <input type="month" id="inp-mbt-month" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-teal-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Họ và tên</label>
+                        <input type="text" id="inp-mbt-name" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-teal-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Số thẻ</label>
+                        <input type="text" id="inp-mbt-id" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-teal-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Bộ phận</label>
+                        <input type="text" id="inp-mbt-dept" class="w-full border border-slate-200 rounded-lg p-2.5 text-sm focus:border-teal-500 outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-2">Bảng kê chi tiết (31 ngày)</label>
+                    <div class="overflow-x-auto border border-slate-200 rounded-xl">
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-slate-50 border-b border-slate-200 text-xs text-center">
+                                <tr>
+                                    <th class="p-2 border-r border-slate-200 w-12">Ngày</th>
+                                    <th class="p-2 border-r border-slate-200 w-28">Giờ Ra</th>
+                                    <th class="p-2 border-r border-slate-200 w-28">Giờ Vào</th>
+                                    <th class="p-2">Lý do đi công tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="mbt-input-tbody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 rounded-b-[2rem] flex justify-end gap-3 shrink-0">
+                <button onclick="closeModal('monthly-bt-modal')" class="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl">Hủy</button>
+                <button id="btn-submit-mbt" onclick="submitMonthlyBTForm()" class="px-6 py-2.5 text-sm font-bold text-white bg-amber-500 hover:bg-amber-600 rounded-xl shadow-md flex items-center gap-2 transition-colors">
+                    <i class="ph-bold ph-paper-plane-right"></i> Lưu & Gửi
+                </button>
+                <button onclick="generateMonthlyBTPrintView()" class="px-6 py-2.5 text-sm font-bold text-white bg-teal-600 hover:bg-teal-700 rounded-xl shadow-md flex items-center gap-2">
+                    <i class="ph-bold ph-printer"></i> Xem và In
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="print-monthly-bt-container" class="hidden bg-white text-black">
+        <div class="full-a4">
+            <div class="flex items-center justify-between mb-2">
+                <div class="w-1/4">
+                    <img src="../QUOCTHINH-TQC/logo.png" alt="Logo" class="h-10 object-contain">
+                </div>
+                <div class="w-2/4 text-center">
+                    <h1 class="text-xl font-bold uppercase tracking-wide leading-tight">XÁC NHẬN ĐI CÔNG TÁC HÀNG NGÀY</h1>
+                    <h2 class="text-sm font-bold">(THÁNG : <span id="out-mbt-month" class="underline underline-offset-4">........../...........</span>)</h2>
+                </div>
+                <div class="w-1/4 text-right text-[11px] font-bold text-red-600">
+                    Mã số: <span id="out-mbt-code">..................</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center mb-1 text-[12px] font-bold border-b border-black pb-1">
+                <div class="w-1/3">Tên: <span id="out-mbt-name" class="font-normal border-b border-dotted border-black inline-block min-w-[150px]"></span></div>
+                <div class="w-1/3 text-center">Số thẻ: <span id="out-mbt-id" class="font-normal border-b border-dotted border-black inline-block min-w-[80px]"></span></div>
+                <div class="w-1/3 text-right">Bộ phận: <span id="out-mbt-dept" class="font-normal border-b border-dotted border-black inline-block min-w-[120px]"></span></div>
+            </div>
+            <table class="w-full border-collapse border-2 border-black text-[11px] text-center mb-1">
+                <thead>
+                    <tr class="bg-[#fce4d6] font-bold">
+                        <td rowspan="2" class="border border-black p-0.5 w-10">Ngày</td>
+                        <td colspan="2" class="border border-black p-0.5 w-24">Thời gian</td>
+                        <td rowspan="2" class="border border-black p-0.5">Lý do đi công tác</td>
+                        <td colspan="3" class="border border-black p-0.5 w-48">Ký Duyệt</td>
+                    </tr>
+                    <tr class="bg-[#fce4d6] font-bold">
+                        <td class="border border-black p-0.5 w-12">Ra</td>
+                        <td class="border border-black p-0.5 w-12">Vào</td>
+                        <td class="border border-black p-0.5 w-16">Người đề nghị</td>
+                        <td class="border border-black p-0.5 w-16">QL trực tiếp</td>
+                        <td class="border border-black p-0.5 w-16">QL phòng</td>
+                    </tr>
+                </thead>
+                <tbody id="out-mbt-table-body">
+                </tbody>
+            </table>
+            <div class="text-[11px] italic mb-1">
+                <p class="font-bold underline">Lưu ý :</p>
+                <p>- Mẫu này áp dụng cho những nhân viên thường xuyên đi công tác không vào công ty bấm thẻ</p>
+                <p>- Thời gian nộp danh sách này cho BP: Nhân sự vào ngày 01 tây của tháng sau</p>
+            </div>
+            <div class="w-[85%] mx-auto mt-auto">
+                <table class="w-full border-collapse border border-black text-[11px] text-center table-fixed">
+                    <thead>
+                        <tr>
+                            <td rowspan="2" class="border border-black p-1 w-16 align-middle font-bold">Ký duyệt</td>
+                            <td class="border border-black p-1 font-bold">Người lập</td>
+                            <td class="border border-black p-1 font-bold">Quản lý phòng ban</td>
+                            <td class="border border-black p-1 font-bold">Nhân sự</td>
+                            <td class="border border-black p-1 font-bold">Phó Tổng Giám Đốc</td>
+                            <td class="border border-black p-1 font-bold">Tổng Giám Đốc</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-black p-1 h-14 align-bottom font-normal"></td>
+                            <td class="border border-black p-1"></td>
+                            <td class="border border-black p-1"></td>
+                            <td class="border border-black p-1"></td>
+                            <td class="border border-black p-1"></td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="request-detail-modal" class="fixed inset-0 z-[110] hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('request-detail-modal')"></div>
+        <div id="request-detail-box" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-white rounded-[2rem] shadow-2xl flex flex-col transform scale-95 transition-transform duration-300 max-h-[90vh]">
+            <div class="px-6 py-5 border-b border-slate-100 bg-slate-50 flex justify-between items-center rounded-t-[2rem] shrink-0">
+                <h3 class="text-lg font-black text-slate-800 flex items-center gap-2">
+                    <i class="ph-bold ph-file-text text-blue-600"></i> Chi tiết biểu mẫu
+                </h3>
+                <button onclick="closeModal('request-detail-modal')" class="text-slate-400 hover:text-red-500 bg-white rounded-full p-2 shadow-sm transition-colors"><i class="ph-bold ph-x text-lg"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-4 custom-scrollbar" id="request-detail-content">
+                <div class="text-center py-8 text-slate-400">
+                    <i class="ph-bold ph-spinner animate-spin text-3xl mb-2 inline-block text-blue-500"></i>
+                    <p>Đang tải chi tiết...</p>
+                </div>
+            </div>
+            <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 rounded-b-[2rem] flex justify-end gap-3 shrink-0" id="request-detail-actions">
+                <button onclick="closeModal('request-detail-modal')" class="px-5 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 hover:bg-slate-100 rounded-xl transition-colors">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="confirm-cancel-modal" class="fixed inset-0 z-[120] hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('confirm-cancel-modal')"></div>
+        <div id="confirm-cancel-box" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm bg-white rounded-3xl shadow-2xl flex flex-col transform scale-95 transition-transform duration-300 p-6 text-center">
+            <div class="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-4 text-red-500 text-3xl">
+                <i class="ph-fill ph-warning-circle"></i>
+            </div>
+            <h3 class="text-lg font-bold text-slate-800 mb-2">Hủy đơn này?</h3>
+            <p class="text-sm text-slate-500 mb-6 px-2">Bạn có chắc chắn muốn hủy biểu mẫu này không? Hành động này không thể hoàn tác.</p>
+            <div class="flex gap-3">
+                <button onclick="closeModal('confirm-cancel-modal')" class="flex-1 py-3 text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors">Không</button>
+                <button id="btn-confirm-cancel" class="flex-1 py-3 text-sm font-bold text-white bg-red-500 hover:bg-red-600 rounded-xl shadow-md transition-colors flex justify-center items-center gap-2">
+                    <i class="ph-bold ph-trash"></i> Hủy đơn
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="confirm-process-modal" class="fixed inset-0 z-[120] hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('confirm-process-modal')"></div>
+        <div id="confirm-process-box" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm bg-white rounded-3xl shadow-2xl flex flex-col transform scale-95 transition-transform duration-300 p-6 text-center">
+            <div id="process-icon" class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl"></div>
+            <h3 id="process-title" class="text-lg font-bold text-slate-800 mb-2">Xác nhận</h3>
+            <p id="process-message" class="text-sm text-slate-500 mb-6 px-2">Bạn có chắc chắn?</p>
+            <div class="flex gap-3">
+                <button onclick="closeModal('confirm-process-modal')" class="flex-1 py-3 text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors">Đóng lại</button>
+                <button id="btn-confirm-process" class="flex-1 py-3 text-sm font-bold text-white rounded-xl shadow-md transition-colors flex justify-center items-center gap-2">
+                    Xác nhận
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="confirm-delete-modal" class="fixed inset-0 z-[130] hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('confirm-delete-modal')"></div>
+        <div id="confirm-delete-box" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm bg-white rounded-3xl shadow-2xl flex flex-col transform scale-95 transition-transform duration-300 p-6 text-center">
+            <div class="w-16 h-16 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-4 text-3xl">
+                <i class="ph-fill ph-trash font-bold"></i>
+            </div>
+            <h3 class="text-lg font-bold text-slate-800 mb-2">Xóa bỏ đơn này?</h3>
+            <p class="text-sm text-slate-500 mb-6 px-2">Biểu mẫu này sẽ bị xóa vĩnh viễn khỏi danh sách cá nhân của bạn.</p>
+            <div class="flex gap-3">
+                <button onclick="closeModal('confirm-delete-modal')" class="flex-1 py-3 text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors">Giữ lại</button>
+                <button id="btn-confirm-delete" class="flex-1 py-3 text-sm font-bold text-white bg-red-600 hover:bg-red-700 rounded-xl shadow-md transition-colors flex justify-center items-center gap-2">
+                    <i class="ph-bold ph-x"></i> Xóa luôn
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../QUOCTHINH-TQC/cfg.js"></script>
+    <script src="forms.min.js"></script>
+    <script src="hr-app.min.js"></script>
+</body>
+</html>
